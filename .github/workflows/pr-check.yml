@@ -1,4 +1,5 @@
-name: pr-check.yml
+name: Java CI with Maven (PR Check)
+
 on:
   push:
     branches: [ "main", "development" ]
@@ -21,3 +22,4 @@ jobs:
           cache: maven
 
       - name: Maven Build und Tests ausführen
+        run: mvn -B clean verify
