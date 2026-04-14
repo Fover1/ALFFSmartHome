@@ -1,0 +1,8 @@
+Lombock:
+Wir können getter und setter mit Lombock generieren. Dafür müsst ihr in der IDE in Einstellungen --> Annotation Processor --> und dann den Haken bei enable annotation prozess
+
+Actions on Safe:
+Tools --> Actions on Safe --> Anhaken: Reformat Code, Optimize Imports, Rearange Code, Run Code cleanup
+
+Unterbinden, dass ganze Bibliotheken importiert werden:
+Editor --> CodeStyle --> Java --> Imports --> class count to use imports with *: 999
