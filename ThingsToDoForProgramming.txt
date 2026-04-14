@@ -6,3 +6,8 @@ Tools --> Actions on Safe --> Anhaken: Reformat Code, Optimize Imports, Rearange
 
 Unterbinden, dass ganze Bibliotheken importiert werden:
 Editor --> CodeStyle --> Java --> Imports --> class count to use imports with *: 999
+
+Dinge mit Söbke zu klären:
+Muss das statische Code analyse tool auch bei ihm laufen?
+hat er DOcker?
+Wir wollten das in nem Docker Container machen
