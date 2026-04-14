@@ -1,0 +1,25 @@
+name: Java CI with Maven (PR Check)
+
+on:
+  push:
+    branches: [ "main", "development" ]
+  pull_request:
+    branches: [ "development" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code auschecken
+        uses: actions/checkout@v4
+
+      - name: Java 21 einrichten
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Maven Build und Tests ausführen
+        run: mvn -B clean verify
