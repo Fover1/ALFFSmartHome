@@ -16,3 +16,5 @@ Testabdeckung:
 Sollte die gezielte Testabdeckung nicht erreicht werden, schlägt der Build durch die Action fehl und es kann nicht gemerget werden.
 Aktuell ist die Grenze bei 37%, perspektivisch soll sie aber auf min. 50% (Mindestanforderung) oder hoffentlich noch höher
 Aktuell kann man die Coverage sehen, in dem man in der projektstruktur auf target (orangener Ordner), dann site und dort die index.html öffnet. Dort kann man ein Browserfenster öffnen und die Coverage untersuchen
+
+test for ruleset
