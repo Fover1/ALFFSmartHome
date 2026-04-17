@@ -4,7 +4,6 @@ import java.util.List;
 
 public interface SmartDevice {
 
-    //Attribute, die jedes Gerät haben muss
     String getId();
 
     String getName();
@@ -15,7 +14,6 @@ public interface SmartDevice {
 
     void setRoom(Room room);
 
-    // Gerätespezifische Methoden, die jedes Gerät haben muss
     String getDeviceType();
 
     String getCurrentState();
