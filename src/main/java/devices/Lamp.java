@@ -32,7 +32,6 @@ public class Lamp extends AbstractDevice {
         });
 
 
-        // Strategie 2: Dimmen
         this.functions.put("Helligkeit", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
