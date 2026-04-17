@@ -5,30 +5,37 @@ import model.Action;
 import model.DeviceAction;
 import model.DeviceFactory;
 import model.Room;
+import model.Scenario;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.print("Hello and welcome!");
 
+        // 1. Räume und Geräte anlegen (mithilfe unserer dynamischen Factory!)
         Room wohnzimmer = new Room("Wohnzimmer");
-        AbstractDevice lampe = DeviceFactory.createDevice("Lamp", "1", "Deckenleuchte", wohnzimmer);
+        Room bad = new Room("Badezimmer");
 
-        // 2. Wir erstellen die Aktionen (die "Aufgabenzettel")
-        Action aktion1 = new DeviceAction(lampe, "Schalten", true);
-        Action aktion2 = new DeviceAction(lampe, "Helligkeit", 75);
+        AbstractDevice deckenlamp = DeviceFactory.createDevice("Lamp", "L-01", "Deckenleuchte", wohnzimmer);
+        AbstractDevice badHeizung = DeviceFactory.createDevice("Heizung", "H-01", "Wandheizung", bad);
 
-        System.out.println("Aktion angelegt: " + aktion2.getDescription());
-        // Bisher ist noch nichts passiert! Der Zustand der Lampe ist noch unverändert.
+        // 2. Einzelne Befehle (Commands) erstellen
+        // (Licht im Wohnzimmer aus, Heizung im Bad auf 22 Grad)
+        Action lichtAus = new DeviceAction(deckenlamp, "Schalten", false);
+        Action heizungAn = new DeviceAction(badHeizung, "Temperatur", 22.0);
 
-        // 3. Später in der App: Der Nutzer drückt auf "Ausführen"
-        aktion1.execute();
-        aktion2.execute();
+        // 3. Das Szenario (Composite) erstellen und Aktionen hinzufügen
+        Scenario guteNacht = new Scenario("Abend", "Bereitet das Haus auf die Nacht vor");
+        guteNacht.addAction(lichtAus);
+        guteNacht.addAction(heizungAn);
 
-        System.out.println("Neuer Zustand: " + lampe.getCurrentState());
+        System.out.println("Angelegt: " + guteNacht.getDescription());
 
+        // 4. Der magische Moment: Ein einziger Methodenaufruf steuert das ganze Smart Home!
+        // Hier passiert die tatsächliche Ausführung.
+        System.out.println("Führe Szenario aus...");
+        guteNacht.execute();
+
+        // 5. Überprüfen wir, ob es geklappt hat:
+        System.out.println("Zustand Deckenlamp: " + deckenlamp.getCurrentState());
+        System.out.println("Zustand Badheizung: " + badHeizung.getCurrentState());
     }
 }
