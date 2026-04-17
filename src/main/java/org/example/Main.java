@@ -9,33 +9,24 @@ import model.Scenario;
 
 public class Main {
     public static void main(String[] args) {
-
-        // 1. Räume und Geräte anlegen (mithilfe unserer dynamischen Factory!)
         Room wohnzimmer = new Room("Wohnzimmer");
-        Room bad = new Room("Badezimmer");
 
-        AbstractDevice deckenlamp = DeviceFactory.createDevice("Lamp", "L-01", "Deckenleuchte", wohnzimmer);
-        AbstractDevice badHeizung = DeviceFactory.createDevice("Heizung", "H-01", "Wandheizung", bad);
+        // Gerät erstellen
+        AbstractDevice lampe = DeviceFactory.createDevice("Lamp", "L-01", "Deckenlampe", wohnzimmer);
 
-        // 2. Einzelne Befehle (Commands) erstellen
-        // (Licht im Wohnzimmer aus, Heizung im Bad auf 22 Grad)
-        Action lichtAus = new DeviceAction(deckenlamp, "Schalten", false);
-        Action heizungAn = new DeviceAction(badHeizung, "Temperatur", 22.0);
+        // 1. Observer anmelden (Simuliert die GUI!)
+        lampe.addObserver(device -> {
+            System.out.println("[GUI-UPDATE] Gerät '" + device.getName() + "' hat sich geändert! Neuer Zustand: " + device.getCurrentState());
+        });
 
-        // 3. Das Szenario (Composite) erstellen und Aktionen hinzufügen
-        Scenario guteNacht = new Scenario("Abend", "Bereitet das Haus auf die Nacht vor");
-        guteNacht.addAction(lichtAus);
-        guteNacht.addAction(heizungAn);
+        System.out.println("--- Starte Simulation ---");
 
-        System.out.println("Angelegt: " + guteNacht.getDescription());
+        // 2. Szenario erstellen und ausführen
+        Action lichtAn = new DeviceAction(lampe, "Schalten", true);
+        Scenario abend = new Scenario("Abendmodus", "Schaltet das Licht ein");
+        abend.addAction(lichtAn);
 
-        // 4. Der magische Moment: Ein einziger Methodenaufruf steuert das ganze Smart Home!
-        // Hier passiert die tatsächliche Ausführung.
-        System.out.println("Führe Szenario aus...");
-        guteNacht.execute();
-
-        // 5. Überprüfen wir, ob es geklappt hat:
-        System.out.println("Zustand Deckenlamp: " + deckenlamp.getCurrentState());
-        System.out.println("Zustand Badheizung: " + badHeizung.getCurrentState());
+        // 3. Ausführen! Wenn alles klappt, sollte die Lampe jetzt automatisch den Print-Befehl unseres Observers auslösen.
+        abend.execute();
     }
 }
