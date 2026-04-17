@@ -11,6 +11,9 @@ import java.util.Map;
 @Getter
 @Setter
 ///  todo: hierfür fehlen noch tests
+
+
+///  todo: ich habe jetzt die devices aus diesem Test coverage ding rausgenommen. Kann man die vernünftig testen, vor allem wenn sie dynamisch geladen werden?
 public abstract class AbstractDevice implements SmartDevice {
 
     private final String id;
