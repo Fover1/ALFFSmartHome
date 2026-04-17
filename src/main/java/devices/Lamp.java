@@ -5,7 +5,7 @@ import model.DeviceFunction;
 import model.Room;
 
 public class Lamp extends AbstractDevice {
-    private int helligkeit = 0;
+    private int brightness = 0;
     private boolean isAn = false;
 
     public Lamp(String id, String name, Room room) {
@@ -16,7 +16,7 @@ public class Lamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {
                     isAn = (Boolean) parameter;
-                    helligkeit = isAn ? 100 : 0;
+                    brightness = isAn ? 100 : 0;
                 }
             }
 
@@ -36,8 +36,8 @@ public class Lamp extends AbstractDevice {
             @Override
             public void execute(Object parameter) {
                 if (parameter instanceof Integer) {
-                    helligkeit = (Integer) parameter;
-                    isAn = helligkeit > 0;
+                    brightness = (Integer) parameter;
+                    isAn = brightness > 0;
                 }
             }
 
@@ -60,6 +60,6 @@ public class Lamp extends AbstractDevice {
 
     @Override
     public String getCurrentState() {
-        return isAn ? "An (" + helligkeit + "%)" : "Aus";
+        return isAn ? "An (" + brightness + "%)" : "Aus";
     }
 }

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
+
 @Getter
 @Setter
 ///  todo: hierfür fehlen noch tests
@@ -38,7 +40,7 @@ public abstract class AbstractDevice implements SmartDevice {
         if (function != null) {
             function.execute(parameter);
         } else {
-            throw new IllegalArgumentException("Funktion nicht unterstützt: " + functionName);
+            throw new IllegalArgumentException(FUNCTION_NOT_FOUND + functionName);
         }
     }
 

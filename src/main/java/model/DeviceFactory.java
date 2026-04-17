@@ -2,6 +2,8 @@ package model;
 
 import java.lang.reflect.Constructor;
 
+import static lang.ErrorMessages.CLASS_NOT_FOUND;
+
 public class DeviceFactory {
 
     private static final String PACKAGE_NAME = "devices";
@@ -17,7 +19,7 @@ public class DeviceFactory {
             return (AbstractDevice) device;
 
         } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Unnkown Devicetype. Class could not be found: " + className, e);
+            throw new IllegalArgumentException(CLASS_NOT_FOUND + className, e);
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while creating the device: " + className, e);
         }
