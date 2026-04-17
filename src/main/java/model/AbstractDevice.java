@@ -10,10 +10,11 @@ import java.util.Map;
 
 @Getter
 @Setter
+///  todo: hierfür fehlen noch tests
 public abstract class AbstractDevice implements SmartDevice {
 
     private final String id;
-    // Hier speichern wir die Strategien (Funktionen) des jeweiligen Geräts
+
     protected Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
     private Room room;
@@ -24,12 +25,10 @@ public abstract class AbstractDevice implements SmartDevice {
         this.room = room;
     }
 
-    // --- Diese Methoden müssen von Lampe, Heizung etc. implementiert werden ---
     public abstract String getDeviceType();
 
     public abstract String getCurrentState();
 
-    // --- Diese Methoden setzen das Strategy-Pattern um ---
     @Override
     public void executeFunction(String functionName, Object parameter) {
         DeviceFunction function = functions.get(functionName);
