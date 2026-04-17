@@ -4,11 +4,11 @@ import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
 
-public class Lamp extends AbstractDevice {
-    private int brightness = 0;
+public class Heater extends AbstractDevice {
+    private double temperature = 0;
     private boolean isOn = false;
 
-    public Lamp(String id, String name, Room room) {
+    public Heater(String id, String name, Room room) {
         super(id, name, room);
 
         this.functions.put("Schalten", new DeviceFunction() {
@@ -16,13 +16,13 @@ public class Lamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {
                     isOn = (Boolean) parameter;
-                    brightness = isOn ? 100 : 0;
+                    temperature = isOn ? temperature : 0;
                 }
             }
 
             @Override
             public String getDescription() {
-                return "Schaltet die Lampe ein oder aus";
+                return "Schaltet die Heizung ein oder aus";
             }
 
             @Override
@@ -32,18 +32,18 @@ public class Lamp extends AbstractDevice {
         });
 
 
-        this.functions.put("Helligkeit", new DeviceFunction() {
+        this.functions.put("Temperatur", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
-                if (parameter instanceof Integer) {
-                    brightness = (Integer) parameter;
-                    isOn = brightness > 0;
+                if (parameter instanceof Double) {
+                    temperature = (Double) parameter;
+                    isOn = temperature > 0;
                 }
             }
 
             @Override
             public String getDescription() {
-                return "Stellt die Helligkeit der Lampe ein";
+                return "Stellt die Temperatur der Heizung ein";
             }
 
             @Override
@@ -60,6 +60,6 @@ public class Lamp extends AbstractDevice {
 
     @Override
     public String getCurrentState() {
-        return isOn ? "An (" + brightness + "%)" : "Aus";
+        return isOn ? "An (" + temperature + "C)" : "Aus";
     }
 }
