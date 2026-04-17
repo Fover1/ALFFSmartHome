@@ -11,19 +11,19 @@ import java.util.List;
 public class Room {
     private String name;
 
-    private List<Device> devices = new ArrayList<>();
+    private List<AbstractDevice> abstractDevices = new ArrayList<>();
 
     public Room(String name) {
         this.name = name;
     }
 
-    public void addDevice(Device device) {
-        if (!devices.contains(device)) {
-            devices.add(device);
+    public void addDevice(AbstractDevice abstractDevice) {
+        if (!abstractDevices.contains(abstractDevice)) {
+            abstractDevices.add(abstractDevice);
         }
     }
 
-    public void removeDevice(Device device) {
-        devices.remove(device);
+    public void removeDevice(AbstractDevice abstractDevice) {
+        abstractDevices.remove(abstractDevice);
     }
 }
