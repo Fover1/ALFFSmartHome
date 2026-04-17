@@ -11,13 +11,11 @@ public class Lamp extends AbstractDevice {
     public Lamp(String id, String name, Room room) {
         super(id, name, room);
 
-//         Strategie 1: Ein-/Ausschalten
         this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {
                     isAn = (Boolean) parameter;
-                    // Wenn ausgeschaltet, Helligkeit auf 0, sonst z.B. auf 100
                     helligkeit = isAn ? 100 : 0;
                 }
             }
