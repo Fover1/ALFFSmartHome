@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import static lang.ErrorMessages.CLASS_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,7 +34,7 @@ class DeviceFactoryTest {
             DeviceFactory.createDevice("NonExistentDevice", "2", "Name", mockRoom);
         });
 
-        assertTrue(ex.getMessage().contains("Unnkown Devicetype"));
+        assertTrue(ex.getMessage().contains(CLASS_NOT_FOUND));
     }
 
     @Test
