@@ -4,19 +4,19 @@ import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
 
-public class Heizung extends AbstractDevice {
-    private double temperatur = 0;
-    private boolean isAn = false;
+public class Heater extends AbstractDevice {
+    private double temperature = 0;
+    private boolean isOn = false;
 
-    public Heizung(String id, String name, Room room) {
+    public Heater(String id, String name, Room room) {
         super(id, name, room);
 
         this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {
-                    isAn = (Boolean) parameter;
-                    temperatur = isAn ? temperatur : 0;
+                    isOn = (Boolean) parameter;
+                    temperature = isOn ? temperature : 0;
                 }
             }
 
@@ -36,8 +36,8 @@ public class Heizung extends AbstractDevice {
             @Override
             public void execute(Object parameter) {
                 if (parameter instanceof Double) {
-                    temperatur = (Double) parameter;
-                    isAn = temperatur > 0;
+                    temperature = (Double) parameter;
+                    isOn = temperature > 0;
                 }
             }
 
@@ -60,6 +60,6 @@ public class Heizung extends AbstractDevice {
 
     @Override
     public String getCurrentState() {
-        return isAn ? "An (" + temperatur + "C)" : "Aus";
+        return isOn ? "An (" + temperature + "C)" : "Aus";
     }
 }
