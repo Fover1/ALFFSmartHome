@@ -1,0 +1,26 @@
+package model;
+
+import java.lang.reflect.Constructor;
+
+public class DeviceFactory {
+
+    private static final String PACKAGE_NAME = "model.devices";
+
+    public static AbstractDevice createDevice(String className, String id, String name, Room room) {
+        try {
+            String fullClassName = PACKAGE_NAME + "." + className;
+            Class<?> clazz = Class.forName(fullClassName);
+
+            Constructor<?> constructor = clazz.getConstructor(String.class, String.class, Room.class);
+
+            Object device = constructor.newInstance(id, name, room);
+            return (AbstractDevice) device;
+
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Unnkown Devicetype. Class could not be found: " + className, e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error occurred while creating the device: " + className, e);
+        }
+
+    }
+}
