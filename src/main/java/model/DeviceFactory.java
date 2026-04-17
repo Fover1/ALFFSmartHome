@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 
 public class DeviceFactory {
 
-    private static final String PACKAGE_NAME = "model.devices";
+    private static final String PACKAGE_NAME = "devices";
 
     public static AbstractDevice createDevice(String className, String id, String name, Room room) {
         try {
