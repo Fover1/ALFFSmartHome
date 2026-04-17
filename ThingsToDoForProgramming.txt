@@ -17,4 +17,6 @@ Sollte die gezielte Testabdeckung nicht erreicht werden, schlägt der Build durc
 Aktuell ist die Grenze bei 37%, perspektivisch soll sie aber auf min. 50% (Mindestanforderung) oder hoffentlich noch höher
 Aktuell kann man die Coverage sehen, in dem man in der projektstruktur auf target (orangener Ordner), dann site und dort die index.html öffnet. Dort kann man ein Browserfenster öffnen und die Coverage untersuchen
 
------------
+Für neue architektonische Maßnahmen:
+Bitte in folgender Worddatei ca. angeben was gemacht wurde und warum:
+https://hsweserbergland-my.sharepoint.com/personal/finn_limberg_hsw-stud_de/_layouts/15/doc.aspx?sourcedoc={e53c9ef8-daa3-41d7-86a8-0f380caa4b30}&action=edit

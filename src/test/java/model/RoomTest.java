@@ -16,22 +16,22 @@ import static org.mockito.Mockito.mock;
 class RoomTest {
 
     private Room room;
-    private Device mockDevice1;
-    private Device mockDevice2;
+    private AbstractDevice mockAbstractDevice1;
+    private AbstractDevice mockAbstractDevice2;
 
     @BeforeEach
     void setUp() {
         // Wird vor jedem Test ausgeführt, um einen sauberen Zustand zu haben
         room = new Room("Wohnzimmer");
-        mockDevice1 = mock(Device.class);
-        mockDevice2 = mock(Device.class);
+        mockAbstractDevice1 = mock(AbstractDevice.class);
+        mockAbstractDevice2 = mock(AbstractDevice.class);
     }
 
     @Test
     void constructorShouldSetNameAndInitializeEmptyList() {
         assertEquals("Wohnzimmer", room.getName(), "Der Name des Raums sollte korrekt gesetzt werden.");
-        assertNotNull(room.getDevices(), "Die Geräteliste sollte nicht null sein.");
-        assertTrue(room.getDevices().isEmpty(), "Die Geräteliste sollte anfangs leer sein.");
+        assertNotNull(room.getAbstractDevices(), "Die Geräteliste sollte nicht null sein.");
+        assertTrue(room.getAbstractDevices().isEmpty(), "Die Geräteliste sollte anfangs leer sein.");
     }
 
     @Test
@@ -42,51 +42,51 @@ class RoomTest {
 
     @Test
     void setDevicesShouldUpdateDeviceList() {
-        List<Device> newList = new ArrayList<>();
-        newList.add(mockDevice1);
+        List<AbstractDevice> newList = new ArrayList<>();
+        newList.add(mockAbstractDevice1);
 
-        room.setDevices(newList);
+        room.setAbstractDevices(newList);
 
-        assertEquals(1, room.getDevices().size());
-        assertTrue(room.getDevices().contains(mockDevice1));
+        assertEquals(1, room.getAbstractDevices().size());
+        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice1));
     }
 
     @Test
     void addDeviceShouldAddDeviceIfNotPresent() {
-        room.addDevice(mockDevice1);
+        room.addDevice(mockAbstractDevice1);
 
-        assertEquals(1, room.getDevices().size(), "Die Liste sollte genau ein Gerät enthalten.");
-        assertTrue(room.getDevices().contains(mockDevice1), "Das hinzugefügte Gerät sollte in der Liste sein.");
+        assertEquals(1, room.getAbstractDevices().size(), "Die Liste sollte genau ein Gerät enthalten.");
+        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice1), "Das hinzugefügte Gerät sollte in der Liste sein.");
     }
 
     @Test
     void addDeviceShouldNotAddDuplicateDevice() {
-        room.addDevice(mockDevice1);
-        room.addDevice(mockDevice1); // Versuch, dasselbe Gerät noch einmal hinzuzufügen
+        room.addDevice(mockAbstractDevice1);
+        room.addDevice(mockAbstractDevice1); // Versuch, dasselbe Gerät noch einmal hinzuzufügen
 
-        assertEquals(1, room.getDevices().size(), "Duplikate sollten nicht hinzugefügt werden.");
+        assertEquals(1, room.getAbstractDevices().size(), "Duplikate sollten nicht hinzugefügt werden.");
     }
 
     @Test
     void removeDeviceShouldRemoveExistingDevice() {
-        room.addDevice(mockDevice1);
-        room.addDevice(mockDevice2);
+        room.addDevice(mockAbstractDevice1);
+        room.addDevice(mockAbstractDevice2);
 
-        room.removeDevice(mockDevice1);
+        room.removeDevice(mockAbstractDevice1);
 
-        assertEquals(1, room.getDevices().size(), "Nach dem Entfernen sollte nur noch ein Gerät übrig sein.");
-        assertFalse(room.getDevices().contains(mockDevice1), "Das entfernte Gerät sollte nicht mehr in der Liste sein.");
-        assertTrue(room.getDevices().contains(mockDevice2), "Das andere Gerät sollte weiterhin existieren.");
+        assertEquals(1, room.getAbstractDevices().size(), "Nach dem Entfernen sollte nur noch ein Gerät übrig sein.");
+        assertFalse(room.getAbstractDevices().contains(mockAbstractDevice1), "Das entfernte Gerät sollte nicht mehr in der Liste sein.");
+        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice2), "Das andere Gerät sollte weiterhin existieren.");
     }
 
     @Test
     void removeDeviceShouldDoNothingIfDeviceNotPresent() {
-        room.addDevice(mockDevice1);
+        room.addDevice(mockAbstractDevice1);
 
         // Versuch, ein Gerät zu entfernen, das gar nicht in der Liste ist
-        room.removeDevice(mockDevice2);
+        room.removeDevice(mockAbstractDevice2);
 
-        assertEquals(1, room.getDevices().size(), "Die Größe der Liste sollte sich nicht ändern.");
-        assertTrue(room.getDevices().contains(mockDevice1), "Das vorhandene Gerät sollte unangetastet bleiben.");
+        assertEquals(1, room.getAbstractDevices().size(), "Die Größe der Liste sollte sich nicht ändern.");
+        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice1), "Das vorhandene Gerät sollte unangetastet bleiben.");
     }
 }
