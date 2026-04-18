@@ -10,7 +10,10 @@ public class Heater extends AbstractDevice {
 
     public Heater(String id, String name, Room room) {
         super(id, name, room);
+    }
 
+    @Override
+    protected void initializeFunctions() {
         this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
@@ -48,14 +51,14 @@ public class Heater extends AbstractDevice {
 
             @Override
             public Class<?> getParameterType() {
-                return Integer.class;
+                return Double.class;
             }
         });
     }
 
     @Override
     public String getDeviceType() {
-        return "Lampe";
+        return "Heizung";
     }
 
     @Override
