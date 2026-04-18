@@ -35,7 +35,7 @@ public class Socket extends AbstractDevice {
 
     @Override
     public String getDeviceType() {
-        return "Socket";
+        return "Steckdose";
     }
 
     @Override

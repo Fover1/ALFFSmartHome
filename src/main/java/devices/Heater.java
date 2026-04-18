@@ -51,14 +51,14 @@ public class Heater extends AbstractDevice {
 
             @Override
             public Class<?> getParameterType() {
-                return Integer.class;
+                return Double.class;
             }
         });
     }
 
     @Override
     public String getDeviceType() {
-        return "Lampe";
+        return "Heizung";
     }
 
     @Override
