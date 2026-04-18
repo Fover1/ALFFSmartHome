@@ -19,15 +19,24 @@ import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 public abstract class AbstractDevice implements SmartDevice {
 
     private final String id;
-
-    protected Map<String, DeviceFunction> functions = new HashMap<>();
+    protected transient Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
-    private Room room;
+    private transient Room room;
+    private transient List<DeviceObserver> observers = new ArrayList<>();
 
     public AbstractDevice(String id, String name, Room room) {
         this.id = id;
         this.name = name;
         this.room = room;
+        restoreAfterLoad();
+    }
+
+    protected abstract void initializeFunctions();
+
+    public void restoreAfterLoad() {
+        this.observers = new ArrayList<>();
+        this.functions = new HashMap<>();
+        initializeFunctions();
     }
 
     public abstract String getDeviceType();
@@ -39,6 +48,7 @@ public abstract class AbstractDevice implements SmartDevice {
         DeviceFunction function = functions.get(functionName);
         if (function != null) {
             function.execute(parameter);
+            notifyObservers();
         } else {
             throw new IllegalArgumentException(FUNCTION_NOT_FOUND + functionName);
         }
@@ -47,5 +57,28 @@ public abstract class AbstractDevice implements SmartDevice {
     @Override
     public List<String> getAvailableFunctions() {
         return new ArrayList<>(functions.keySet());
+    }
+
+    public void addObserver(DeviceObserver observer) {
+        if (observers == null) {
+            observers = new ArrayList<>();
+        }
+        if (!observers.contains(observer)) {
+            observers.add(observer);
+        }
+    }
+
+    public void removeObserver(DeviceObserver observer) {
+        if (observers != null) {
+            observers.remove(observer);
+        }
+    }
+
+    protected void notifyObservers() {
+        if (observers != null) {
+            for (DeviceObserver observer : observers) {
+                observer.onStateChanged(this);
+            }
+        }
     }
 }
