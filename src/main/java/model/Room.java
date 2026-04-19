@@ -23,6 +23,8 @@ public class Room {
         }
     }
 
+    /// todo: vllt ne methode public List<AbstractDevice> devicesList() {return abstractDevices} ?
+
     public void removeDevice(AbstractDevice abstractDevice) {
         abstractDevices.remove(abstractDevice);
     }
