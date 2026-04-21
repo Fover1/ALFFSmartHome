@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class SmartHomeModel {
+    //zentraler Speicher--> alles was im Haus verfügbar ist, kann hier aufgerufen werden
     private List<Room> rooms = new ArrayList<>();
     private List<Scenario> scenarios = new ArrayList<>();
 

@@ -5,6 +5,7 @@ import model.DeviceFunction;
 import model.Room;
 
 public class Lamp extends AbstractDevice {
+    //konkretes Gerät
     private int brightness = 0;
     private boolean isOn = false;
 
@@ -14,6 +15,7 @@ public class Lamp extends AbstractDevice {
 
     @Override
     protected void initializeFunctions() {
+        //hier werden die Funktionen eines Gerätes angegeben (es können mehrere Funktionen angegeben)
         this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
