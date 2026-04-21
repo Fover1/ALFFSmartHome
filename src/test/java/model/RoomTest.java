@@ -21,7 +21,6 @@ class RoomTest {
 
     @BeforeEach
     void setUp() {
-        // Wird vor jedem Test ausgeführt, um einen sauberen Zustand zu haben
         room = new Room("Wohnzimmer");
         mockAbstractDevice1 = mock(AbstractDevice.class);
         mockAbstractDevice2 = mock(AbstractDevice.class);
