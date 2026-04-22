@@ -18,7 +18,7 @@ public class SmartHomeApp extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage stage) throws Exception {
         Application.setUserAgentStylesheet(new CupertinoDark().getUserAgentStylesheet());
 
         SmartHomeAppController logicController = new SmartHomeAppController();
@@ -39,8 +39,8 @@ public class SmartHomeApp extends Application {
 
         ///  todo: nochmal nachschauen was diese Zeile kann (bzw. das was man übergibt)
         Scene scene = new Scene(root, 1000, 700); // Etwas größer für die moderne Optik
-        primaryStage.setTitle("Smart Home Szenario-Editor");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        stage.setTitle("Smart Home Szenario-Editor");
+        stage.setScene(scene);
+        stage.show();
     }
 }

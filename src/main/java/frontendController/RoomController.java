@@ -95,7 +95,11 @@ public class RoomController {
             }
             Stage stage = new Stage();
             stage.setTitle("Gerätedetails: " + device.getName());
-            stage.setScene(new Scene(root));
+            Scene scene = new Scene(root);
+            //weiß wer, warum wir diese Zeile brauchen?
+            root.setStyle("-fx-background-color: -color-bg-default;");
+            scene.getStylesheets().add(new atlantafx.base.theme.CupertinoDark().getUserAgentStylesheet());
+            stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
