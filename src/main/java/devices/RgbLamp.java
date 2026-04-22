@@ -1,15 +1,19 @@
 package devices;
 
+import javafx.scene.paint.Color;
+import lombok.Getter;
 import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
 
-public class Lamp extends AbstractDevice {
+@Getter
+public class RgbLamp extends AbstractDevice {
     //konkretes Gerät
     private int brightness = 0;
     private boolean isOn = false;
+    private String hexColor = "#FFFFFF";
 
-    public Lamp(String id, String name, Room room) {
+    public RgbLamp(String id, String name, Room room) {
         super(id, name, room);
     }
 
@@ -21,6 +25,7 @@ public class Lamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {
                     isOn = (Boolean) parameter;
+                    ///  todo: das ist noch nicht ganz richtig
                     brightness = isOn ? 100 : 0;
                 }
             }
@@ -73,7 +78,34 @@ public class Lamp extends AbstractDevice {
                 return Integer.class;
             }
         });
+
+        this.functions.put("Farbe", new DeviceFunction() {
+            @Override
+            public void execute(Object parameter) {
+                if (parameter instanceof String) {
+                    hexColor = (String) parameter;
+                    System.out.println("Farbe geändert auf: " + hexColor);
+                }
+            }
+
+            @Override
+            public String getDescription() {
+                return "Stellt die Lichtfarbe via Hex-Code ein";
+            }
+
+            @Override
+            public Class<?> getParameterType() {
+                return Color.class;
+            }
+
+            @Override
+            public String getColor() {
+                System.out.println("Farbe color rgblamp" + hexColor);
+                return hexColor;
+            }
+        });
     }
+
 
     @Override
     public String getDeviceType() {
@@ -84,4 +116,5 @@ public class Lamp extends AbstractDevice {
     public String getCurrentState() {
         return isOn ? "An (" + brightness + "%)" : "Aus";
     }
+
 }
