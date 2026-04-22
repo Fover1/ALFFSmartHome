@@ -65,20 +65,30 @@ public class DeviceController {
         int functionCounter = 1;
         for (String functionName : device.getAvailableFunctions()) {
             DeviceFunction func = device.getFunctions().get(functionName);
-            String color = func.getColor();
-            System.out.println("akutelle fareb: " + color);
+
 
             Label name = new Label(functionName + ": ");
-            Label value = new Label(color);
             deviceGrid.add(name, 0, functionCounter);
             System.out.println("Beschreibung: " + functionName);
 
             //überprüfen, was für eine Art parameter zurückgegeben werden muss
             //Checkbox for Boolean
             if (func.getParameterType() == Boolean.class) {
+                Boolean isOn = func.getState();
                 CheckBox checkBox = new CheckBox();
-                checkBox.setOnAction(e -> device.executeFunction(functionName, checkBox.isSelected()));
+                Label state = new Label(isOn ? "An" : "Aus");
+                deviceGrid.add(state, 2, functionCounter);
+                if (isOn) {
+                    checkBox.setSelected(true);
+                }
+                checkBox.setOnAction(e -> {
+                    device.executeFunction(functionName, checkBox.isSelected());
+                    state.setText(checkBox.isSelected() ? "An" : "Aus");
+                });
                 deviceGrid.add(checkBox, 1, functionCounter);
+//                String aktiv = isOn ? "An" : "Aus";
+
+
             }
 
             // Schieberegler for Integer
@@ -86,17 +96,35 @@ public class DeviceController {
                 Slider slider = new Slider(func.getMin(), func.getMax(), func.getMin());
                 slider.setShowTickLabels(true);
 
+                /// todo: nach dem kommer noch eine Zahl?
+                int maxLength = func.getValue().toString().length();
+                maxLength = Math.min(maxLength, 4);
+                Label value = new Label(func.getValue().toString().substring(0, maxLength) + " " + func.getUnit());
+                deviceGrid.add(value, 2, functionCounter);
+
                 slider.valueProperty().addListener((obs, oldVal, newVal) -> {
                     Object param = (func.getParameterType() == Integer.class) ? newVal.intValue() : newVal.doubleValue();
                     device.executeFunction(functionName, param);
+
+                    /// todo: die nächsten 2 Zeilen doppeln sich, kann man das noch schöner lösen?
+                    int length = func.getValue().toString().length();
+                    length = Math.min(length, 4);
+//                    Label value = new Label(
+                    value.setText(func.getValue().toString().substring(0, length) + " " + func.getUnit());
                 });
+
+                slider.setValue(func.getValue());
 
                 deviceGrid.add(slider, 1, functionCounter);
 //                deviceGrid.add(value, 2, device.);
 //                deviceGrid.getChildren().add(new Label(func.getUnit()));
             } else if (Color.class.isAssignableFrom(func.getParameterType())) {
                 ColorPicker colorPicker = new ColorPicker();
-                colorPicker.setValue(Color.valueOf(color));
+                colorPicker.setValue(Color.valueOf(func.getColor()));
+
+                String color = func.getColor();
+                Label value = new Label(color);
+                deviceGrid.add(value, 2, functionCounter);
 
                 /// todo: aktuell ausgewählte Frabe in den Picker laden
 
@@ -109,10 +137,10 @@ public class DeviceController {
                             (int) (c.getBlue() * 255));
 
                     device.executeFunction(functionName, hex);
+                    value.setText(hex);
                 });
 
                 deviceGrid.add(colorPicker, 1, functionCounter);
-                deviceGrid.add(value, 2, functionCounter);
             }
             functionCounter++;
         }

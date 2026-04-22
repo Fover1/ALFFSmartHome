@@ -27,4 +27,12 @@ public interface DeviceFunction {
         return null;
     }
 
+    default Double getValue() {
+        return null;
+    }
+
+    default Boolean getState() {
+        return null;
+    }
+
 }
