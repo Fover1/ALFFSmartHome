@@ -7,6 +7,9 @@ import java.util.List;
 
 public class DeviceScanner {
 
+    //Zu beginn des Programmstarts genutzt, um die Gerätetypen die zu verfügung stehen zu erknnen
+    // --> Läd die verschiedenen Devices aus dem packeg devices
+
     ///  todo: hier den packageNamen hardcodieren?
 
     public static List<String> getAllDeviceTypes(String packageName) {
@@ -26,7 +29,6 @@ public class DeviceScanner {
                     for (String file : files) {
                         if (file.endsWith(".class")) {
                             String className = file.substring(0, file.length() - 6);
-
 
                             /// todo: vllt löschen, wenn im anderen Package liegt?
                             if (!className.equals("Device") &&

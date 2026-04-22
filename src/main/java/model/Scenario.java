@@ -10,6 +10,9 @@ import java.util.List;
 @Setter
 public class Scenario implements Action {
 
+    //Ein Scenario ist eigentlich auch eine Action, in welcher einfach bei execut mehrere Actions aufgerufen werden
+    //Außerdem werden weitere Methoden zur Verwaltung mehrerer Actions implementiert
+
     private String name;
     private String description;
 

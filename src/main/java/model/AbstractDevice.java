@@ -18,16 +18,30 @@ import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 ///  todo: ich habe jetzt die devices aus diesem Test coverage ding rausgenommen. Kann man die vernünftig testen, vor allem wenn sie dynamisch geladen werden?
 public abstract class AbstractDevice implements SmartDevice {
 
+    //impelementiert Methoden, die alle AbstractDevices haben
+
     private final String id;
-    protected Map<String, DeviceFunction> functions = new HashMap<>();
+    protected transient Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
-    private Room room;
+    private transient Room room;
     private transient List<DeviceObserver> observers = new ArrayList<>();
 
     public AbstractDevice(String id, String name, Room room) {
+        /// todo: Problem: Räume speichern ihre Geräte und Geräte speichern ihre Räume. Darüber sollten wir nochmal sprechen
         this.id = id;
         this.name = name;
         this.room = room;
+        restoreAfterLoad();
+    }
+
+    //diese Methode wird bei den einzelnen Geräten implementiert um die jeweiligen actions festzulegen
+    protected abstract void initializeFunctions();
+
+    //observers und functions werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
+    public void restoreAfterLoad() {
+        this.observers = new ArrayList<>();
+        this.functions = new HashMap<>();
+        initializeFunctions();
     }
 
     public abstract String getDeviceType();
