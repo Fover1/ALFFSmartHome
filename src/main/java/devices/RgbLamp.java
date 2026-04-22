@@ -25,8 +25,6 @@ public class RgbLamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {
                     isOn = (Boolean) parameter;
-                    ///  todo: das ist noch nicht ganz richtig
-                    brightness = isOn ? 100 : 0;
                 }
             }
 
@@ -52,7 +50,6 @@ public class RgbLamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof Double) {
                     brightness = (Double) parameter;
-                    isOn = brightness > 0;
                 }
             }
 

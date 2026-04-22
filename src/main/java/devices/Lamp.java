@@ -21,7 +21,6 @@ public class Lamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {
                     isOn = (Boolean) parameter;
-                    brightness = isOn ? 100 : 0;
                 }
             }
 
@@ -47,7 +46,6 @@ public class Lamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof Integer) {
                     brightness = (Integer) parameter;
-                    isOn = brightness > 0;
                 }
             }
 
