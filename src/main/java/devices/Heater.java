@@ -45,20 +45,35 @@ public class Heater extends AbstractDevice {
             }
 
             @Override
+            public Double getMin() {
+                return 0.0;
+            }
+
+            @Override
+            public Double getMax() {
+                return 30.0;
+            }
+
+            @Override
+            public String getUnit() {
+                return "°C";
+            }
+
+            @Override
             public String getDescription() {
                 return "Stellt die Temperatur der Heizung ein";
             }
 
             @Override
             public Class<?> getParameterType() {
-                return Integer.class;
+                return Double.class;
             }
         });
     }
 
     @Override
     public String getDeviceType() {
-        return "Lampe";
+        return "Heizung";
     }
 
     @Override
