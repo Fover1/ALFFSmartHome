@@ -31,6 +31,12 @@ public class DeviceController {
     private Label roomLable;
 
     @FXML
+    private Label deviceName;
+
+    @FXML
+    private Label deviceType;
+
+    @FXML
     public void initialize() {
 //        rootPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
 //            if (newScene != null) {
@@ -61,6 +67,8 @@ public class DeviceController {
 
         deviceGrid.getChildren().clear();
 
+        deviceName.setText("Gerät: " + device.getName());
+        deviceType.setText("Gerätetype: " + device.getDeviceType());
         roomLable.setText("Raum: " + device.getRoom().getName());
 
         int functionCounter = 0;
@@ -77,8 +85,9 @@ public class DeviceController {
             if (func.getParameterType() == Boolean.class) {
                 Boolean isOn = func.getState();
                 CheckBox checkBox = new CheckBox();
-                Label state = new Label(isOn ? "An" : "Aus");
-                deviceGrid.add(state, 2, functionCounter);
+                Label state = new Label(isOn ? "Eingeschaltet" : "Ausgeschaltet");
+                /// todo: vllt hardgecodede 3 in variable auslagern?
+                deviceGrid.add(state, 3, functionCounter);
                 if (isOn) {
                     checkBox.setSelected(true);
                 }
@@ -102,8 +111,9 @@ public class DeviceController {
                 int maxLength = func.getValue().toString().length();
                 maxLength = Math.min(maxLength, 4);
                 Label value = new Label(func.getValue().toString().substring(0, maxLength) + " " + func.getUnit());
-                deviceGrid.add(value, 2, functionCounter);
+                deviceGrid.add(value, 3, functionCounter);
 
+                /// todo: bei dem slider muss noch implementiert werden, dass erst wenn der slider los gelassen wird der neue wert in die json geschrieben wird
                 slider.valueProperty().addListener((obs, oldVal, newVal) -> {
                     Object param = (func.getParameterType() == Integer.class) ? newVal.intValue() : newVal.doubleValue();
                     device.executeFunction(functionName, param);
@@ -111,9 +121,9 @@ public class DeviceController {
                     /// todo: die nächsten 2 Zeilen doppeln sich, kann man das noch schöner lösen?
                     int length = func.getValue().toString().length();
                     length = Math.min(length, 4);
-//                    Label value = new Label(
                     value.setText(func.getValue().toString().substring(0, length) + " " + func.getUnit());
                     smartHomeAppController.save();
+                    System.out.println("ich war hier");
                 });
 
                 slider.setValue(func.getValue());
@@ -127,7 +137,7 @@ public class DeviceController {
 
                 String color = func.getColor();
                 Label value = new Label(color);
-                deviceGrid.add(value, 2, functionCounter);
+                deviceGrid.add(value, 3, functionCounter);
 
                 /// todo: aktuell ausgewählte Frabe in den Picker laden
 

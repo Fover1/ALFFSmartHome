@@ -13,6 +13,7 @@ public class Lamp extends AbstractDevice {
         super(id, name, room);
     }
 
+    /// todo: kann man die codedopplung zwischen lamp und rgblamp irgendwie noch verringern?
     @Override
     protected void initializeFunctions() {
         //hier werden die Funktionen eines Gerätes angegeben (es können mehrere Funktionen angegeben)
@@ -44,8 +45,8 @@ public class Lamp extends AbstractDevice {
         this.functions.put("Helligkeit", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
-                if (parameter instanceof Integer) {
-                    brightness = (Integer) parameter;
+                if (parameter instanceof Double) {
+                    brightness = (Double) parameter;
                 }
             }
 
@@ -79,7 +80,7 @@ public class Lamp extends AbstractDevice {
 
             @Override
             public Class<?> getParameterType() {
-                return Integer.class;
+                return Double.class;
             }
         });
     }
