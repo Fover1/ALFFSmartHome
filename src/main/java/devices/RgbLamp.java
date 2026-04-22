@@ -9,7 +9,7 @@ import model.Room;
 @Getter
 public class RgbLamp extends AbstractDevice {
     //konkretes Gerät
-    private int brightness = 0;
+    private double brightness = 0;
     private boolean isOn = false;
     private String hexColor = "#FFFFFF";
 
@@ -39,14 +39,19 @@ public class RgbLamp extends AbstractDevice {
             public Class<?> getParameterType() {
                 return Boolean.class;
             }
+
+            @Override
+            public Boolean getState() {
+                return isOn();
+            }
         });
 
 
         this.functions.put("Helligkeit", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
-                if (parameter instanceof Integer) {
-                    brightness = (Integer) parameter;
+                if (parameter instanceof Double) {
+                    brightness = (Double) parameter;
                     isOn = brightness > 0;
                 }
             }
@@ -75,7 +80,12 @@ public class RgbLamp extends AbstractDevice {
 
             @Override
             public Class<?> getParameterType() {
-                return Integer.class;
+                return Double.class;
+            }
+
+            @Override
+            public Double getValue() {
+                return brightness;
             }
         });
 

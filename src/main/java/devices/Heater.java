@@ -29,6 +29,11 @@ public class Heater extends AbstractDevice {
             }
 
             @Override
+            public Boolean getState() {
+                return isOn;
+            }
+
+            @Override
             public Class<?> getParameterType() {
                 return Boolean.class;
             }
@@ -62,6 +67,11 @@ public class Heater extends AbstractDevice {
             @Override
             public String getDescription() {
                 return "Stellt die Temperatur der Heizung ein";
+            }
+
+            @Override
+            public Double getValue() {
+                return temperature;
             }
 
             @Override

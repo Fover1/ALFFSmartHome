@@ -6,7 +6,7 @@ import model.Room;
 
 public class Lamp extends AbstractDevice {
     //konkretes Gerät
-    private int brightness = 0;
+    private double brightness = 0;
     private boolean isOn = false;
 
     public Lamp(String id, String name, Room room) {
@@ -33,6 +33,11 @@ public class Lamp extends AbstractDevice {
             @Override
             public Class<?> getParameterType() {
                 return Boolean.class;
+            }
+
+            @Override
+            public Boolean getState() {
+                return isOn;
             }
         });
 
@@ -66,6 +71,12 @@ public class Lamp extends AbstractDevice {
             @Override
             public String getDescription() {
                 return "Stellt die Helligkeit der Lampe ein";
+            }
+
+
+            @Override
+            public Double getValue() {
+                return brightness;
             }
 
             @Override
