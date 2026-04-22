@@ -2,7 +2,6 @@ package frontendController;
 
 import controller.SmartHomeAppController;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -27,6 +26,9 @@ public class DeviceController {
 
     @FXML
     private GridPane deviceGrid;
+
+    @FXML
+    private Label roomLable;
 
     @FXML
     public void initialize() {
@@ -58,11 +60,10 @@ public class DeviceController {
     private void updateUI() {
 
         deviceGrid.getChildren().clear();
-        Button saveButton = new Button("save");
-        saveButton.setOnAction(e -> smartHomeAppController.save());
-        deviceGrid.add(saveButton, 0, 0);
 
-        int functionCounter = 1;
+        roomLable.setText("Raum: " + device.getRoom().getName());
+
+        int functionCounter = 0;
         for (String functionName : device.getAvailableFunctions()) {
             DeviceFunction func = device.getFunctions().get(functionName);
 
@@ -84,6 +85,7 @@ public class DeviceController {
                 checkBox.setOnAction(e -> {
                     device.executeFunction(functionName, checkBox.isSelected());
                     state.setText(checkBox.isSelected() ? "An" : "Aus");
+                    smartHomeAppController.save();
                 });
                 deviceGrid.add(checkBox, 1, functionCounter);
 //                String aktiv = isOn ? "An" : "Aus";
@@ -111,6 +113,7 @@ public class DeviceController {
                     length = Math.min(length, 4);
 //                    Label value = new Label(
                     value.setText(func.getValue().toString().substring(0, length) + " " + func.getUnit());
+                    smartHomeAppController.save();
                 });
 
                 slider.setValue(func.getValue());
@@ -138,6 +141,7 @@ public class DeviceController {
 
                     device.executeFunction(functionName, hex);
                     value.setText(hex);
+                    smartHomeAppController.save();
                 });
 
                 deviceGrid.add(colorPicker, 1, functionCounter);

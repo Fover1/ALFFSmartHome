@@ -9,25 +9,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToWidth="true" style="-fx-background-color: #332a2a;"
+<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToWidth="true"
             xmlns="http://javafx.com/javafx/25" fx:controller="frontendController.DeviceController">
     <VBox spacing="15.0">
         <padding>
             <Insets bottom="20" left="20" right="20" top="20"/>
         </padding>
         <HBox prefHeight="0.0" prefWidth="386.0">
-            <children>
-
-                <Label prefHeight="26.0" prefWidth="214.0" style="-fx-font-size: 16px; -fx-font-weight: bold;"
-                       text="Gerät" textFill="#555555"/>
-                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Geräteeinstellungen"
-                       textFill="#555555"/>
-            </children>
+            <Label prefHeight="26.0" prefWidth="214.0" style="-fx-font-size: 16px; -fx-font-weight: bold;"
+                   text="Gerät"/>
+            <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Geräteeinstellungen"/>
         </HBox>
         <FlowPane fx:id="roomContainer" hgap="15.0" vgap="15.0">
-            <Label prefHeight="18.0" prefWidth="207.0" text="Raum: " textFill="#999999"/>
+            <Label fx:id="roomLable" prefHeight="18.0" prefWidth="207.0"/>
             <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="154.0"
-                   text="Status: Online" textFill="#999999"/>
+                   text="Status: Online"/>
         </FlowPane>
         <FlowPane fx:id="deviceContainer" hgap="15.0" vgap="15.0">
             <GridPane fx:id="deviceGrid" prefHeight="234.0" prefWidth="402.0">
