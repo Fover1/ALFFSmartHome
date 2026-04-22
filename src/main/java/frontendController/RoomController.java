@@ -86,6 +86,7 @@ public class RoomController {
 
     private void openDeviceView(AbstractDevice device) {
         try {
+            /// todo: kann man ihm sagen, dass nur ein fenster davon offen sien soll? oder müssen wir die fenster synchronisieren? --> Also das man halt nicht 2 eintsellungsfenster vom selben gerät offen hat
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/deviceView.fxml"));
             Parent root = fxmlLoader.load();
 
