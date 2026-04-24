@@ -1,17 +1,27 @@
 package frontendController;
 
 import controller.SmartHomeAppController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.WindowEvent;
+import javafx.util.StringConverter;
 import model.AbstractDevice;
 import model.DeviceFunction;
+import model.Room;
+
+import java.util.List;
+import java.util.Optional;
 
 
 public class DeviceController {
@@ -28,7 +38,7 @@ public class DeviceController {
     private GridPane deviceGrid;
 
     @FXML
-    private Label roomLable;
+    private Label roomLabel;
 
     @FXML
     private Label deviceName;
@@ -65,11 +75,13 @@ public class DeviceController {
 
     private void updateUI() {
 
+        List<Room> roomlist = smartHomeAppController.getAllRooms();
+
         deviceGrid.getChildren().clear();
 
         deviceName.setText("Gerät: " + device.getName());
         deviceType.setText("Gerätetype: " + device.getDeviceType());
-        roomLable.setText("Raum: " + device.getRoom().getName());
+        roomLabel.setText("Raum: " + device.getRoom().getName());
 
         int functionCounter = 0;
         for (String functionName : device.getAvailableFunctions()) {
@@ -158,5 +170,72 @@ public class DeviceController {
             }
             functionCounter++;
         }
+
+        ObservableList<Room> rooms = FXCollections.observableArrayList(roomlist);
+
+        Button editName = new Button("Name bearbeiten");
+        ComboBox<Room> editRoom = new ComboBox<>(rooms);
+        editRoom.setConverter(new StringConverter<Room>() {
+            @Override
+            public String toString(Room room) {
+                return (room == null) ? "" : room.getName();
+            }
+
+            @Override
+            public Room fromString(String s) {
+                return null;
+            }
+        });
+        editRoom.setPromptText(device.getRoom().getName());
+        Button deleteDevice = new Button("Gerät löschen");
+
+
+        editName.setOnAction(e -> {
+            /// todo: kann man das dialog fenster nicht in eine andere Klasse machen, damit man das nicht 5x den sleeben code im projekt hat?
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Name ändern: " + device.getName());
+            dialog.setHeaderText(String.format("Bitte gebe einen neuen Namen für den Raum \"%s\" ein", device.getName()));
+
+            Optional<String> result = dialog.showAndWait();
+
+            result.ifPresent(roomName -> {
+                if (!roomName.trim().isEmpty()) {
+                    smartHomeAppController.changeDeviceName(device, roomName);
+                    System.out.println("Raumname geändert: " + roomName);
+                    smartHomeAppController.save();
+                }
+            });
+        });
+
+        editRoom.setOnAction(e -> {
+            Room room = editRoom.getValue();
+            if (room != null) {
+                System.out.println("dieser raum wurde ausgewähl" + room.getName());
+                /// todo: was davon braucht man wirklich?
+                device.getRoom().removeDevice(device);
+                device.setRoom(room);
+                device.changeRoom(room);
+                smartHomeAppController.getAllRooms().stream()
+                        .filter(r -> r.getName().equals(room.getName()))
+                        .findFirst()
+                        .ifPresent(r -> r.addDevice(device));
+                smartHomeAppController.save();
+            }
+            updateUI();
+
+        });
+
+        deleteDevice.setOnAction(e -> {
+            smartHomeAppController.deleteDevice(device);
+            System.out.println("Geräte wird gelsöcht");
+            smartHomeAppController.save();
+        });
+
+        /// todo: das muss noch schön aussehen (man kann die buttons nicht richtig lesen)
+        //buttons direkt unter der untertesten Geräteeinstellung anzeigen
+        functionCounter++;
+        deviceGrid.add(editName, 0, functionCounter);
+        deviceGrid.add(editRoom, 1, functionCounter);
+        deviceGrid.add(deleteDevice, 3, functionCounter);
     }
 }

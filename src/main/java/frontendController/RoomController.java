@@ -6,8 +6,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.AbstractDevice;
 import model.Room;
@@ -24,6 +26,18 @@ public class RoomController {
 
     @FXML
     private FlowPane roomContainer;
+
+    @FXML
+    private Label raumAuswahl;
+
+    @FXML
+    private Button deleteRoom;
+
+    @FXML
+    private Button editRoom;
+
+    @FXML
+    private HBox roomActions;
 
     public void setAppController(SmartHomeAppController smartHomeAppController) {
         this.smartHomeAppController = smartHomeAppController;
@@ -46,6 +60,7 @@ public class RoomController {
             deviceContainer.getChildren().clear();
             System.out.println("Geräte unsichtbar gemacht");
         }
+        raumAuswahl.setText("Noch kein Raum ausgewählt");
     }
 
     @FXML
@@ -73,7 +88,24 @@ public class RoomController {
     @FXML
     public void showDevices(Room room) {
         updateUI();
+        raumAuswahl.setText("Ausgewählter Raum: " + room.getName() + "    ");
         System.out.println("Raum ausgewählt: " + room.getName());
+
+        deleteRoom.setOnAction(e -> {
+            smartHomeAppController.deleteRoom(room);
+            updateUI();
+        });
+        editRoom.setOnAction(e -> {
+            handleRoomNameChange(room);
+            updateUI();
+        });
+
+        roomActions.setSpacing(10);
+
+
+        deleteRoom.setVisible(true);
+        editRoom.setVisible(true);
+
 
         for (AbstractDevice device : getDevices(room)) {
             ///todo: noch fertig bearbeiten
@@ -82,6 +114,23 @@ public class RoomController {
 
             deviceContainer.getChildren().add(deviceButton);
         }
+    }
+
+    private void handleRoomNameChange(Room room) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Name ändern: " + room.getName());
+        dialog.setHeaderText(String.format("Bitte gebe einen neuen Namen für den Raum \"%s\" ein", room.getName()));
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(roomName -> {
+            if (!roomName.trim().isEmpty()) {
+                smartHomeAppController.changeRoomName(room, roomName);
+                System.out.println("Raumname geändert: " + roomName);
+
+            }
+        });
+        smartHomeAppController.save();
     }
 
     private void openDeviceView(AbstractDevice device) {

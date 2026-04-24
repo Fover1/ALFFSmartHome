@@ -61,6 +61,11 @@ public abstract class AbstractDevice implements SmartDevice {
         }
     }
 
+    public void changeRoom(Room room) {
+        this.room = room;
+    }
+
+
     @Override
     public List<String> getAvailableFunctions() {
         return new ArrayList<>(functions.keySet());
