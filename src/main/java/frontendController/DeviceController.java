@@ -14,7 +14,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 import model.AbstractDevice;
 import model.DeviceFunction;
@@ -47,23 +46,16 @@ public class DeviceController {
     private Label deviceType;
 
     @FXML
-    public void initialize() {
-//        rootPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
-//            if (newScene != null) {
-//                newScene.windowProperty().addListener((obsWindow, oldWindow, newWindow) -> {
-//                    if (newWindow != null) {
-//                        newWindow.setOnCloseRequest(windowEvent -> {
-//                            handleClose(windowEvent);
-//                        });
-//                    }
-//                });
-//            }
-//        });
-    }
+    private Button deleteDevice;
 
-    private void handleClose(WindowEvent event) {
-        System.out.println("DeviceFenster wurde geschlossen");
-        smartHomeAppController.save();
+    @FXML
+    private Button changeDeviceName;
+
+    @FXML
+    private ComboBox<Room> changeDeviceRoom;
+
+    @FXML
+    public void initialize() {
     }
 
     public void setDevice(AbstractDevice device, SmartHomeAppController appController) {
@@ -76,7 +68,6 @@ public class DeviceController {
     private void updateUI() {
 
         List<Room> roomlist = smartHomeAppController.getAllRooms();
-
         deviceGrid.getChildren().clear();
 
         deviceName.setText("Gerät: " + device.getName());
@@ -86,112 +77,35 @@ public class DeviceController {
         int functionCounter = 0;
         for (String functionName : device.getAvailableFunctions()) {
             DeviceFunction func = device.getFunctions().get(functionName);
-
-
-            Label name = new Label(functionName + ": ");
-            deviceGrid.add(name, 0, functionCounter);
-            System.out.println("Beschreibung: " + functionName);
+            deviceGrid.add(new Label(functionName + ": "), 0, functionCounter);
 
             //überprüfen, was für eine Art parameter zurückgegeben werden muss
             //Checkbox for Boolean
             if (func.getParameterType() == Boolean.class) {
-                Boolean isOn = func.getState();
-                CheckBox checkBox = new CheckBox();
-                Label state = new Label(isOn ? "Eingeschaltet" : "Ausgeschaltet");
-                /// todo: vllt hardgecodede 3 in variable auslagern?
-                deviceGrid.add(state, 3, functionCounter);
-                if (isOn) {
-                    checkBox.setSelected(true);
-                }
-                checkBox.setOnAction(e -> {
-                    device.executeFunction(functionName, checkBox.isSelected());
-                    state.setText(checkBox.isSelected() ? "An" : "Aus");
-                    smartHomeAppController.save();
-                });
-                deviceGrid.add(checkBox, 1, functionCounter);
-//                String aktiv = isOn ? "An" : "Aus";
-
-
+                createBooleanControl(functionName, func, functionCounter);
             }
-
-            // Schieberegler for Integer
+            // Schieberegler for Double
             else if (Number.class.isAssignableFrom(func.getParameterType()) && func.getMin() != null) {
-                Slider slider = new Slider(func.getMin(), func.getMax(), func.getMin());
-                slider.setShowTickLabels(true);
-
-                /// todo: nach dem kommer noch eine Zahl?
-                int maxLength = func.getValue().toString().length();
-                maxLength = Math.min(maxLength, 4);
-                Label value = new Label(func.getValue().toString().substring(0, maxLength) + " " + func.getUnit());
-                deviceGrid.add(value, 3, functionCounter);
-
-                /// todo: bei dem slider muss noch implementiert werden, dass erst wenn der slider los gelassen wird der neue wert in die json geschrieben wird
-                slider.valueProperty().addListener((obs, oldVal, newVal) -> {
-                    Object param = (func.getParameterType() == Integer.class) ? newVal.intValue() : newVal.doubleValue();
-                    device.executeFunction(functionName, param);
-
-                    /// todo: die nächsten 2 Zeilen doppeln sich, kann man das noch schöner lösen?
-                    int length = func.getValue().toString().length();
-                    length = Math.min(length, 4);
-                    value.setText(func.getValue().toString().substring(0, length) + " " + func.getUnit());
-                    smartHomeAppController.save();
-                    System.out.println("ich war hier");
-                });
-
-                slider.setValue(func.getValue());
-
-                deviceGrid.add(slider, 1, functionCounter);
-//                deviceGrid.add(value, 2, device.);
-//                deviceGrid.getChildren().add(new Label(func.getUnit()));
+                createDoubleControll(functionName, func, functionCounter);
             } else if (Color.class.isAssignableFrom(func.getParameterType())) {
-                ColorPicker colorPicker = new ColorPicker();
-                colorPicker.setValue(Color.valueOf(func.getColor()));
-
-                String color = func.getColor();
-                Label value = new Label(color);
-                deviceGrid.add(value, 3, functionCounter);
-
-                /// todo: aktuell ausgewählte Frabe in den Picker laden
-
-                colorPicker.setOnAction(e -> {
-                    Color c = colorPicker.getValue();
-                    //formatierung von JavaFX Color zu Hexcode
-                    String hex = String.format("#%02X%02X%02X",
-                            (int) (c.getRed() * 255),
-                            (int) (c.getGreen() * 255),
-                            (int) (c.getBlue() * 255));
-
-                    device.executeFunction(functionName, hex);
-                    value.setText(hex);
-                    smartHomeAppController.save();
-                });
-
-                deviceGrid.add(colorPicker, 1, functionCounter);
+                createColorControl(functionName, func, functionCounter);
             }
             functionCounter++;
         }
 
         ObservableList<Room> rooms = FXCollections.observableArrayList(roomlist);
 
-        Button editName = new Button("Name bearbeiten");
-        ComboBox<Room> editRoom = new ComboBox<>(rooms);
-        editRoom.setConverter(new StringConverter<Room>() {
-            @Override
-            public String toString(Room room) {
-                return (room == null) ? "" : room.getName();
-            }
+        setupRoomComboBox(rooms);
 
-            @Override
-            public Room fromString(String s) {
-                return null;
-            }
-        });
-        editRoom.setPromptText(device.getRoom().getName());
-        Button deleteDevice = new Button("Gerät löschen");
+        setupControllButtons();
 
 
-        editName.setOnAction(e -> {
+    }
+
+    private void setupControllButtons() {
+        changeDeviceName.setOnAction(e -> {
             /// todo: kann man das dialog fenster nicht in eine andere Klasse machen, damit man das nicht 5x den sleeben code im projekt hat?
+            System.out.println("changeDeviceName.setOnAction");
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Name ändern: " + device.getName());
             dialog.setHeaderText(String.format("Bitte gebe einen neuen Namen für den Raum \"%s\" ein", device.getName()));
@@ -207,8 +121,31 @@ public class DeviceController {
             });
         });
 
-        editRoom.setOnAction(e -> {
-            Room room = editRoom.getValue();
+        deleteDevice.setOnAction(e -> {
+            smartHomeAppController.deleteDevice(device);
+            System.out.println("Geräte wird gelsöcht");
+            smartHomeAppController.save();
+        });
+        /// todo: die platzierung der buttons überzeugt mich noch nicht gnaz
+    }
+
+    private void setupRoomComboBox(ObservableList<Room> rooms) {
+        changeDeviceRoom.setItems(rooms);
+        changeDeviceRoom.setConverter(new StringConverter<Room>() {
+            @Override
+            public String toString(Room room) {
+                return (room == null) ? "" : room.getName();
+            }
+
+            @Override
+            public Room fromString(String s) {
+                return null;
+            }
+        });
+        changeDeviceRoom.setPromptText(device.getRoom().getName());
+
+        changeDeviceRoom.setOnAction(e -> {
+            Room room = changeDeviceRoom.getValue();
             if (room != null) {
                 System.out.println("dieser raum wurde ausgewähl" + room.getName());
                 /// todo: was davon braucht man wirklich?
@@ -224,18 +161,82 @@ public class DeviceController {
             updateUI();
 
         });
+    }
 
-        deleteDevice.setOnAction(e -> {
-            smartHomeAppController.deleteDevice(device);
-            System.out.println("Geräte wird gelsöcht");
+    private void createColorControl(String functionName, DeviceFunction func, int functionCounter) {
+        ColorPicker colorPicker = new ColorPicker();
+        colorPicker.setValue(Color.valueOf(func.getColor()));
+
+        String color = func.getColor();
+        Label value = new Label(color);
+        deviceGrid.add(value, 3, functionCounter);
+
+        colorPicker.setOnAction(e -> {
+            Color c = colorPicker.getValue();
+            //formatierung von JavaFX Color zu Hexcode
+            String hex = String.format("#%02X%02X%02X",
+                    (int) (c.getRed() * 255),
+                    (int) (c.getGreen() * 255),
+                    (int) (c.getBlue() * 255));
+
+            device.executeFunction(functionName, hex);
+            value.setText(hex);
             smartHomeAppController.save();
         });
 
-        /// todo: das muss noch schön aussehen (man kann die buttons nicht richtig lesen)
-        //buttons direkt unter der untertesten Geräteeinstellung anzeigen
-        functionCounter++;
-        deviceGrid.add(editName, 0, functionCounter);
-        deviceGrid.add(editRoom, 1, functionCounter);
-        deviceGrid.add(deleteDevice, 3, functionCounter);
+        deviceGrid.add(colorPicker, 1, functionCounter);
+    }
+
+    private void createDoubleControll(String functionName, DeviceFunction func, int functionCounter) {
+        Slider slider = new Slider(func.getMin(), func.getMax(), func.getMin());
+        slider.setShowTickLabels(true);
+        slider.setValue(func.getValue());
+
+        /// todo: nach dem kommer noch eine Zahl? (also bei der Stringtrennung aktiv nach dem Kommer suchen)
+        Label valueLable = new Label(String.format("%.2f %s", slider.getValue(), func.getUnit()));
+        deviceGrid.add(valueLable, 3, functionCounter);
+
+        //Attributanzeige neben dem Slider ändert sich dauernd beim sliden des Sliders
+        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            valueLable.setText(String.format("%.2f %s", newVal.doubleValue(), func.getUnit()));
+        });
+
+        //der neue Attributwert wird allerdings erst gespeichert, sobald der Slider losgelassen wurde
+        slider.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
+            if (!isChanging) {
+                executeSliderValue(functionName, slider);
+            }
+        });
+        //wenn slider angeklickt wird funktioniert und nicht verschoben wird reagiert die obige Methode nicht
+        slider.onMouseReleasedProperty().addListener((obs, oldVal, newVal) -> {
+            executeSliderValue(functionName, slider);
+        });
+        deviceGrid.add(slider, 1, functionCounter);
+    }
+
+    private void createBooleanControl(String functionName, DeviceFunction func, int functionCounter) {
+        Boolean isOn = func.getState();
+        CheckBox checkBox = new CheckBox();
+        checkBox.setSelected(isOn);
+
+        Label state = new Label(isOn ? "Eingeschaltet" : "Ausgeschaltet");
+
+        deviceGrid.add(state, 3, functionCounter);
+
+        checkBox.setOnAction(e -> {
+            device.executeFunction(functionName, checkBox.isSelected());
+            state.setText(checkBox.isSelected() ? "Eingeschaltet" : "Ausgeschlatet");
+            smartHomeAppController.save();
+        });
+
+        deviceGrid.add(checkBox, 1, functionCounter);
+    }
+
+    private void executeSliderValue(String functionName, Slider slider) {
+        Object param = slider.getValue();
+
+        device.executeFunction(functionName, param);
+        smartHomeAppController.save();
+        System.out.println("Aktion ausgeführt, da Slider losgelassen wurde.");
     }
 }
