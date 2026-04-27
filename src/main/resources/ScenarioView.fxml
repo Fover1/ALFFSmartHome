@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.4" prefHeight="600.0" prefWidth="700.0"
+           xmlns="http://javafx.com/javafx/17" fx:controller="frontendController.ScenarioControllerNew">
+    <items>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+            <HBox spacing="10.0">
+                <Button text="Neu" onAction="#handleNewScenario"/>
+                <Button text="Löschen" onAction="#handleDeleteScenario"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button text="Ausführen" onAction="#handleExecuteScenario"
+                        style="-fx-background-color: #2c3e50; -fx-text-fill: white;"/>
+            </HBox>
+            <TableView fx:id="scenarioTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colName" text="Name" prefWidth="120"/>
+                    <TableColumn fx:id="colDesc" text="Beschreibung" prefWidth="120"/>
+                    <TableColumn fx:id="colActionCount" text="Aktionen" prefWidth="80"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox fx:id="detailArea" spacing="10.0" disable="true">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+            <Label text="Szenario Details" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+
+            <GridPane hgap="10" vgap="10">
+                <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.hgrow="ALWAYS"/>
+
+                <Label text="Beschreibung:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="txtDescription" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                           GridPane.hgrow="ALWAYS"/>
+            </GridPane>
+
+            <HBox spacing="10">
+                <Button text="Speichern" onAction="#handleSaveScenarioDetails"/>
+            </HBox>
+
+            <Separator/>
+
+            <Label text="Aktionen" style="-fx-font-weight: bold;"/>
+            <ListView fx:id="actionListView" VBox.vgrow="ALWAYS"/>
+
+            <HBox spacing="10.0">
+                <Button text="+" onAction="#handleAddAction"/>
+                <Button text="Bearbeiten" onAction="#handleEditAction"/>
+                <Button text="-" onAction="#handleDeleteAction"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button text="↑" onAction="#handleMoveActionUp"/>
+                <Button text="↓" onAction="#handleMoveActionDown"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>

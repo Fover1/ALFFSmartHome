@@ -105,6 +105,7 @@ public class DeviceController {
             labelListener(functionName, valueLabel, checkBox);
 
         } else if (control instanceof Slider slider) {
+            /// todo: kann man nicht den loslassen listerner für schieben und drücken verwenden?
             sliderListener(functionName, valueLabel, func, slider);
 
         } else if (control instanceof ColorPicker colorPicker) {

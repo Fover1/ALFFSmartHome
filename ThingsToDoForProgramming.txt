@@ -30,3 +30,6 @@ Bitte Scene Builder Downloaden (https://gluonhq.com/products/scene-builder/)
 Diesen dann installieren
 Sobald er installiert ist, kann in den Einstellungen von Intelij unter Languages & Framework und dann bei JavaFX ein SceneBuilder angegen werden. Dies bitte machen
 Anschließend auf die FX Datei unter Resources mit rechtsklick drücken und dann auf "open in Scene Builder"
+
+Wichtig:
+Bevor neue Objekte erstellt werden, muss erst die ID vergabe (mit UUID) umgesetzt werden, da sonst das Programm crasht!

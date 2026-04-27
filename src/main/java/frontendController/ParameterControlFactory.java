@@ -17,11 +17,15 @@ public class ParameterControlFactory {
 
     //Node ist wie ein Abstract Device für Frontend Kopmonenten (also z.B. Slider, Checkbox und so sind alles Nodes)
     public static Node createControl(AbstractDevice device, String functionName, String initialValue) {
-//        if (device == null || functionName == null) {
-//            return new TextField();
-//        }
+        if (device == null || functionName == null) {
+            return new TextField("kein device / functionname");
+        }
 
         DeviceFunction function = device.getFunctions().get(functionName);
+
+        if (function == null) {
+            return new TextField("funcktion: " + functionName);
+        }
 
         Class<?> paramType = function.getParameterType();
 

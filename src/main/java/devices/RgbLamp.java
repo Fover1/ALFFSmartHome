@@ -116,7 +116,7 @@ public class RgbLamp extends AbstractDevice {
 
     @Override
     public String getDeviceType() {
-        return "Lampe";
+        return "RgbLampe";
     }
 
     @Override
