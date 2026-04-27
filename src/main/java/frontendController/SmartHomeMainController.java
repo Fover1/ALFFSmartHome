@@ -29,11 +29,12 @@ public class SmartHomeMainController {
 
             Object controller = loader.getController();
 
-            // Wenn es der RoomController ist, geben wir ihm den AppController
+            // Wenn es der RoomController ist, geben wir ihm den AppController (bei deviceView kann der RoomController den appController weitergeben)
             if (controller instanceof RoomController) {
                 ((RoomController) controller).setAppController(this.appController);
+            } else if (controller instanceof ScenarioControllerNew) {
+                ((ScenarioControllerNew) controller).setAppController(this.appController);
             }
-            ///  bei weiteren Controllern: einfach ifelse und dann den nächsten Controller reinklatschen
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Fehler beim Laden der Datei: " + fxmlFile);
@@ -51,8 +52,7 @@ public class SmartHomeMainController {
     }
 
     @FXML
-    public void showScenarios() {
-        System.out.println("Szenarien-Ansicht wurde noch nicht erstellt.");
-        // loadView("ScenarioView.fxml");
+    private void showScenarios() {
+        loadView("ScenarioView.fxml");
     }
 }

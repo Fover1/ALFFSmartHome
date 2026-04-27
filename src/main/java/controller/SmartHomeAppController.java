@@ -3,12 +3,13 @@ package controller;
 import model.AbstractDevice;
 import model.PersistenceManager;
 import model.Room;
+import model.Scenario;
 import model.SmartHomeModel;
 
 import java.util.List;
 
 public class SmartHomeAppController {
-
+    /// todo: padding in der ui einheitlich (bzw. erstmal einfügen)?
     //verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
     //Methoden werden teilweise auch von der GUI abgerufen
     private final SmartHomeModel smartHomeModel;
@@ -86,5 +87,17 @@ public class SmartHomeAppController {
 
     public List<Room> getAllRooms() {
         return smartHomeModel.getRooms();
+    }
+
+    public void addSzenario(Scenario scenario) {
+        smartHomeModel.addScenario(scenario);
+    }
+
+    public List<Scenario> getAllScenarios() {
+        return smartHomeModel.getScenarios();
+    }
+
+    public void removeScenario(Scenario scenario) {
+        smartHomeModel.removeScenario(scenario);
     }
 }
