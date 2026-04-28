@@ -4,6 +4,9 @@ import java.util.List;
 
 public interface SmartDevice {
 
+    //ist dafür da, wenn man später noch weitere Geräte, die nicht von uns "hergestellt" wurden einbinden möchte
+    //z.B. philips hue, die müssen dann nur das Interface implementieren und nicht extra ein toAbstractDeviceHandler mäßig
+
     String getId();
 
     String getName();

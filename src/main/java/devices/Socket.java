@@ -30,12 +30,17 @@ public class Socket extends AbstractDevice {
             public Class<?> getParameterType() {
                 return Boolean.class;
             }
+
+            @Override
+            public Boolean getState() {
+                return isOn;
+            }
         });
     }
 
     @Override
     public String getDeviceType() {
-        return "Socket";
+        return "Steckdose";
     }
 
     @Override
