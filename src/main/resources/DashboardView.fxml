@@ -16,7 +16,7 @@
             <padding>
                 <Insets/>
             </padding>
-            <Label style="-fx-text-fill: #6c757d;" text="Aktive Geräte"/>
+            <Label style="-fx-text-fill: #ea7b2e;" text="Aktive Geräte"/>
             <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="12"/>
         </VBox>
         <VBox prefWidth="150.0" style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 5;">

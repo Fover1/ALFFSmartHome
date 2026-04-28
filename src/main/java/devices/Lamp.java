@@ -13,7 +13,6 @@ public class Lamp extends AbstractDevice {
         super(id, name, room);
     }
 
-    /// todo: kann man die codedopplung zwischen lamp und rgblamp irgendwie noch verringern?
     @Override
     protected void initializeFunctions() {
         //hier werden die Funktionen eines Gerätes angegeben (es können mehrere Funktionen angegeben)

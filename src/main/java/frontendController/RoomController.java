@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import model.AbstractDevice;
 import model.Room;
@@ -37,7 +36,7 @@ public class RoomController {
     private Button editRoom;
 
     @FXML
-    private HBox roomActions;
+    private Label deviceAnzeige;
 
     public void setAppController(SmartHomeAppController smartHomeAppController) {
         this.smartHomeAppController = smartHomeAppController;
@@ -72,7 +71,7 @@ public class RoomController {
 
         Optional<String> result = dialog.showAndWait();
 
-        /// todo: was machen wir, wenn es einen raum 2x geben soll (also identischer name)?
+        /// todo: was machen wir, wenn es einen raum 2x geben soll (also identischer name)? (raum mit dem namen darf es nur einmal geben)
         result.ifPresent(roomName -> {
             if (!roomName.trim().isEmpty()) {
                 smartHomeAppController.addRoom(roomName);
@@ -87,6 +86,7 @@ public class RoomController {
 
     @FXML
     public void showDevices(Room room) {
+        deviceAnzeige.setVisible(true);
         updateUI();
         raumAuswahl.setText("Ausgewählter Raum: " + room.getName() + "    ");
         System.out.println("Raum ausgewählt: " + room.getName());
@@ -99,8 +99,6 @@ public class RoomController {
             handleRoomNameChange(room);
             updateUI();
         });
-
-        roomActions.setSpacing(10);
 
 
         deleteRoom.setVisible(true);
@@ -118,6 +116,7 @@ public class RoomController {
 
     private void handleRoomNameChange(Room room) {
         TextInputDialog dialog = new TextInputDialog();
+        /// todo: hier noch den Namen des Raums in das Textfeld einfügen
         dialog.setTitle("Name ändern: " + room.getName());
         dialog.setHeaderText(String.format("Bitte gebe einen neuen Namen für den Raum \"%s\" ein", room.getName()));
 
@@ -135,7 +134,7 @@ public class RoomController {
 
     private void openDeviceView(AbstractDevice device) {
         try {
-            /// todo: kann man ihm sagen, dass nur ein fenster davon offen sien soll? oder müssen wir die fenster synchronisieren? --> Also das man halt nicht 2 eintsellungsfenster vom selben gerät offen hat
+            /// todo: kann man ihm sagen, dass nur ein fenster davon offen sien soll? oder müssen wir die fenster synchronisieren? --> Also das man halt nicht 2 eintsellungsfenster vom selben gerät offen hat --> am besten nur ein fesnter auf haben könen
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/deviceView.fxml"));
             Parent root = fxmlLoader.load();
 

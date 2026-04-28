@@ -4,7 +4,6 @@ public class Main {
     public static void main(String[] args) {
 
 
-        /// todo: erstellt der hier irgendwo die json neu?
 //        System.out.println("=== 1. Device Scanner (Dynamisches Suchen) ===");
 //        // Sucht im Ordner "devices" nach kompilierten Klassen (Scanner Pattern)
 //        // Passe den String "devices" an, falls dein Package anders heißt!

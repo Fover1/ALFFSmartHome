@@ -15,7 +15,7 @@ import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 ///  todo: hierfür fehlen noch tests
 
 
-///  todo: ich habe jetzt die devices aus diesem Test coverage ding rausgenommen. Kann man die vernünftig testen, vor allem wenn sie dynamisch geladen werden?
+///  todo: ich habe jetzt die devices aus diesem Test coverage ding rausgenommen.
 public abstract class AbstractDevice implements SmartDevice {
 
     //impelementiert Methoden, die alle AbstractDevices haben

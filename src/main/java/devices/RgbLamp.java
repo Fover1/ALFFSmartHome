@@ -6,6 +6,7 @@ import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
 
+///  Es wurde bewusst auf eine Vererbung von Lampe verzichtet, um die autonomie der Klasse RgbLamp von Lampe sicherzustellen
 @Getter
 public class RgbLamp extends AbstractDevice {
     //konkretes Gerät

@@ -24,7 +24,6 @@ public class Scenario implements Action {
     }
 
     public void addAction(Action action) {
-        /// todo: soll man die selbe action mehrfach hinzufügen können?
         if (!actions.contains(action)) {
             actions.add(action);
         }

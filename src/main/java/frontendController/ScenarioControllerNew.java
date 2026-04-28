@@ -15,7 +15,6 @@ import javafx.scene.layout.VBox;
 import model.Action;
 import model.DeviceAction;
 import model.Scenario;
-import model.SmartHomeModel;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -40,16 +39,8 @@ public class ScenarioControllerNew {
     @FXML
     private ListView<Action> actionListView;
 
-    private SmartHomeModel model;
     private ObservableList<Scenario> observableScenarios;
     private SmartHomeAppController smartHomeAppController;
-
-    /// todo: ist das Kunst oder kann das weg?
-    public void initModel(SmartHomeModel model) {
-        this.model = model;
-        observableScenarios = FXCollections.observableArrayList(model.getScenarios());
-        scenarioTable.setItems(observableScenarios);
-    }
 
     public void setAppController(SmartHomeAppController smartHomeAppController) {
         this.smartHomeAppController = smartHomeAppController;
@@ -100,6 +91,8 @@ public class ScenarioControllerNew {
 
     @FXML
     private void handleNewScenario() {
+
+        /// todo: wenn man einmal was hinzufügt, kommen 2 dazu
         Scenario newScenario = new Scenario("", "");
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);
@@ -132,6 +125,7 @@ public class ScenarioControllerNew {
 
     @FXML
     private void handleExecuteScenario() {
+        /// todo: hier wird noch ncihts ausgeführt
         Scenario selected = scenarioTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
             selected.execute();
@@ -142,7 +136,7 @@ public class ScenarioControllerNew {
 
     @FXML
     private void handleAddAction() {
-        /// todo: wenn man einmal was hinzufügt, kommen 2 dazu
+        /// todo: raum auswhal vor geräteauswahl
         Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
         if (selectedScenario != null) {
             ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllDevices(), null);

@@ -24,7 +24,7 @@ public class ParameterControlFactory {
         DeviceFunction function = device.getFunctions().get(functionName);
 
         if (function == null) {
-            return new TextField("funcktion: " + functionName);
+            return new TextField("funcktion: " + functionName + " nicht gefunden");
         }
 
         Class<?> paramType = function.getParameterType();

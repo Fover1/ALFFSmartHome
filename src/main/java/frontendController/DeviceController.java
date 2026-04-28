@@ -48,11 +48,6 @@ public class DeviceController {
     @FXML
     private ComboBox<Room> changeDeviceRoom;
 
-    /// todo: kann das nicht eigentlich weg?
-    @FXML
-    public void initialize() {
-    }
-
     public void setDevice(AbstractDevice device, SmartHomeAppController appController) {
         this.device = device;
         this.smartHomeAppController = appController;
@@ -101,11 +96,9 @@ public class DeviceController {
 
     private void initializeLiveListener(String functionName, Node control, Label valueLabel, DeviceFunction func, String initialValue) {
         if (control instanceof CheckBox checkBox) {
-            /// todo: was hält ihr von den Methodennamen (bin nicht ganz so überzeugt)
-            labelListener(functionName, valueLabel, checkBox);
+            checkBoxListener(functionName, valueLabel, checkBox);
 
         } else if (control instanceof Slider slider) {
-            /// todo: kann man nicht den loslassen listerner für schieben und drücken verwenden?
             sliderListener(functionName, valueLabel, func, slider);
 
         } else if (control instanceof ColorPicker colorPicker) {
@@ -133,15 +126,12 @@ public class DeviceController {
             valueLabel.setText(String.format("%.2f %s", newVal.doubleValue(), unit));
         });
 
-        slider.valueChangingProperty().addListener((obs, wasChanging, isChanging) -> {
-            if (!isChanging) executeSliderValue(functionName, slider);
-        });
         slider.setOnMouseReleased(event -> {
             executeSliderValue(functionName, slider);
         });
     }
 
-    private void labelListener(String functionName, Label valueLabel, CheckBox checkBox) {
+    private void checkBoxListener(String functionName, Label valueLabel, CheckBox checkBox) {
         valueLabel.setText(checkBox.isSelected() ? "Eingeschaltet" : "Ausgeschaltet");
         checkBox.setOnAction(e -> {
             device.executeFunction(functionName, checkBox.isSelected());
@@ -175,7 +165,7 @@ public class DeviceController {
             System.out.println("Geräte wird gelsöcht");
             smartHomeAppController.save();
         });
-        /// todo: die platzierung der buttons überzeugt mich noch nicht gnaz
+        /// todo: die platzierung der buttons überzeugt mich noch nicht gnaz / lable als erklärung hinzufügen was das kann :)
     }
 
     private void setupRoomComboBox(ObservableList<Room> rooms) {
@@ -197,10 +187,11 @@ public class DeviceController {
             Room room = changeDeviceRoom.getValue();
             if (room != null) {
                 System.out.println("dieser raum wurde ausgewähl" + room.getName());
-                /// todo: was davon braucht man wirklich?
+                /// todo: was davon braucht man wirklich? (raum und gerät sind doppelt verbunden, am ende nochmal nachschaneun)
                 device.getRoom().removeDevice(device);
                 device.setRoom(room);
                 device.changeRoom(room);
+                /// todo: device wird erst im neuen Raum angezeigt, wenn man einen anderen Raum auswählt
                 smartHomeAppController.getAllRooms().stream()
                         .filter(r -> r.getName().equals(room.getName()))
                         .findFirst()
