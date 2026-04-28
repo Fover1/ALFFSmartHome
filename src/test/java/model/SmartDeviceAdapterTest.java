@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -75,8 +76,8 @@ class SmartDeviceAdapterTest {
         }
 
         @Override
-        public String getId() {
-            return "";
+        public UUID getId() {
+            return UUID.randomUUID();
         }
 
         @Override

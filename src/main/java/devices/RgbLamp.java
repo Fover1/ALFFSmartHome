@@ -6,6 +6,8 @@ import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
 
+import java.util.UUID;
+
 ///  Es wurde bewusst auf eine Vererbung von Lampe verzichtet, um die autonomie der Klasse RgbLamp von Lampe sicherzustellen
 @Getter
 public class RgbLamp extends AbstractDevice {
@@ -14,7 +16,7 @@ public class RgbLamp extends AbstractDevice {
     private boolean isOn = false;
     private String hexColor = "#FFFFFF";
 
-    public RgbLamp(String id, String name, Room room) {
+    public RgbLamp(UUID id, String name, Room room) {
         super(id, name, room);
     }
 

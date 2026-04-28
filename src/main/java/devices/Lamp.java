@@ -4,12 +4,14 @@ import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
 
+import java.util.UUID;
+
 public class Lamp extends AbstractDevice {
     //konkretes Gerät
     private double brightness = 0;
     private boolean isOn = false;
 
-    public Lamp(String id, String name, Room room) {
+    public Lamp(UUID id, String name, Room room) {
         super(id, name, room);
     }
 

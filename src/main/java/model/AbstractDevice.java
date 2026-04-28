@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 
@@ -20,14 +21,14 @@ public abstract class AbstractDevice implements SmartDevice {
 
     //impelementiert Methoden, die alle AbstractDevices haben
 
-    private final String id;
+    private final UUID id;
     protected transient Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
     private transient Room room;
     private transient List<DeviceObserver> observers = new ArrayList<>();
 
 
-    public AbstractDevice(String id, String name, Room room) {
+    public AbstractDevice(UUID id, String name, Room room) {
         /// todo: Problem: Räume speichern ihre Geräte und Geräte speichern ihre Räume. Darüber sollten wir nochmal sprechen
         this.id = id;
         this.name = name;

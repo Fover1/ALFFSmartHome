@@ -63,24 +63,23 @@ public class SmartHomeAppController {
 
     /// todo: id vllt gegen uuid tauschen?
     // Ist ein String, damit man an der ID erkennen konnte, welche Art von Gerät es ist
-    public String generateDeviceId(String deviceType) {
-        String shortName = deviceType.length() >= 3 ? deviceType.substring(0, 3) : deviceType;
-        String prefix = shortName.toUpperCase() + "-";
-
-        int maxNumber = 0;
-        for (AbstractDevice device : smartHomeModel.getAllDevices()) {
-            if (device.getId().startsWith(prefix)) {
-                try {
-                    String numberPart = device.getId().substring(prefix.length());
-                    maxNumber = Integer.parseInt(numberPart);
-                } catch (NumberFormatException e) {
-                    // TODO: Fehlerbehandlung (wie in deinem originalen Code)
-                }
-            }
-        }
-        return prefix + String.format("%04d", maxNumber + 1);
-    }
-
+//    public String generateDeviceId(String deviceType) {
+//        String shortName = deviceType.length() >= 3 ? deviceType.substring(0, 3) : deviceType;
+//        String prefix = shortName.toUpperCase() + "-";
+//
+//        int maxNumber = 0;
+//        for (AbstractDevice device : smartHomeModel.getAllDevices()) {
+//            if (device.getId().startsWith(prefix)) {
+//                try {
+//                    String numberPart = device.getId().substring(prefix.length());
+//                    maxNumber = Integer.parseInt(numberPart);
+//                } catch (NumberFormatException e) {
+//                    // TODO: Fehlerbehandlung (wie in deinem originalen Code)
+//                }
+//            }
+//        }
+//        return prefix + String.format("%04d", maxNumber + 1);
+//    }
     public List<AbstractDevice> getAllDevices() {
         return smartHomeModel.getAllDevices();
     }

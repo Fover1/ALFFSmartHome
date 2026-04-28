@@ -4,10 +4,12 @@ import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
 
+import java.util.UUID;
+
 public class Socket extends AbstractDevice {
     private boolean isOn = false;
 
-    public Socket(String id, String name, Room room) {
+    public Socket(UUID id, String name, Room room) {
         super(id, name, room);
     }
 
