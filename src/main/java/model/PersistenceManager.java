@@ -61,7 +61,6 @@ public class PersistenceManager {
                         if (device instanceof AbstractDevice) {
                             //wird für jedes Gerät aufgerufen, das es gibt um die transient felder neu zu initialisieren
                             ((AbstractDevice) device).restoreAfterLoad();
-                            device.setRoom(room);
                         }
                     }
                 }

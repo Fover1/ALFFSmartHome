@@ -2,7 +2,6 @@ package devices;
 
 import model.AbstractDevice;
 import model.DeviceFunction;
-import model.Room;
 
 import java.util.UUID;
 
@@ -11,8 +10,8 @@ public class Lamp extends AbstractDevice {
     private double brightness = 0;
     private boolean isOn = false;
 
-    public Lamp(UUID id, String name, Room room) {
-        super(id, name, room);
+    public Lamp(UUID id, String name) {
+        super(id, name);
     }
 
     @Override

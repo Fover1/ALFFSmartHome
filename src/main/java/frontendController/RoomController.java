@@ -1,6 +1,7 @@
 package frontendController;
 
 import controller.SmartHomeAppController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,12 +13,13 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import model.AbstractDevice;
 import model.Room;
+import model.RoomObserver;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-public class RoomController {
+public class RoomController implements RoomObserver {
     private SmartHomeAppController smartHomeAppController;
 
     @FXML
@@ -38,9 +40,28 @@ public class RoomController {
     @FXML
     private Label deviceAnzeige;
 
+    private Room currentRoom;
+
     public void setAppController(SmartHomeAppController smartHomeAppController) {
         this.smartHomeAppController = smartHomeAppController;
         updateUI();
+    }
+
+    public void setRoom(Room room) {
+        if (this.currentRoom != null) {
+            this.currentRoom.removeObserver(this);
+        }
+        this.currentRoom = room;
+
+        if (this.currentRoom != null) {
+            this.currentRoom.addObserver(this);
+        }
+        updateUI();
+    }
+
+    @Override
+    public void onDeviceListChanged(Room room) {
+        Platform.runLater(this::updateUI);
     }
 
     private void updateUI() {
@@ -108,7 +129,7 @@ public class RoomController {
         for (AbstractDevice device : getDevices(room)) {
             ///todo: noch fertig bearbeiten
             Button deviceButton = new Button(device.getName() + " (" + device.getId() + ")" + System.currentTimeMillis());
-            deviceButton.setOnAction(e -> openDeviceView(device));
+            deviceButton.setOnAction(e -> openDeviceView(device, room));
 
             deviceContainer.getChildren().add(deviceButton);
         }
@@ -132,7 +153,7 @@ public class RoomController {
         smartHomeAppController.save();
     }
 
-    private void openDeviceView(AbstractDevice device) {
+    private void openDeviceView(AbstractDevice device, Room selectedRoom) {
         try {
             /// todo: kann man ihm sagen, dass nur ein fenster davon offen sien soll? oder müssen wir die fenster synchronisieren? --> Also das man halt nicht 2 eintsellungsfenster vom selben gerät offen hat --> am besten nur ein fesnter auf haben könen
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/deviceView.fxml"));
@@ -140,7 +161,7 @@ public class RoomController {
 
             DeviceController deviceController = fxmlLoader.getController();
             if (deviceController != null) {
-                deviceController.setDevice(device, smartHomeAppController);
+                deviceController.setData(device, smartHomeAppController, selectedRoom);
             }
             Stage stage = new Stage();
             stage.setTitle("Gerätedetails: " + device.getName());

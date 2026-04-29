@@ -24,15 +24,13 @@ public abstract class AbstractDevice implements SmartDevice {
     private final UUID id;
     protected transient Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
-    private transient Room room;
     private transient List<DeviceObserver> observers = new ArrayList<>();
 
 
-    public AbstractDevice(UUID id, String name, Room room) {
+    public AbstractDevice(UUID id, String name) {
         /// todo: Problem: Räume speichern ihre Geräte und Geräte speichern ihre Räume. Darüber sollten wir nochmal sprechen
         this.id = id;
         this.name = name;
-        this.room = room;
         restoreAfterLoad();
     }
 
@@ -60,10 +58,6 @@ public abstract class AbstractDevice implements SmartDevice {
         } else {
             throw new IllegalArgumentException(FUNCTION_NOT_FOUND + functionName);
         }
-    }
-
-    public void changeRoom(Room room) {
-        this.room = room;
     }
 
 

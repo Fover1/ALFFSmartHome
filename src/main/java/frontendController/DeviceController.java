@@ -26,6 +26,7 @@ import java.util.Optional;
 public class DeviceController {
     private SmartHomeAppController smartHomeAppController;
     private AbstractDevice device;
+    private Room selectedRoom;
 
     @FXML
     private GridPane deviceGrid;
@@ -48,9 +49,10 @@ public class DeviceController {
     @FXML
     private ComboBox<Room> changeDeviceRoom;
 
-    public void setDevice(AbstractDevice device, SmartHomeAppController appController) {
+    public void setData(AbstractDevice device, SmartHomeAppController appController, Room selectedRoom) {
         this.device = device;
         this.smartHomeAppController = appController;
+        this.selectedRoom = selectedRoom;
         updateUI();
     }
 
@@ -61,7 +63,7 @@ public class DeviceController {
 
         deviceName.setText("Gerät: " + device.getName());
         deviceType.setText("Gerätetype: " + device.getDeviceType());
-        roomLabel.setText("Raum: " + device.getRoom().getName());
+        roomLabel.setText("Raum: " + selectedRoom.getName());
 
         int functionCounter = 0;
         for (String functionName : device.getAvailableFunctions()) {
@@ -161,7 +163,7 @@ public class DeviceController {
         });
 
         deleteDevice.setOnAction(e -> {
-            smartHomeAppController.deleteDevice(device);
+            smartHomeAppController.deleteDevice(device, selectedRoom);
             System.out.println("Geräte wird gelsöcht");
             smartHomeAppController.save();
         });
@@ -181,16 +183,15 @@ public class DeviceController {
                 return null;
             }
         });
-        changeDeviceRoom.setPromptText(device.getRoom().getName());
+        changeDeviceRoom.setPromptText(selectedRoom.getName());
 
+        /// todo: die ui muss sich noch aktualisieren, dass das gerät im neuen raum ist (also im Room view) vllt mit nem observer?
         changeDeviceRoom.setOnAction(e -> {
             Room room = changeDeviceRoom.getValue();
             if (room != null) {
                 System.out.println("dieser raum wurde ausgewähl" + room.getName());
                 /// todo: was davon braucht man wirklich? (raum und gerät sind doppelt verbunden, am ende nochmal nachschaneun)
-                device.getRoom().removeDevice(device);
-                device.setRoom(room);
-                device.changeRoom(room);
+                smartHomeAppController.changeDeviceRoom(device, selectedRoom, room);
                 /// todo: device wird erst im neuen Raum angezeigt, wenn man einen anderen Raum auswählt
                 smartHomeAppController.getAllRooms().stream()
                         .filter(r -> r.getName().equals(room.getName()))

@@ -4,7 +4,6 @@ import javafx.scene.paint.Color;
 import lombok.Getter;
 import model.AbstractDevice;
 import model.DeviceFunction;
-import model.Room;
 
 import java.util.UUID;
 
@@ -16,8 +15,8 @@ public class RgbLamp extends AbstractDevice {
     private boolean isOn = false;
     private String hexColor = "#FFFFFF";
 
-    public RgbLamp(UUID id, String name, Room room) {
-        super(id, name, room);
+    public RgbLamp(UUID id, String name) {
+        super(id, name);
     }
 
     @Override

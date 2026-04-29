@@ -29,14 +29,17 @@ public class SmartHomeModel {
         room.addDevice(device);
     }
 
-    public void removeDevice(AbstractDevice device) {
+    public void removeDevice(AbstractDevice device, Room oldRoom) {
         /// todo: das gerät muss auch noch aus der json gelöscht werden
         /// todo: generell, wie ist das mit dem speichern in der json bei den verschiedenen aktionen
-        device.getRoom().removeDevice(device);
+        oldRoom.removeDevice(device);
     }
 
-    public void changeDeviceRoom(AbstractDevice device, Room room) {
-        device.setRoom(room);
+    public void changeDeviceRoom(AbstractDevice device, Room oldRoom, Room newRoom) {
+        removeDevice(device, oldRoom);
+
+        // 2. Gerät dem neuen Raum hinzufügen
+        newRoom.addDevice(device);
     }
 
     public void addScenario(Scenario scenario) {

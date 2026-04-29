@@ -2,7 +2,6 @@ package devices;
 
 import model.AbstractDevice;
 import model.DeviceFunction;
-import model.Room;
 
 import java.util.UUID;
 
@@ -10,8 +9,8 @@ public class Heater extends AbstractDevice {
     private double temperature = 0;
     private boolean isOn = false;
 
-    public Heater(UUID id, String name, Room room) {
-        super(id, name, room);
+    public Heater(UUID id, String name) {
+        super(id, name);
     }
 
     @Override

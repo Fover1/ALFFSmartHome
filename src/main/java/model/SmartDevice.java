@@ -14,10 +14,6 @@ public interface SmartDevice {
 
     void setName(String name);
 
-    Room getRoom();
-
-    void setRoom(Room room);
-
     String getDeviceType();
 
     String getCurrentState();

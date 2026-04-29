@@ -50,12 +50,12 @@ public class SmartHomeAppController {
         smartHomeModel.changeDeviceName(device, name);
     }
 
-    public void deleteDevice(AbstractDevice device) {
-        smartHomeModel.removeDevice(device);
+    public void deleteDevice(AbstractDevice device, Room oldRoom) {
+        smartHomeModel.removeDevice(device, oldRoom);
     }
 
-    public void changeDeviceRoom(AbstractDevice device, Room room) {
-        smartHomeModel.changeDeviceRoom(device, room);
+    public void changeDeviceRoom(AbstractDevice device, Room oldRoom, Room newRoom) {
+        smartHomeModel.changeDeviceRoom(device, oldRoom, newRoom);
     }
 
     //Geräte ID´s werden automatisch generiert
