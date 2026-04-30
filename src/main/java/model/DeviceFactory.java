@@ -12,7 +12,7 @@ public class DeviceFactory {
     private static final String PACKAGE_NAME = "devices";
 
     //hier wird reflection genutzt
-    public static AbstractDevice createDevice(String className, UUID id, String name, Room room) {
+    public static AbstractDevice createDevice(String className, UUID id, String name) {
         try {
             String fullClassName = PACKAGE_NAME + "." + className;
 
@@ -20,10 +20,10 @@ public class DeviceFactory {
             Class<?> clazz = Class.forName(fullClassName);
 
             //sucht dann nach dem Constructor, der die 3 Parameter hat
-            Constructor<?> constructor = clazz.getConstructor(UUID.class, String.class, Room.class);
+            Constructor<?> constructor = clazz.getConstructor(UUID.class, String.class);
 
             //fürht den Constructor aus und gibt das erstellte Gerät dann zurück
-            Object device = constructor.newInstance(id, name, room);
+            Object device = constructor.newInstance(id, name);
 
             /// todo: gliech mal ausprobieren ob hier auch smartdevice geht
             return (AbstractDevice) device;

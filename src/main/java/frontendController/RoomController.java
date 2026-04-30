@@ -20,26 +20,22 @@ import java.util.List;
 import java.util.Optional;
 
 public class RoomController implements RoomObserver {
-    private SmartHomeAppController smartHomeAppController;
 
+    @FXML
+    public Button addDevice;
+    private SmartHomeAppController smartHomeAppController;
     @FXML
     private FlowPane deviceContainer;
-
     @FXML
     private FlowPane roomContainer;
-
     @FXML
     private Label raumAuswahl;
-
     @FXML
     private Button deleteRoom;
-
     @FXML
     private Button editRoom;
-
     @FXML
     private Label deviceAnzeige;
-
     private Room currentRoom;
 
     public void setAppController(SmartHomeAppController smartHomeAppController) {
@@ -106,18 +102,114 @@ public class RoomController implements RoomObserver {
     }
 
     @FXML
+    public void handleAddDevice() {
+        /// todo: ich habe in nem Tutorial gesehen, dass man so fehlermeldungen ausgeben kann. Damit könnten wir ja einen Großteil unseres Fehlerhandlings machen?
+        if (currentRoom == null) {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Kein Raum ausgewählt");
+            alert.setHeaderText(null);
+            alert.setContentText("Bitte wählen Sie zuerst einen Raum aus, bevor Sie ein Gerät hinzufügen.");
+            alert.showAndWait();
+            return;
+        }
+
+
+        javafx.scene.control.Dialog<javafx.util.Pair<String, String>> dialog = new javafx.scene.control.Dialog<>();
+        dialog.setTitle("Neues Gerät");
+        dialog.setHeaderText("Neues Gerät zum Raum '" + currentRoom.getName() + "' hinzufügen");
+
+        javafx.scene.control.ButtonType addButtonType = new javafx.scene.control.ButtonType("Hinzufügen", javafx.scene.control.ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(addButtonType, javafx.scene.control.ButtonType.CANCEL);
+
+        javafx.scene.layout.GridPane grid = new javafx.scene.layout.GridPane();
+        /// todo: hier ist ein weiteres beispiel, wie man padding einbauen kann
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new javafx.geometry.Insets(20, 150, 10, 10));
+
+        /// todo: mit setPromptText text vorher in Textfelder schreiben
+        javafx.scene.control.TextField nameField = new javafx.scene.control.TextField();
+        nameField.setPromptText("Gerätename eingeben");
+
+        javafx.scene.control.ComboBox<String> typeComboBox = new javafx.scene.control.ComboBox<>();
+
+        /// todo: getAllDeviceTypes über den controller?
+        List<String> deviceTypes = model.DeviceScanner.getAllDeviceTypes("devices");
+        typeComboBox.getItems().addAll(deviceTypes);
+
+
+        grid.add(new javafx.scene.control.Label("Name:"), 0, 0);
+        grid.add(nameField, 1, 0);
+        grid.add(new javafx.scene.control.Label("Typ:"), 0, 1);
+        grid.add(typeComboBox, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        //hiermit kann man den Fokus direkt auf das Namenfeld setzten, damit man da direkt reinschreiben kann
+        Platform.runLater(nameField::requestFocus);
+
+        // Definiert, was zurückgegeben wird, wenn man auf "Hinzufügen" klickt
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == addButtonType) {
+                return new javafx.util.Pair<>(nameField.getText(), typeComboBox.getValue());
+            }
+            return null;
+        });
+
+        // Dialog anzeigen und auf Ergebnis warten
+        Optional<javafx.util.Pair<String, String>> result = dialog.showAndWait();
+
+        // Ergebnis verarbeiten
+        result.ifPresent(nameTypePair -> {
+            String deviceName = nameTypePair.getKey();
+            String deviceType = nameTypePair.getValue();
+
+            if (deviceName != null && !deviceName.trim().isEmpty() && deviceType != null) {
+                try {
+                    // ID generieren (Da ihr auf UUID umstellen wollt / UUID in DeviceFactory verwendet wird)
+                    java.util.UUID newId = java.util.UUID.randomUUID();
+
+                    // Neues Gerät über die DeviceFactory erstellen
+                    AbstractDevice newDevice = model.DeviceFactory.createDevice(deviceType, newId, deviceName);
+
+                    // Gerät dem aktuellen Raum hinzufügen (notifyObservers wird in addDevice getriggert)
+                    currentRoom.addDevice(newDevice);
+
+                    // Speichern
+                    smartHomeAppController.save();
+
+                    // Ansicht aktualisieren
+                    showDevices(currentRoom);
+
+                    System.out.println("Neues Gerät angelegt: " + deviceName + " (Typ: " + deviceType + ")");
+                } catch (Exception e) {
+                    // Fehlerbehandlung, falls Factory fehlschlägt
+                    javafx.scene.control.Alert errorAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+                    errorAlert.setTitle("Fehler");
+                    errorAlert.setHeaderText("Gerät konnte nicht erstellt werden");
+                    errorAlert.setContentText(e.getMessage());
+                    errorAlert.showAndWait();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @FXML
     public void showDevices(Room room) {
+        this.currentRoom = room;
         deviceAnzeige.setVisible(true);
+        addDevice.setVisible(true);
         updateUI();
-        raumAuswahl.setText("Ausgewählter Raum: " + room.getName() + "    ");
-        System.out.println("Raum ausgewählt: " + room.getName());
+        raumAuswahl.setText("Ausgewählter Raum: " + currentRoom.getName() + "    ");
+        System.out.println("Raum ausgewählt: " + currentRoom.getName());
 
         deleteRoom.setOnAction(e -> {
-            smartHomeAppController.deleteRoom(room);
+            smartHomeAppController.deleteRoom(currentRoom);
             updateUI();
         });
         editRoom.setOnAction(e -> {
-            handleRoomNameChange(room);
+            handleRoomNameChange(currentRoom);
             updateUI();
         });
 

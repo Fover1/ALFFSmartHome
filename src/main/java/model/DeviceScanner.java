@@ -26,7 +26,7 @@ public class DeviceScanner {
                 String[] files = directory.list();
                 if (files != null) {
                     for (String file : files) {
-                        if (file.endsWith(".class")) {
+                        if (file.endsWith(".class") && !file.contains("$")) {
                             String className = file.substring(0, file.length() - 6);
                             deviceTypes.add(className);
                         }

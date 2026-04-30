@@ -83,7 +83,7 @@ public class SmartHomeAppController {
     public List<AbstractDevice> getAllDevices() {
         return smartHomeModel.getAllDevices();
     }
-
+    
     public List<Room> getAllRooms() {
         return smartHomeModel.getRooms();
     }
