@@ -113,13 +113,19 @@ public class ScenarioControllerNew {
     private void handleSaveScenarioDetails() {
         Scenario selected = scenarioTable.getSelectionModel().getSelectedItem();
         System.out.println("handleSaveScenarioDetails");
-        if (selected != null) {
+        if (selected == null) {
+            System.out.println("selected == null");
             selected.setName(txtName.getText());
             selected.setDescription(txtDescription.getText());
             System.out.println("in handleScenarioDetail " + selected.getName());
             smartHomeAppController.addSzenario(selected);
             smartHomeAppController.save();
             scenarioTable.refresh();
+        } else {
+            System.out.println("selected != null --> es sollte kein neues Szeanrio angelegt werden");
+            selected.setName(txtName.getText());
+            selected.setDescription(txtDescription.getText());
+            smartHomeAppController.save();
         }
     }
 
@@ -139,7 +145,7 @@ public class ScenarioControllerNew {
         /// todo: raum auswhal vor geräteauswahl
         Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
         if (selectedScenario != null) {
-            ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllDevices(), null);
+            ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllRooms(), smartHomeAppController.getAllDevices(), null);
             Optional<DeviceAction> result = dialog.showAndWait();
 
             result.ifPresent(action -> {
@@ -158,7 +164,7 @@ public class ScenarioControllerNew {
 
         if (selectedScenario != null && selectedAction instanceof DeviceAction deviceAction) {
             System.out.println(deviceAction.functionName() + deviceAction.getDescription() + deviceAction.targetDevice().getName());
-            ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllDevices(), deviceAction);
+            ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllRooms(), smartHomeAppController.getAllDevices(), deviceAction);
             Optional<DeviceAction> result = dialog.showAndWait();
 
             result.ifPresent(newAction -> {
@@ -175,6 +181,7 @@ public class ScenarioControllerNew {
         Action selectedAction = actionListView.getSelectionModel().getSelectedItem();
         if (selectedScenario != null && selectedAction != null) {
             selectedScenario.removeAction(selectedAction);
+            smartHomeAppController.save();
             updateActionList(selectedScenario);
             scenarioTable.refresh();
         }
@@ -187,6 +194,7 @@ public class ScenarioControllerNew {
 
         if (scenario != null && selectedIndex > 0) {
             Collections.swap(scenario.getActions(), selectedIndex, selectedIndex - 1);
+            smartHomeAppController.save();
             updateActionList(scenario);
             actionListView.getSelectionModel().select(selectedIndex - 1);
         }
