@@ -26,6 +26,7 @@ public class DeviceScanner {
                 String[] files = directory.list();
                 if (files != null) {
                     for (String file : files) {
+                        // Für jeden Eventlistener erstellt Java eine weitere .class Datei (mit $). Um die "richtige" Klasse zu finden, braucht man diese weitere Unterschiedung
                         if (file.endsWith(".class") && !file.contains("$")) {
                             String className = file.substring(0, file.length() - 6);
                             deviceTypes.add(className);
