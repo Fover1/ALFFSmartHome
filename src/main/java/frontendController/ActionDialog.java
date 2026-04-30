@@ -12,6 +12,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
 import model.AbstractDevice;
 import model.DeviceAction;
+import model.Room;
 import model.SmartDevice;
 
 import java.util.List;
@@ -19,11 +20,12 @@ import java.util.List;
 public class ActionDialog extends Dialog<DeviceAction> {
 
     private final ComboBox<AbstractDevice> deviceComboBox;
+    private final ComboBox<Room> roomComboBox;
     private final ComboBox<String> functionComboBox;
     private final GridPane grid;
     private Node dynamicParameterControl;
 
-    public ActionDialog(List<AbstractDevice> availableDevices, DeviceAction existingAction) {
+    public ActionDialog(List<Room> availableRooms, List<AbstractDevice> availableDevices, DeviceAction existingAction) {
         setTitle(existingAction == null ? "Aktion hinzufügen" : "Aktion bearbeiten");
         setHeaderText("Bitte wähle das Gerät und die gewünschte Aktion aus.");
 
@@ -40,7 +42,17 @@ public class ActionDialog extends Dialog<DeviceAction> {
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
+        roomComboBox = new ComboBox<>(FXCollections.observableArrayList(availableRooms));
         deviceComboBox = new ComboBox<>(FXCollections.observableArrayList(availableDevices));
+        roomComboBox.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Room item, boolean empty) {
+                super.updateItem(item, empty);
+                setText((empty || item == null) ? null : item.getName() + " (" + item.getName() + ")");
+            }
+        });
+        roomComboBox.setButtonCell(roomComboBox.getCellFactory().call(null));
+
         deviceComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(AbstractDevice item, boolean empty) {
@@ -52,13 +64,26 @@ public class ActionDialog extends Dialog<DeviceAction> {
 
         functionComboBox = new ComboBox<>();
 
-        grid.add(new Label("Gerät:"), 0, 0);
-        grid.add(deviceComboBox, 1, 0);
-        grid.add(new Label("Funktion:"), 0, 1);
-        grid.add(functionComboBox, 1, 1);
-        grid.add(new Label("Wert (Parameter):"), 0, 2);
+        grid.add(new Label("Raum:"), 0, 0);
+        grid.add(roomComboBox, 1, 0);
+        grid.add(new Label("Gerät:"), 0, 1);
+        grid.add(deviceComboBox, 1, 1);
+        grid.add(new Label("Funktion:"), 0, 2);
+        grid.add(functionComboBox, 1, 2);
+        grid.add(new Label("Wert (Parameter):"), 0, 3);
 
         getDialogPane().setContent(grid);
+
+        roomComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                deviceComboBox.setItems(FXCollections.observableArrayList(newVal.getAbstractDevices()));
+                if (!newVal.getAbstractDevices().isEmpty()) {
+                    functionComboBox.getSelectionModel().selectFirst();
+                }
+            } else {
+                functionComboBox.getItems().clear();
+            }
+        });
 
         deviceComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
@@ -115,7 +140,7 @@ public class ActionDialog extends Dialog<DeviceAction> {
         dynamicParameterControl = ParameterControlFactory.createControl(device, functionName, initialValue);
 
         if (dynamicParameterControl != null) {
-            grid.add(dynamicParameterControl, 1, 2);
+            grid.add(dynamicParameterControl, 1, 3);
             // Von Stackoverflow, um die Fenstergröße an die neu erstellte Parametereingabe anzupassne
             if (getDialogPane().getScene() != null && getDialogPane().getScene().getWindow() != null) {
                 getDialogPane().getScene().getWindow().sizeToScene();
