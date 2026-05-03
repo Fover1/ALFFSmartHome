@@ -48,7 +48,7 @@ public class ActionDialog extends Dialog<DeviceAction> {
             @Override
             protected void updateItem(Room item, boolean empty) {
                 super.updateItem(item, empty);
-                setText((empty || item == null) ? null : item.getName() + " (" + item.getName() + ")");
+                setText((empty || item == null) ? null : item.getName());
             }
         });
         roomComboBox.setButtonCell(roomComboBox.getCellFactory().call(null));
@@ -104,15 +104,19 @@ public class ActionDialog extends Dialog<DeviceAction> {
         });
 
         if (existingAction != null) {
-            // HIER IST DER FIX: Wir nehmen nicht das deserialisierte Gerät aus der Aktion,
-            // sondern suchen das "echte, gesunde" Gerät aus unserer Liste anhand der ID.
             AbstractDevice actionDevice = (AbstractDevice) existingAction.targetDevice();
             AbstractDevice realDevice = availableDevices.stream()
                     .filter(d -> d.getId().equals(actionDevice.getId()))
                     .findFirst()
-                    .orElse(actionDevice); // Fallback
+                    .orElse(actionDevice);
 
-            // Jetzt das echte Gerät und die Funktion im Dropdown auswählen
+            Room realRoom = availableRooms.stream()
+                    .filter(room -> room.getAbstractDevices().stream()
+                            .anyMatch(device -> device.getId().equals(actionDevice.getId())))
+                    .findFirst()
+                    .orElse(null);
+
+            roomComboBox.getSelectionModel().select(realRoom);
             deviceComboBox.getSelectionModel().select(realDevice);
             functionComboBox.getSelectionModel().select(existingAction.functionName());
         }
@@ -147,4 +151,6 @@ public class ActionDialog extends Dialog<DeviceAction> {
             }
         }
     }
+
+ 
 }

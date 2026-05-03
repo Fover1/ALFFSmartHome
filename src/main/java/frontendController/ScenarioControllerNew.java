@@ -211,4 +211,9 @@ public class ScenarioControllerNew {
             actionListView.getSelectionModel().select(selectedIndex + 1);
         }
     }
+
+    @FXML
+    public void handleAddScenario() {
+
+    }
 }
