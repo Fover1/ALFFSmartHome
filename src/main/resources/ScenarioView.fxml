@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.4" prefHeight="600.0" prefWidth="700.0"
+           xmlns="http://javafx.com/javafx/25" fx:controller="frontendController.ScenarioControllerNew">
+    <items>
+        <VBox spacing="10.0">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+            <HBox spacing="10.0">
+                <!--               todo: Buttontext überall: neu oder +? -->
+                <Button onAction="#handleNewScenario" text="Neu"/>
+                <Button onAction="#handleDeleteScenario" text="Löschen"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button onAction="#handleExecuteScenario" style="-fx-background-color: #2c3e50; -fx-text-fill: white;"
+                        text="Ausführen"/>
+            </HBox>
+            <TableView fx:id="scenarioTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colName" prefWidth="120" text="Name"/>
+                    <TableColumn fx:id="colDesc" prefWidth="120" text="Beschreibung"/>
+                    <TableColumn fx:id="colActionCount" prefWidth="80" text="Aktionen"/>
+                </columns>
+            </TableView>
+        </VBox>
+
+        <VBox fx:id="detailArea" disable="true" spacing="10.0">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10"/>
+            </padding>
+            <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Szenario Details"/>
+
+            <GridPane hgap="10" vgap="10">
+                <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0"/>
+
+                <Label text="Beschreibung:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <TextField fx:id="txtDescription" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="1"/>
+                <columnConstraints>
+                    <ColumnConstraints/>
+                    <ColumnConstraints/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
+            </GridPane>
+
+            <HBox spacing="10">
+                <!--                todo: bei jedem speichern wird das szenario dubliziert & man kann keine beschreibung speichern-->
+                <Button onAction="#handleSaveScenarioDetails" text="Speichern"/>
+            </HBox>
+
+            <Separator/>
+
+            <Label style="-fx-font-weight: bold;" text="Aktionen"/>
+            <ListView fx:id="actionListView" VBox.vgrow="ALWAYS"/>
+
+            <HBox spacing="10.0">
+                <Button onAction="#handleAddAction" text="+"/>
+                <Button onAction="#handleEditAction" text="Bearbeiten"/>
+                <Button onAction="#handleDeleteAction" text="-"/>
+                <Button mnemonicParsing="false" text="Szenario hinzufügen" onAction="handleAddScenario"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button onAction="#handleMoveActionUp" text="↑"/>
+                <Button onAction="#handleMoveActionDown" text="↓"/>
+            </HBox>
+        </VBox>
+    </items>
+</SplitPane>
