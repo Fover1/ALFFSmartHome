@@ -87,14 +87,14 @@ public class ParameterControlFactory {
     }
 
 
-    public static String getValueFromControl(Node control) {
+    public static Object getValueFromControl(Node control) {
         if (control instanceof Slider slider) {
-            return String.format("%.1f", slider.getValue());
+            return slider.getValue();
         } else if (control instanceof ColorPicker picker) {
             System.out.println("ColorPicker value: " + picker.getValue().toString());
-            return "#" + picker.getValue().toString().substring(2, 8).toUpperCase();
+            return picker.getValue();
         } else if (control instanceof ComboBox<?> combo) {
-            return combo.getValue() != null ? combo.getValue().toString() : "";
+            return combo.getValue();
         }
         return "";
     }

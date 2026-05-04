@@ -51,6 +51,9 @@ public abstract class AbstractDevice implements SmartDevice {
 
     @Override
     public void executeFunction(String functionName, Object parameter) {
+//        System.out.println("das sind die functions: " + getFunctions());
+        /// todo: kann man das vllt schöner machen (ohne das restoreAfterLoad)
+        restoreAfterLoad();
         DeviceFunction function = functions.get(functionName);
         if (function != null) {
             function.execute(parameter);

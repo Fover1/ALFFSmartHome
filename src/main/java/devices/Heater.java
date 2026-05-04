@@ -44,9 +44,9 @@ public class Heater extends AbstractDevice {
         this.functions.put("Temperatur", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
+                System.out.println(parameter.getClass().getSimpleName());
                 if (parameter instanceof Double) {
                     temperature = (Double) parameter;
-                    isOn = temperature > 0;
                 }
             }
 

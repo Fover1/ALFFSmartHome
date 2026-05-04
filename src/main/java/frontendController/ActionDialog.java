@@ -126,10 +126,10 @@ public class ActionDialog extends Dialog<DeviceAction> {
                 SmartDevice selectedDevice = deviceComboBox.getValue();
                 String selectedFunction = functionComboBox.getValue();
 
-                String parameterStr = ParameterControlFactory.getValueFromControl(dynamicParameterControl);
+                Object parameter = ParameterControlFactory.getValueFromControl(dynamicParameterControl);
 
                 if (selectedDevice != null && selectedFunction != null) {
-                    return new DeviceAction(selectedDevice, selectedFunction, parameterStr);
+                    return new DeviceAction(selectedDevice, selectedFunction, parameter);
                 }
             }
             return null;
@@ -152,5 +152,5 @@ public class ActionDialog extends Dialog<DeviceAction> {
         }
     }
 
- 
+
 }

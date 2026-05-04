@@ -160,6 +160,8 @@ public class ScenarioControllerNew {
         /// todo: hier wird noch ncihts ausgeführt
         Scenario selected = scenarioTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            System.out.println("Szenario " + selected.getName() + " wird jetzt ausgeführt.");
+            System.out.println("SimpleName: " + selected.getActions().getFirst().getClass().getSimpleName());
             selected.execute();
             System.out.println("Szenario " + selected.getName() + " wurde ausgeführt.");
         }
@@ -168,13 +170,13 @@ public class ScenarioControllerNew {
 
     @FXML
     private void handleAddAction() {
-        /// todo: raum auswhal vor geräteauswahl
         Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
         if (selectedScenario != null) {
             ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllRooms(), smartHomeAppController.getAllDevices(), null);
             Optional<DeviceAction> result = dialog.showAndWait();
 
             result.ifPresent(action -> {
+                System.out.println(action.parameter().getClass().getSimpleName());
                 selectedScenario.addAction(action);
                 updateActionList(selectedScenario);
                 scenarioTable.refresh();
