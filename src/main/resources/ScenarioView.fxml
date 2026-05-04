@@ -76,7 +76,7 @@
                 <Button onAction="#handleAddAction" text="+"/>
                 <Button onAction="#handleEditAction" text="Bearbeiten"/>
                 <Button onAction="#handleDeleteAction" text="-"/>
-                <Button mnemonicParsing="false" text="Szenario hinzufügen" onAction="handleAddScenario"/>
+                <Button onAction="#handleAddExistingScenario" text="Szenario hinzufügen"/>
                 <Pane HBox.hgrow="ALWAYS"/>
                 <Button onAction="#handleMoveActionUp" text="↑"/>
                 <Button onAction="#handleMoveActionDown" text="↓"/>

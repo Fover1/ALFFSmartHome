@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
@@ -15,8 +16,10 @@ import javafx.scene.layout.VBox;
 import model.Action;
 import model.DeviceAction;
 import model.Scenario;
+import model.ScenarioAction;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class ScenarioControllerNew {
@@ -103,9 +106,32 @@ public class ScenarioControllerNew {
     private void handleDeleteScenario() {
         Scenario selected = scenarioTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
+            java.util.UUID idToDelete = selected.getId();
+
+            for (Scenario scenario : observableScenarios) {
+                System.out.println("Das Scenario: " + scenario.getName() + " mit : " + scenario.getId());
+            }
+
+
+            for (Scenario scenario : smartHomeAppController.getAllScenarios()) {
+                System.out.println("Das Scenario: " + scenario.getName() + " mit : " + scenario.getId());
+            }
+
+            for (Scenario scenario : observableScenarios) {
+                System.out.println("aktuelles Scenario: " + scenario.getName() + " | " + scenario.getId());
+                scenario.getActions().removeIf(action -> {
+                    if (action instanceof Scenario) {
+                        System.out.println("ist das gleich? :" + ((Scenario) action).getId().equals(idToDelete));
+                        return (((Scenario) action).getId().equals(idToDelete));
+                    }
+                    System.out.println("das ist es nicht" + scenario.getName());
+                    return false;
+                });
+            }
             smartHomeAppController.removeScenario(selected);
             observableScenarios.remove(selected);
             smartHomeAppController.save();
+
         }
     }
 
@@ -213,7 +239,64 @@ public class ScenarioControllerNew {
     }
 
     @FXML
-    public void handleAddScenario() {
+    public void handleAddExistingScenario() {
 
+        /// todo: vllt alle Alerts in eine Alertbuilder klasse auslagern oder so?
+        Scenario currentScenario = scenarioTable.getSelectionModel().getSelectedItem();
+        if (currentScenario == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Scenario nicht gefFunden");
+            alert.setContentText("Bitte wählen Sie ein Szenario aus");
+            alert.showAndWait();
+            return;
+        }
+
+        List<Scenario> test = smartHomeAppController.getAllScenarios();
+
+        for (Scenario scenario : test) {
+            System.out.println("Name: " + scenario.getName() + "ID: " + scenario.getId());
+        }
+
+        List<Scenario> availableScenarios = smartHomeAppController.getAllScenarios().stream()
+                .filter(scenario -> !scenario.getId().equals(currentScenario.getId()))
+                .toList();
+
+        if (availableScenarios.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Keine Szenarien");
+            alert.setHeaderText(null);
+            alert.setContentText("Es gibt keine anderen Szenarien zum Einfügen.");
+            alert.showAndWait();
+        }
+
+        List<String> availableScenarioNames = availableScenarios.stream()
+                .map(Scenario::getName)
+                .toList();
+
+        javafx.scene.control.ChoiceDialog<String> dialog = new javafx.scene.control.ChoiceDialog<>(availableScenarioNames.getFirst(), availableScenarioNames);
+        dialog.setTitle("Szenario einfügen");
+        dialog.setHeaderText("Wählen Sie ein Szenario aus");
+        dialog.setContentText("Szenario:");
+
+        java.util.Optional<String> result = dialog.showAndWait();
+
+        System.out.println("result: " + result);
+        result.ifPresent(selectedName -> {
+            Scenario selectedScenario = availableScenarios.stream()
+                    .filter(scenario -> scenario.getName().equals(selectedName))
+                    .findFirst()
+                    .orElse(null);
+
+            if (selectedScenario != null) {
+                ScenarioAction scenarioAction = new ScenarioAction(selectedScenario.getId());
+//                System.out.println("im Coontrolle: Name:" + scenarioAction.getTargetScenario().getName() + "ID:" + scenarioAction.getTargetScenario().getId());
+                currentScenario.addAction(selectedScenario);
+//                updateActionList(scenarioAction);
+                scenarioTable.refresh();
+                smartHomeAppController.save();
+
+                System.out.println("Szenario eingefügt! Gespeicherte ID: " + selectedScenario.getId());
+            }
+        });
     }
 }
