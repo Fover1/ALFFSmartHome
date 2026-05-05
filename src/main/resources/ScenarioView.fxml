@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.4" prefHeight="600.0" prefWidth="700.0"
-           xmlns="http://javafx.com/javafx/25" fx:controller="frontendController.ScenarioControllerNew">
+           xmlns="http://javafx.com/javafx/25" fx:controller="frontendController.ScenarioController">
     <items>
         <VBox spacing="10.0">
             <padding>

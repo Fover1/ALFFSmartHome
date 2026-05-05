@@ -19,7 +19,7 @@ public class DeviceFactory {
             //sucht die "Bauanleitung" des zu erstellenen Gerätes
             Class<?> clazz = Class.forName(fullClassName);
 
-            //sucht dann nach dem Constructor, der die 3 Parameter hat
+            //sucht dann nach dem Constructor, der die 2 Parameter hat
             Constructor<?> constructor = clazz.getConstructor(UUID.class, String.class);
 
             //fürht den Constructor aus und gibt das erstellte Gerät dann zurück

@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class ScenarioControllerNew {
+public class ScenarioController {
 
     @FXML
     private TableView<Scenario> scenarioTable;

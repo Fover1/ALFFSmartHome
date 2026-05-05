@@ -61,4 +61,16 @@ public class SmartHomeModel {
     public void changeDeviceName(AbstractDevice device, String name) {
         device.setName(name);
     }
+
+//    public AbstractDevice findRealDeviceById(String targetId) {
+//        for (Room room : rooms) {
+//            for (AbstractDevice device : room.getAbstractDevices()) {
+//                if (device.getId().equals(UUID.fromString(targetId))) {
+//                    return device;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
 }

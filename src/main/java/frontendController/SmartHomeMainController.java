@@ -32,8 +32,8 @@ public class SmartHomeMainController {
             // Wenn es der RoomController ist, geben wir ihm den AppController (bei deviceView kann der RoomController den appController weitergeben)
             if (controller instanceof RoomController) {
                 ((RoomController) controller).setAppController(this.appController);
-            } else if (controller instanceof ScenarioControllerNew) {
-                ((ScenarioControllerNew) controller).setAppController(this.appController);
+            } else if (controller instanceof ScenarioController) {
+                ((ScenarioController) controller).setAppController(this.appController);
             }
         } catch (IOException e) {
             e.printStackTrace();

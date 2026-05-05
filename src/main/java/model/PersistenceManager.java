@@ -1,4 +1,4 @@
-package model; // oder package model;
+package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -65,6 +65,10 @@ public class PersistenceManager {
                     }
                 }
             }
+
+            if (data != null) {
+                linkScenariosToRealDevices(data);
+            }
             System.out.println("Konfiguration erfolgreich geladen.");
             return data;
 
@@ -75,6 +79,46 @@ public class PersistenceManager {
     }
 
     //DTO (Data Transfer Objekt)
+
+    private static AbstractDevice findRealDeviceById(List<Room> rooms, String targetId) {
+        for (Room room : rooms) {
+            for (SmartDevice device : room.getAbstractDevices()) {
+                if (device instanceof AbstractDevice) {
+                    if (String.valueOf(device.getId()).equals(targetId)) {
+                        return (AbstractDevice) device;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public static void linkScenariosToRealDevices(SmartHomeData smartHomeData) {
+        if (smartHomeData.scenarios == null) {
+            return;
+        }
+        for (Scenario scenario : smartHomeData.scenarios) {
+            List<Action> actions = scenario.getActions();
+            for (int i = 0; i < actions.size(); i++) {
+                Action action = actions.get(i);
+                if (action instanceof DeviceAction) {
+                    String cloneId = String.valueOf(((DeviceAction) action).targetDevice().getId());
+                    AbstractDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
+
+                    if (realDevice != null) {
+                        DeviceAction newDeviceAction = new DeviceAction(
+                                realDevice,
+                                ((DeviceAction) action).functionName(),
+                                ((DeviceAction) action).parameter()
+                        );
+                        actions.set(i, newDeviceAction);
+                    } else {
+                        System.out.println("Achtung: Gerät für Szenario nicht gefunden!");
+                    }
+                }
+            }
+        }
+    }
 
     public static class SmartHomeData {
         public List<Room> rooms;

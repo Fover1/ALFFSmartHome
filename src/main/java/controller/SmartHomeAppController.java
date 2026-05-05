@@ -83,7 +83,7 @@ public class SmartHomeAppController {
     public List<AbstractDevice> getAllDevices() {
         return smartHomeModel.getAllDevices();
     }
-    
+
     public List<Room> getAllRooms() {
         return smartHomeModel.getRooms();
     }
@@ -99,4 +99,8 @@ public class SmartHomeAppController {
     public void removeScenario(Scenario scenario) {
         smartHomeModel.removeScenario(scenario);
     }
+
+//    public AbstractDevice getDeviceById(String id) {
+//        return smartHomeModel.findRealDeviceById(id);
+//    }
 }

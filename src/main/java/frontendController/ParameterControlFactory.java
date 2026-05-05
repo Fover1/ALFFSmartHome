@@ -92,9 +92,15 @@ public class ParameterControlFactory {
             return slider.getValue();
         } else if (control instanceof ColorPicker picker) {
             System.out.println("ColorPicker value: " + picker.getValue().toString());
-            return picker.getValue();
+            Color c = picker.getValue();
+            return String.format("#%02X%02X%02X",
+                    (int) (c.getRed() * 255),
+                    (int) (c.getGreen() * 255),
+                    (int) (c.getBlue() * 255));
         } else if (control instanceof ComboBox<?> combo) {
             return combo.getValue();
+        } else if (control instanceof CheckBox check) {
+            return check.isSelected();
         }
         return "";
     }
