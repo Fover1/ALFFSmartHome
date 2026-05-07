@@ -42,8 +42,9 @@ public class PersistenceManager {
         }
     }
 
-    public static SmartHomeData load() {
-        File file = new File(FILE_NAME);
+    public static SmartHomeData load(String FileName) {
+        /// todo: was wollen wir laden, wenn das programm gestartet wird?
+        File file = new File(FileName);
         if (!file.exists()) {
             return null;
         }
