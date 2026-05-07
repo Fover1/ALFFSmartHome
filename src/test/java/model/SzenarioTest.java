@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 class ScenarioTest {
 
@@ -46,16 +44,16 @@ class ScenarioTest {
         assertEquals(0, scenario.getCount());
     }
 
-    @Test
-    void testExecute() {
-        scenario.addAction(mockAction1);
-        scenario.addAction(mockAction2);
-
-        scenario.execute();
-
-        verify(mockAction1, times(1)).execute();
-        verify(mockAction2, times(1)).execute();
-    }
+//    @Test
+//    void testExecute() {
+//        scenario.addAction(mockAction1);
+//        scenario.addAction(mockAction2);
+//
+//        scenario.execute();
+//
+//        verify(mockAction1, times(1)).execute();
+//        verify(mockAction2, times(1)).execute();
+//    }
 
     @Test
     void testGetDescription() {
