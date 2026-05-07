@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class SmartHomeModel {
+
     //zentraler Speicher--> alles was im Haus verfügbar ist, kann hier aufgerufen werden
     private List<Room> rooms = new ArrayList<>();
     private List<Scenario> scenarios = new ArrayList<>();
@@ -61,16 +62,5 @@ public class SmartHomeModel {
     public void changeDeviceName(AbstractDevice device, String name) {
         device.setName(name);
     }
-
-//    public AbstractDevice findRealDeviceById(String targetId) {
-//        for (Room room : rooms) {
-//            for (AbstractDevice device : room.getAbstractDevices()) {
-//                if (device.getId().equals(UUID.fromString(targetId))) {
-//                    return device;
-//                }
-//            }
-//        }
-//        return null;
-//    }
 
 }
