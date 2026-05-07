@@ -1,18 +1,27 @@
 package controller;
 
 import model.AbstractDevice;
+import model.Action;
+import model.DeviceAction;
+import model.LogEntry;
+import model.LogListener;
 import model.PersistenceManager;
 import model.Room;
 import model.Scenario;
 import model.SmartHomeModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SmartHomeAppController {
+
+    /// todo: die anderen Listen auf final machen?
+    public final List<LogListener> loglisteners = new ArrayList<>();
     /// todo: padding in der ui einheitlich (bzw. erstmal einfügen)?
     //verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
     //Methoden werden teilweise auch von der GUI abgerufen
     private final SmartHomeModel smartHomeModel;
+    private String currentConfigFile;
 
     public SmartHomeAppController() {
         this.smartHomeModel = new SmartHomeModel();
@@ -21,7 +30,8 @@ public class SmartHomeAppController {
 
     //lädt die Daten aus der JSON in den nur für die Session verfügbaren smartHomeModelSpeicher
     private void loadInitialData() {
-        PersistenceManager.SmartHomeData data = PersistenceManager.load();
+        ///todo: hier wird jetzt standardmäßig diese datei beim ersten öffnen geladen, wie wollen wir das machen?
+        PersistenceManager.SmartHomeData data = PersistenceManager.load("smarthome_config.json");
         if (data != null) {
             if (data.rooms != null) smartHomeModel.setRooms(data.rooms);
             if (data.scenarios != null) smartHomeModel.setScenarios(data.scenarios);
@@ -100,7 +110,51 @@ public class SmartHomeAppController {
         smartHomeModel.removeScenario(scenario);
     }
 
-//    public AbstractDevice getDeviceById(String id) {
+    //    public AbstractDevice getDeviceById(String id) {
 //        return smartHomeModel.findRealDeviceById(id);
 //    }
+
+    /// todo: muss das noch in das model?
+    public void executeScenario(Scenario scenario) {
+        scenario.execute();
+        for (Action action : scenario.getActions()) {
+
+
+            if (action instanceof DeviceAction) {
+                LogEntry entry = new LogEntry(
+                        scenario.getName(),
+                        ((DeviceAction) action).targetDevice().getName(),
+                        action.getDescription(),
+                        ((DeviceAction) action).parameter().toString()
+                );
+                notifyLogListeners(entry);
+            }
+
+        }
+    }
+
+    public void addLogListener(LogListener logListener) {
+        loglisteners.add(logListener);
+    }
+
+    public void notifyLogListeners(LogEntry logEntry) {
+        for (LogListener logListener : loglisteners) {
+            logListener.onLogEntryCreated(logEntry);
+        }
+    }
+
+    public void loadConfiguration(String file) {
+        this.currentConfigFile = file;
+
+        PersistenceManager.SmartHomeData data = PersistenceManager.load(currentConfigFile);
+        if (data != null) {
+            if (data.rooms != null) {
+                smartHomeModel.setRooms(data.rooms);
+            }
+            if (data.scenarios != null) {
+                smartHomeModel.setScenarios(data.scenarios);
+            }
+        }
+
+    }
 }

@@ -32,7 +32,6 @@ public class ScenarioController {
     private TableColumn<Scenario, String> colDesc;
     @FXML
     private TableColumn<Scenario, Number> colActionCount;
-
     @FXML
     private VBox detailArea;
     @FXML
@@ -41,7 +40,6 @@ public class ScenarioController {
     private TextField txtDescription;
     @FXML
     private ListView<Action> actionListView;
-
     private ObservableList<Scenario> observableScenarios;
     private SmartHomeAppController smartHomeAppController;
 
@@ -157,14 +155,7 @@ public class ScenarioController {
 
     @FXML
     private void handleExecuteScenario() {
-        /// todo: hier wird noch ncihts ausgeführt
-        Scenario selected = scenarioTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            System.out.println("Szenario " + selected.getName() + " wird jetzt ausgeführt.");
-            System.out.println("SimpleName: " + selected.getActions().getFirst().getClass().getSimpleName());
-            selected.execute();
-            System.out.println("Szenario " + selected.getName() + " wurde ausgeführt.");
-        }
+        smartHomeAppController.executeScenario(scenarioTable.getSelectionModel().getSelectedItem());
     }
 
 
@@ -301,4 +292,6 @@ public class ScenarioController {
             }
         });
     }
+
+
 }
