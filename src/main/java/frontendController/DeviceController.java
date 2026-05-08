@@ -15,9 +15,9 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
-import model.AbstractDevice;
 import model.DeviceFunction;
 import model.Room;
+import model.SmartDevice;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ import java.util.Optional;
 
 public class DeviceController {
     private SmartHomeAppController smartHomeAppController;
-    private AbstractDevice device;
+    private SmartDevice device;
     private Room selectedRoom;
 
     @FXML
@@ -49,7 +49,7 @@ public class DeviceController {
     @FXML
     private ComboBox<Room> changeDeviceRoom;
 
-    public void setData(AbstractDevice device, SmartHomeAppController appController, Room selectedRoom) {
+    public void setData(SmartDevice device, SmartHomeAppController appController, Room selectedRoom) {
         this.device = device;
         this.smartHomeAppController = appController;
         this.selectedRoom = selectedRoom;
@@ -67,7 +67,7 @@ public class DeviceController {
 
         int functionCounter = 0;
         for (String functionName : device.getAvailableFunctions()) {
-            DeviceFunction func = device.getFunctions().get(functionName);
+            DeviceFunction func = device.getFunction(functionName);
             deviceGrid.add(new Label(functionName + ": "), 0, functionCounter);
 
             String initialValue = "";

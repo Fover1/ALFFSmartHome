@@ -11,7 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import model.AbstractDevice;
 import model.Room;
 import model.RoomObserver;
 import model.SmartDevice;
@@ -219,7 +218,7 @@ public class RoomController implements RoomObserver {
         editRoom.setVisible(true);
 
 
-        for (AbstractDevice device : getDevices(room)) {
+        for (SmartDevice device : getDevices(room)) {
             ///todo: noch fertig bearbeiten
             Button deviceButton = new Button(device.getName() + " (" + device.getId() + ")" + System.currentTimeMillis());
             deviceButton.setOnAction(e -> openDeviceView(device, room));
@@ -246,7 +245,7 @@ public class RoomController implements RoomObserver {
         smartHomeAppController.save();
     }
 
-    private void openDeviceView(AbstractDevice device, Room selectedRoom) {
+    private void openDeviceView(SmartDevice device, Room selectedRoom) {
         try {
             /// todo: kann man ihm sagen, dass nur ein fenster davon offen sien soll? oder müssen wir die fenster synchronisieren? --> Also das man halt nicht 2 eintsellungsfenster vom selben gerät offen hat --> am besten nur ein fesnter auf haben könen
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/deviceView.fxml"));
@@ -259,7 +258,7 @@ public class RoomController implements RoomObserver {
             Stage stage = new Stage();
             stage.setTitle("Gerätedetails: " + device.getName());
             Scene scene = new Scene(root);
-            //weiß wer, warum wir diese Zeile brauchen?
+            /// todo: weiß wer, warum wir diese Zeile brauchen?
             root.setStyle("-fx-background-color: -color-bg-default;");
             scene.getStylesheets().add(new atlantafx.base.theme.CupertinoDark().getUserAgentStylesheet());
             stage.setScene(scene);
@@ -274,7 +273,7 @@ public class RoomController implements RoomObserver {
         return this.smartHomeAppController.getAllRooms();
     }
 
-    public List<AbstractDevice> getDevices(Room room) {
-        return room.getAbstractDevices();
+    public List<SmartDevice> getDevices(Room room) {
+        return room.getSmartDevices();
     }
 }

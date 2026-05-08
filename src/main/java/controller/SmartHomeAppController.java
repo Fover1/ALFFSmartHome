@@ -1,6 +1,5 @@
 package controller;
 
-import model.AbstractDevice;
 import model.Action;
 import model.DeviceAction;
 import model.LogEntry;
@@ -8,6 +7,7 @@ import model.LogListener;
 import model.PersistenceManager;
 import model.Room;
 import model.Scenario;
+import model.SmartDevice;
 import model.SmartHomeModel;
 
 import java.util.ArrayList;
@@ -56,15 +56,15 @@ public class SmartHomeAppController {
         smartHomeModel.changeRoomName(room, name);
     }
 
-    public void changeDeviceName(AbstractDevice device, String name) {
+    public void changeDeviceName(SmartDevice device, String name) {
         smartHomeModel.changeDeviceName(device, name);
     }
 
-    public void deleteDevice(AbstractDevice device, Room oldRoom) {
+    public void deleteDevice(SmartDevice device, Room oldRoom) {
         smartHomeModel.removeDevice(device, oldRoom);
     }
 
-    public void changeDeviceRoom(AbstractDevice device, Room oldRoom, Room newRoom) {
+    public void changeDeviceRoom(SmartDevice device, Room oldRoom, Room newRoom) {
         smartHomeModel.changeDeviceRoom(device, oldRoom, newRoom);
     }
 
@@ -90,7 +90,7 @@ public class SmartHomeAppController {
 //        }
 //        return prefix + String.format("%04d", maxNumber + 1);
 //    }
-    public List<AbstractDevice> getAllDevices() {
+    public List<SmartDevice> getAllDevices() {
         return smartHomeModel.getAllDevices();
     }
 

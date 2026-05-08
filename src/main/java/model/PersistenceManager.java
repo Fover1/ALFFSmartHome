@@ -23,6 +23,7 @@ public class PersistenceManager {
                 //braucht aktuell die beiden dinger, weil
                 //wird benötigt, damit er genau weiß, wie er mit den verschiedenen Interfaces und abtrakten klassen umgehen muss
                 //brauchen das für diese Klassen, da nicht alle Infos in der Json stehen (anders als bei z.B. Raum)
+                /// todo: brauchen wir diesen adapter nach der umstellung noch?
                 .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(SmartDevice.class, new SmartDeviceAdapter())
 //                .registerTypeHierarchyAdapter(SmartDevice.class, new SmartDeviceAdapter())
@@ -57,12 +58,10 @@ public class PersistenceManager {
             //es wird bei jedem Gerät neu gemacht
             if (data != null && data.rooms != null) {
                 for (Room room : data.rooms) {
-                    ///  todo: geht das auch mit smart device?
                     for (SmartDevice device : room.getSmartDevices()) {
-                        if (device instanceof AbstractDevice) {
-                            //wird für jedes Gerät aufgerufen, das es gibt um die transient felder neu zu initialisieren
-                            ((AbstractDevice) device).restoreAfterLoad();
-                        }
+                        //wird für jedes Gerät aufgerufen, das es gibt um die transient felder neu zu initialisieren
+                        device.restoreAfterLoad();
+
                     }
                 }
             }
@@ -81,15 +80,14 @@ public class PersistenceManager {
 
     //DTO (Data Transfer Objekt)
 
-    private static AbstractDevice findRealDeviceById(List<Room> rooms, String targetId) {
+    private static SmartDevice findRealDeviceById(List<Room> rooms, String targetId) {
         for (Room room : rooms) {
             for (SmartDevice device : room.getSmartDevices()) {
-                if (device instanceof AbstractDevice) {
-                    if (String.valueOf(device.getId()).equals(targetId)) {
-                        return (AbstractDevice) device;
-                    }
+                if (String.valueOf(device.getId()).equals(targetId)) {
+                    return device;
                 }
             }
+
         }
         return null;
     }
@@ -104,7 +102,7 @@ public class PersistenceManager {
                 Action action = actions.get(i);
                 if (action instanceof DeviceAction) {
                     String cloneId = String.valueOf(((DeviceAction) action).targetDevice().getId());
-                    AbstractDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
+                    SmartDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
 
                     if (realDevice != null) {
                         DeviceAction newDeviceAction = new DeviceAction(

@@ -38,14 +38,17 @@ public abstract class AbstractDevice implements SmartDevice {
     protected abstract void initializeFunctions();
 
     //observers und functions werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
+    @Override
     public void restoreAfterLoad() {
         this.observers = new ArrayList<>();
         this.functions = new HashMap<>();
         initializeFunctions();
     }
 
+    @Override
     public abstract String getDeviceType();
 
+    @Override
     public abstract String getCurrentState();
 
 
@@ -86,11 +89,23 @@ public abstract class AbstractDevice implements SmartDevice {
         }
     }
 
-    protected void notifyObservers() {
+    @Override
+    /// todo: in tutorials war die methode häufig protectet, weiß wer warum?
+    public void notifyObservers() {
         if (observers != null) {
             for (DeviceObserver observer : observers) {
                 observer.onStateChanged(this);
             }
         }
     }
+
+    @Override
+    public DeviceFunction getFunction(String name) {
+        return functions.get(name);
+    }
+
+//    @Override
+//    public DeviceFunction getFunctionName() {
+//        return functions.keySet().iterator().next();
+//    }
 }

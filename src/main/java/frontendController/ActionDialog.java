@@ -10,7 +10,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
-import model.AbstractDevice;
 import model.DeviceAction;
 import model.Room;
 import model.SmartDevice;
@@ -19,13 +18,13 @@ import java.util.List;
 
 public class ActionDialog extends Dialog<DeviceAction> {
 
-    private final ComboBox<AbstractDevice> deviceComboBox;
+    private final ComboBox<SmartDevice> deviceComboBox;
     private final ComboBox<Room> roomComboBox;
     private final ComboBox<String> functionComboBox;
     private final GridPane grid;
     private Node dynamicParameterControl;
 
-    public ActionDialog(List<Room> availableRooms, List<AbstractDevice> availableDevices, DeviceAction existingAction) {
+    public ActionDialog(List<Room> availableRooms, List<SmartDevice> availableDevices, DeviceAction existingAction) {
         setTitle(existingAction == null ? "Aktion hinzufügen" : "Aktion bearbeiten");
         setHeaderText("Bitte wähle das Gerät und die gewünschte Aktion aus.");
 
@@ -55,7 +54,7 @@ public class ActionDialog extends Dialog<DeviceAction> {
 
         deviceComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(AbstractDevice item, boolean empty) {
+            protected void updateItem(SmartDevice item, boolean empty) {
                 super.updateItem(item, empty);
                 setText((empty || item == null) ? null : item.getName() + " (" + item.getDeviceType() + ")");
             }
@@ -76,8 +75,8 @@ public class ActionDialog extends Dialog<DeviceAction> {
 
         roomComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
-                deviceComboBox.setItems(FXCollections.observableArrayList(newVal.getAbstractDevices()));
-                if (!newVal.getAbstractDevices().isEmpty()) {
+                deviceComboBox.setItems(FXCollections.observableArrayList(newVal.getSmartDevices()));
+                if (!newVal.getSmartDevices().isEmpty()) {
                     functionComboBox.getSelectionModel().selectFirst();
                 }
             } else {
@@ -104,14 +103,14 @@ public class ActionDialog extends Dialog<DeviceAction> {
         });
 
         if (existingAction != null) {
-            AbstractDevice actionDevice = (AbstractDevice) existingAction.targetDevice();
-            AbstractDevice realDevice = availableDevices.stream()
+            SmartDevice actionDevice = existingAction.targetDevice();
+            SmartDevice realDevice = availableDevices.stream()
                     .filter(d -> d.getId().equals(actionDevice.getId()))
                     .findFirst()
                     .orElse(actionDevice);
 
             Room realRoom = availableRooms.stream()
-                    .filter(room -> room.getAbstractDevices().stream()
+                    .filter(room -> room.getSmartDevices().stream()
                             .anyMatch(device -> device.getId().equals(actionDevice.getId())))
                     .findFirst()
                     .orElse(null);
@@ -136,7 +135,7 @@ public class ActionDialog extends Dialog<DeviceAction> {
         });
     }
 
-    private void updateParameterUI(AbstractDevice device, String functionName, String initialValue) {
+    private void updateParameterUI(SmartDevice device, String functionName, String initialValue) {
         if (dynamicParameterControl != null) {
             grid.getChildren().remove(dynamicParameterControl);
         }
