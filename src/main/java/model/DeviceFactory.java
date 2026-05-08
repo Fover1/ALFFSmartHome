@@ -25,7 +25,6 @@ public class DeviceFactory {
             //fürht den Constructor aus und gibt das erstellte Gerät dann zurück
             Object device = constructor.newInstance(id, name);
 
-            /// todo: gliech mal ausprobieren ob hier auch smartdevice geht
             return (SmartDevice) device;
 
         } catch (ClassNotFoundException e) {

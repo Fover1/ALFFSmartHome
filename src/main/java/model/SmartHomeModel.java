@@ -31,8 +31,6 @@ public class SmartHomeModel {
     }
 
     public void removeDevice(SmartDevice device, Room oldRoom) {
-        /// todo: das gerät muss auch noch aus der json gelöscht werden
-        /// todo: generell, wie ist das mit dem speichern in der json bei den verschiedenen aktionen
         oldRoom.removeDevice(device);
     }
 

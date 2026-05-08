@@ -11,7 +11,6 @@ public record LogEntry(
         String action,
         String result
 ) {
-    /// todo: wie wollen wir das hier machen? wollen wir noch weitere Dinge loggen. Wenn ja, wie wollen wir das machen
 
     public LogEntry(String scenarioName, String deviceName, String action, String result) {
         this(LocalDateTime.now(), scenarioName, deviceName, action, result);

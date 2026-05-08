@@ -6,7 +6,7 @@
         {
           "className": "devices.Lamp",
           "data": {
-            "brightness": 40.30612244897958,
+            "brightness": 41.83673177446639,
             "isOn": false,
             "id": "e429393a-8671-460d-8874-954f9d0c83a5",
             "name": "Deckenlampe"
@@ -135,7 +135,7 @@
             "targetDevice": {
               "className": "devices.Lamp",
               "data": {
-                "brightness": 40.30612244897958,
+                "brightness": 41.83673177446639,
                 "isOn": false,
                 "id": "e429393a-8671-460d-8874-954f9d0c83a5",
                 "name": "Deckenlampe"

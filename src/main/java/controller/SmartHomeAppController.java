@@ -68,28 +68,7 @@ public class SmartHomeAppController {
         smartHomeModel.changeDeviceRoom(device, oldRoom, newRoom);
     }
 
-    //Geräte ID´s werden automatisch generiert
-//    ID´s: erste 3 Buchstaben des Klassennamens und dann ein counter hochzählend (bis auf 4 stellen mit null vorran aufgefüllt)
 
-    /// todo: id vllt gegen uuid tauschen?
-    // Ist ein String, damit man an der ID erkennen konnte, welche Art von Gerät es ist
-//    public String generateDeviceId(String deviceType) {
-//        String shortName = deviceType.length() >= 3 ? deviceType.substring(0, 3) : deviceType;
-//        String prefix = shortName.toUpperCase() + "-";
-//
-//        int maxNumber = 0;
-//        for (AbstractDevice device : smartHomeModel.getAllDevices()) {
-//            if (device.getId().startsWith(prefix)) {
-//                try {
-//                    String numberPart = device.getId().substring(prefix.length());
-//                    maxNumber = Integer.parseInt(numberPart);
-//                } catch (NumberFormatException e) {
-//                    // TODO: Fehlerbehandlung (wie in deinem originalen Code)
-//                }
-//            }
-//        }
-//        return prefix + String.format("%04d", maxNumber + 1);
-//    }
     public List<SmartDevice> getAllDevices() {
         return smartHomeModel.getAllDevices();
     }
@@ -109,10 +88,6 @@ public class SmartHomeAppController {
     public void removeScenario(Scenario scenario) {
         smartHomeModel.removeScenario(scenario);
     }
-
-    //    public AbstractDevice getDeviceById(String id) {
-//        return smartHomeModel.findRealDeviceById(id);
-//    }
 
     /// todo: muss das noch in das model?
     public void executeScenario(Scenario scenario) {

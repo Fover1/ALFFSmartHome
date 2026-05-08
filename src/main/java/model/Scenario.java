@@ -19,8 +19,6 @@ public class Scenario implements Action {
     private String description;
     private List<Action> actions = new ArrayList<>();
 
-    /// todo: muss man den durchreichen oder kann man den immer neu machen?
-//    private SmartHomeAppController smarthomeAppController = new SmartHomeAppController();
     public Scenario(String name, String description) {
         this.id = UUID.randomUUID();
         this.name = name;
@@ -49,7 +47,6 @@ public class Scenario implements Action {
             } else if (action instanceof DeviceAction(SmartDevice device, String functionName, Object parameter)) {
                 System.out.println("Execute DeviceAction");
 
-                /// todo: diese stelle hier nochmal prüfen, ob das wirklich so schön ist
                 if (device != null) {
                     device.executeFunction(functionName, parameter);
                 } else {

@@ -91,7 +91,6 @@ public class SmartHomeMainController implements LogListener {
 
     @FXML
     private void handleOpenConfig() {
-        /// todo: hier muss noch etwas implementiert werden, um das mopped auszuwählen
         File configDirectory = new File(System.getProperty("user.dir"));
         File[] jsonFiles = configDirectory.listFiles((dir, name) -> name.endsWith(".json"));
 

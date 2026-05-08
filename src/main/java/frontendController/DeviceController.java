@@ -190,7 +190,6 @@ public class DeviceController {
             Room room = changeDeviceRoom.getValue();
             if (room != null) {
                 System.out.println("dieser raum wurde ausgewähl" + room.getName());
-                /// todo: was davon braucht man wirklich? (raum und gerät sind doppelt verbunden, am ende nochmal nachschaneun)
                 smartHomeAppController.changeDeviceRoom(device, selectedRoom, room);
                 /// todo: device wird erst im neuen Raum angezeigt, wenn man einen anderen Raum auswählt
                 smartHomeAppController.getAllRooms().stream()

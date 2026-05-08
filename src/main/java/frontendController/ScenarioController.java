@@ -93,7 +93,6 @@ public class ScenarioController {
     @FXML
     private void handleNewScenario() {
 
-        /// todo: wenn man einmal was hinzufügt, kommen 2 dazu
         Scenario newScenario = new Scenario("", "");
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);

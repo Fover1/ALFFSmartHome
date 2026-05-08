@@ -13,7 +13,6 @@ public class ScenarioAction implements Action {
     //unteranderem Wichtig, um keine Endlosschleife in der Json-Datei zu erzeugen
     private UUID targetScnearioID;
 
-    //todo: wie macht man das am besten, dass man auf die benötigten Attribute von dem targetScneario zugreifen kann?
     private transient Scenario targetScenario;
 
     //diese Leeren Konstruktoren werden für Gson benötigt

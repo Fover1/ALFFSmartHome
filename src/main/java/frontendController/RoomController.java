@@ -88,7 +88,6 @@ public class RoomController implements RoomObserver {
 
         Optional<String> result = dialog.showAndWait();
 
-        /// todo: was machen wir, wenn es einen raum 2x geben soll (also identischer name)? (raum mit dem namen darf es nur einmal geben)
         result.ifPresent(roomName -> {
             if (!roomName.trim().isEmpty()) {
                 smartHomeAppController.addRoom(roomName);
@@ -127,13 +126,11 @@ public class RoomController implements RoomObserver {
         grid.setVgap(10);
         grid.setPadding(new javafx.geometry.Insets(20, 150, 10, 10));
 
-        /// todo: mit setPromptText text vorher in Textfelder schreiben
         javafx.scene.control.TextField nameField = new javafx.scene.control.TextField();
         nameField.setPromptText("Gerätename eingeben");
 
         javafx.scene.control.ComboBox<String> typeComboBox = new javafx.scene.control.ComboBox<>();
 
-        /// todo: getAllDeviceTypes über den controller?
         List<String> deviceTypes = model.DeviceScanner.getAllDeviceTypes("devices");
         typeComboBox.getItems().addAll(deviceTypes);
 
@@ -219,7 +216,6 @@ public class RoomController implements RoomObserver {
 
 
         for (SmartDevice device : getDevices(room)) {
-            ///todo: noch fertig bearbeiten
             Button deviceButton = new Button(device.getName() + " (" + device.getId() + ")" + System.currentTimeMillis());
             deviceButton.setOnAction(e -> openDeviceView(device, room));
 

@@ -25,7 +25,6 @@ public class Room {
         }
     }
 
-    /// todo: vllt ne methode public List<smartDevice> devicesList() {return smartDevices} ?
 
     public void removeDevice(SmartDevice smartDevice) {
         smartDevices.remove(smartDevice);

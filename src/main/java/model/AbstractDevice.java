@@ -13,10 +13,6 @@ import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 
 @Getter
 @Setter
-///  todo: hierfür fehlen noch tests
-
-
-///  todo: ich habe jetzt die devices aus diesem Test coverage ding rausgenommen.
 public abstract class AbstractDevice implements SmartDevice {
 
     //impelementiert Methoden, die alle AbstractDevices haben
@@ -28,7 +24,6 @@ public abstract class AbstractDevice implements SmartDevice {
 
 
     public AbstractDevice(UUID id, String name) {
-        /// todo: Problem: Räume speichern ihre Geräte und Geräte speichern ihre Räume. Darüber sollten wir nochmal sprechen
         this.id = id;
         this.name = name;
         restoreAfterLoad();
@@ -54,7 +49,6 @@ public abstract class AbstractDevice implements SmartDevice {
 
     @Override
     public void executeFunction(String functionName, Object parameter) {
-//        System.out.println("das sind die functions: " + getFunctions());
         /// todo: kann man das vllt schöner machen (ohne das restoreAfterLoad)
         restoreAfterLoad();
         DeviceFunction function = functions.get(functionName);
