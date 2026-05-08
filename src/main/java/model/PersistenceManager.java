@@ -13,7 +13,7 @@ import java.util.List;
 
 public class PersistenceManager {
 
-    private static final String FILE_NAME = "smarthome_config.json";
+    private static String FILE_NAME = null;
 
     private static Gson createGson() {
         return new GsonBuilder()
@@ -48,6 +48,8 @@ public class PersistenceManager {
         if (!file.exists()) {
             return null;
         }
+
+        FILE_NAME = FileName;
 
         try (Reader reader = new FileReader(file)) {
             //liest die Datei ein und erstellt die Objekte
