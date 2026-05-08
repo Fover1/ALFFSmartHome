@@ -69,6 +69,7 @@ public abstract class AbstractDevice implements SmartDevice {
         return new ArrayList<>(functions.keySet());
     }
 
+    @Override
     public void addObserver(DeviceObserver observer) {
         if (observers == null) {
             observers = new ArrayList<>();
@@ -78,6 +79,7 @@ public abstract class AbstractDevice implements SmartDevice {
         }
     }
 
+    @Override
     public void removeObserver(DeviceObserver observer) {
         if (observers != null) {
             observers.remove(observer);

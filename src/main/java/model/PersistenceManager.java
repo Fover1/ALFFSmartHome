@@ -58,7 +58,7 @@ public class PersistenceManager {
             if (data != null && data.rooms != null) {
                 for (Room room : data.rooms) {
                     ///  todo: geht das auch mit smart device?
-                    for (SmartDevice device : room.getAbstractDevices()) {
+                    for (SmartDevice device : room.getSmartDevices()) {
                         if (device instanceof AbstractDevice) {
                             //wird für jedes Gerät aufgerufen, das es gibt um die transient felder neu zu initialisieren
                             ((AbstractDevice) device).restoreAfterLoad();
@@ -83,7 +83,7 @@ public class PersistenceManager {
 
     private static AbstractDevice findRealDeviceById(List<Room> rooms, String targetId) {
         for (Room room : rooms) {
-            for (SmartDevice device : room.getAbstractDevices()) {
+            for (SmartDevice device : room.getSmartDevices()) {
                 if (device instanceof AbstractDevice) {
                     if (String.valueOf(device.getId()).equals(targetId)) {
                         return (AbstractDevice) device;

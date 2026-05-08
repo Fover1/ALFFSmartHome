@@ -49,10 +49,9 @@ public class Scenario implements Action {
             } else if (action instanceof DeviceAction(SmartDevice device, String functionName, Object parameter)) {
                 System.out.println("Execute DeviceAction");
 
-                AbstractDevice targetDevice = (AbstractDevice) device;
-
-                if (targetDevice != null) {
-                    targetDevice.executeFunction(functionName, parameter);
+                /// todo: diese stelle hier nochmal prüfen, ob das wirklich so schön ist
+                if (device != null) {
+                    device.executeFunction(functionName, parameter);
                 } else {
                     System.err.println("Fehler: Kein Zielgerät in der Aktion definiert.");
                 }

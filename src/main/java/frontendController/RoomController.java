@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import model.AbstractDevice;
 import model.Room;
 import model.RoomObserver;
+import model.SmartDevice;
 
 import java.io.IOException;
 import java.util.List;
@@ -170,7 +171,7 @@ public class RoomController implements RoomObserver {
                     java.util.UUID newId = java.util.UUID.randomUUID();
 
                     // Neues Gerät über die DeviceFactory erstellen
-                    AbstractDevice newDevice = model.DeviceFactory.createDevice(deviceType, newId, deviceName);
+                    SmartDevice newDevice = model.DeviceFactory.createDevice(deviceType, newId, deviceName);
 
                     // Gerät dem aktuellen Raum hinzufügen (notifyObservers wird in addDevice getriggert)
                     currentRoom.addDevice(newDevice);
