@@ -150,9 +150,11 @@ public class SmartHomeAppController {
         if (data != null) {
             if (data.rooms != null) {
                 smartHomeModel.setRooms(data.rooms);
+                System.out.println("Räume werden neu geladen");
             }
             if (data.scenarios != null) {
                 smartHomeModel.setScenarios(data.scenarios);
+                System.out.println("Scenarien werden neu geladen");
             }
         }
 
