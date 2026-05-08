@@ -123,6 +123,10 @@ public class PersistenceManager {
         }
     }
 
+    public String getFileName() {
+        return FILE_NAME;
+    }
+
     public static class SmartHomeData {
         public List<Room> rooms;
         public List<Scenario> scenarios;

@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
@@ -36,6 +37,9 @@ public class SmartHomeMainController implements LogListener {
     @FXML
     private ListView<LogEntry> logListView1;
 
+    @FXML
+    private Label hausanzeige;
+
     public void setController(SmartHomeAppController appController) {
         this.appController = appController;
         System.out.println("Logik-Controller wurde erfolgreich an die GUI übergeben!");
@@ -63,6 +67,8 @@ public class SmartHomeMainController implements LogListener {
             } else if (controller instanceof ScenarioController) {
                 ((ScenarioController) controller).setAppController(this.appController);
             }
+            PersistenceManager persistenceManager = new PersistenceManager();
+            hausanzeige.setText(persistenceManager.getFileName().substring(0, persistenceManager.getFileName().lastIndexOf(".")));
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Fehler beim Laden der Datei: " + fxmlFile);
