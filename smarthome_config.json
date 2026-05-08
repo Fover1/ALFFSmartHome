@@ -1,0 +1,151 @@
+{
+  "rooms": [
+    {
+      "name": "Wohnzimmer",
+      "smartDevices": [
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 40.30612244897958,
+            "isOn": false,
+            "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+            "name": "Deckenlampe"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 46.938775510204074,
+            "isOn": true,
+            "hexColor": "#B3B31A",
+            "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+            "name": "Dekolampe"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 74.48979591836734,
+            "isOn": false,
+            "hexColor": "#1A0068",
+            "id": "1638c59b-1830-4d45-bebd-d9e8633f8ed3",
+            "name": "bunti"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Küche",
+      "smartDevices": [
+        {
+          "className": "devices.Socket",
+          "data": {
+            "isOn": true,
+            "id": "7f6d4d12-8e7c-4a30-8041-866418804820",
+            "name": "Kaffeemaschine"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 30.102040816326518,
+            "isOn": false,
+            "hexColor": "#E6804D",
+            "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
+            "name": "Lampe1"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 24.48979591836735,
+            "isOn": false,
+            "hexColor": "#E6804D",
+            "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+            "name": "Dekolampe"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fionas mini Kämmerchen",
+      "smartDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 30.0,
+            "isOn": true,
+            "id": "2d9b2326-787d-418b-90f7-111197825b45",
+            "name": "fußbodenheizung"
+          }
+        },
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 19.591836734693874,
+            "isOn": true,
+            "id": "a3f91c84-8b22-4a55-9730-8d5c1a7b4e9f",
+            "name": "fueßchenwaermer"
+          }
+        },
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 0.0,
+            "isOn": false,
+            "id": "d9d7f1ca-d9ea-49be-9721-60a4cb4215f9",
+            "name": "Deckenheizer"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leons schlösschen",
+      "smartDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 0.0,
+            "isOn": false,
+            "id": "b0e4156c-2c12-4a72-90d8-4c415fa01377",
+            "name": "Cooler"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": false,
+            "id": "d00fdbe3-f1c4-41b3-8048-b6c70ecf76da",
+            "name": "sdfsdf"
+          }
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "76280179-9167-44a7-bcf1-7e2d3c20e623",
+      "name": "Testszenario",
+      "description": "Szenario:  (0 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 40.30612244897958,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 100.0
+          }
+        }
+      ]
+    }
+  ]
+}

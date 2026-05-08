@@ -1,0 +1,232 @@
+{
+  "rooms": [
+    {
+      "name": "Livingroom",
+      "abstractDevices": [
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 97.44897959183672,
+            "isOn": false,
+            "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+            "name": "Deckenlampe"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 70.40816375187464,
+            "isOn": true,
+            "hexColor": "#B3B31A",
+            "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+            "name": "Dekolampe"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 74.48979591836734,
+            "isOn": false,
+            "hexColor": "#1A0068",
+            "id": "1638c59b-1830-4d45-bebd-d9e8633f8ed3",
+            "name": "bunti"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Küche",
+      "abstractDevices": [
+        {
+          "className": "devices.Socket",
+          "data": {
+            "isOn": true,
+            "id": "7f6d4d12-8e7c-4a30-8041-866418804820",
+            "name": "Kaffeemaschine"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 30.102040816326518,
+            "isOn": false,
+            "hexColor": "#E6804D",
+            "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
+            "name": "Lampe1"
+          }
+        },
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 24.48979591836735,
+            "isOn": false,
+            "hexColor": "#E6804D",
+            "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+            "name": "Dekolampe"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fionas mini Kämmerchen",
+      "abstractDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 30.0,
+            "isOn": true,
+            "id": "2d9b2326-787d-418b-90f7-111197825b45",
+            "name": "fußbodenheizung"
+          }
+        },
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 19.591836734693874,
+            "isOn": true,
+            "id": "a3f91c84-8b22-4a55-9730-8d5c1a7b4e9f",
+            "name": "fueßchenwaermer"
+          }
+        },
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 0.0,
+            "isOn": false,
+            "id": "d9d7f1ca-d9ea-49be-9721-60a4cb4215f9",
+            "name": "Deckenheizer"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leons schlösschen",
+      "abstractDevices": []
+    },
+    {
+      "name": "Alex Schnitzelparadies",
+      "abstractDevices": []
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "56865f40-f102-4f76-a14e-8a1c5a6caa35",
+      "name": "TestZwei",
+      "description": "Szenario:  (0 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 70.40816375187464,
+                "isOn": true,
+                "hexColor": "#B3B31A",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": "51,8"
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 30.0,
+                "isOn": true,
+                "id": "2d9b2326-787d-418b-90f7-111197825b45",
+                "name": "fußbodenheizung"
+              }
+            },
+            "functionName": "Temperatur",
+            "parameter": "19,7"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e57a5c3c-8772-49b2-9237-2e684412a28d",
+      "name": "TestEins",
+      "description": "Szenario:  (0 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Socket",
+              "data": {
+                "isOn": true,
+                "id": "7f6d4d12-8e7c-4a30-8041-866418804820",
+                "name": "Kaffeemaschine"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "3ff5920a-6a36-4cd0-9bfc-12e6e4efdac1",
+      "name": "TestDrei",
+      "description": "Szenario:  (0 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 70.40816375187464,
+                "isOn": true,
+                "hexColor": "#B3B31A",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": "31,6"
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 30.102040816326518,
+                "isOn": false,
+                "hexColor": "#E6804D",
+                "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
+                "name": "Lampe1"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": "23,9"
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 30.0,
+                "isOn": true,
+                "id": "2d9b2326-787d-418b-90f7-111197825b45",
+                "name": "fußbodenheizung"
+              }
+            },
+            "functionName": "Temperatur",
+            "parameter": "16,1"
+          }
+        }
+      ]
+    }
+  ]
+}
