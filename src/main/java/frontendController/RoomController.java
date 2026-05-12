@@ -81,12 +81,12 @@ public class RoomController implements RoomObserver {
 
     @FXML
     public void handleAddRoom() {
-        TextInputDialog dialog = new TextInputDialog("new Room");
-        dialog.setTitle("Neuer Raum");
-        dialog.setHeaderText("Neuen Raum anlegen");
-        dialog.setContentText("Bitte geben Sie den neuen Raum ein: ");
-
-        Optional<String> result = dialog.showAndWait();
+        Optional<String> result = StringInputDialog.get(
+                "Neuer Raum",
+                "Raumplanung",
+                "Name des Raums:",
+                ""
+        );
 
         result.ifPresent(roomName -> {
             if (!roomName.trim().isEmpty()) {
@@ -225,7 +225,6 @@ public class RoomController implements RoomObserver {
 
     private void handleRoomNameChange(Room room) {
         TextInputDialog dialog = new TextInputDialog();
-        /// todo: hier noch den Namen des Raums in das Textfeld einfügen
         dialog.setTitle("Name ändern: " + room.getName());
         dialog.setHeaderText(String.format("Bitte gebe einen neuen Namen für den Raum \"%s\" ein", room.getName()));
 

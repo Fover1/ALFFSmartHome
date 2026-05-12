@@ -15,9 +15,8 @@ import java.util.List;
 
 public class SmartHomeAppController {
 
-    /// todo: die anderen Listen auf final machen?
+
     public final List<LogListener> loglisteners = new ArrayList<>();
-    /// todo: padding in der ui einheitlich (bzw. erstmal einfügen)?
     //verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
     //Methoden werden teilweise auch von der GUI abgerufen
     private final SmartHomeModel smartHomeModel;
