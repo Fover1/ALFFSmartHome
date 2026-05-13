@@ -16,7 +16,7 @@ import java.util.List;
 public class SmartHomeAppController {
 
 
-    public final List<LogListener> loglisteners = new ArrayList<>();
+    public final List<LogListener> logListeners = new ArrayList<>();
     //verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
     //Methoden werden teilweise auch von der GUI abgerufen
     private final SmartHomeModel smartHomeModel;
@@ -24,17 +24,7 @@ public class SmartHomeAppController {
 
     public SmartHomeAppController() {
         this.smartHomeModel = new SmartHomeModel();
-        loadInitialData();
-    }
-
-    //lädt die Daten aus der JSON in den nur für die Session verfügbaren smartHomeModelSpeicher
-    private void loadInitialData() {
-        ///todo: hier wird jetzt standardmäßig diese datei beim ersten öffnen geladen, wie wollen wir das machen?
-        PersistenceManager.SmartHomeData data = PersistenceManager.load("smarthome_config.json");
-        if (data != null) {
-            if (data.rooms != null) smartHomeModel.setRooms(data.rooms);
-            if (data.scenarios != null) smartHomeModel.setScenarios(data.scenarios);
-        }
+        loadConfiguration("smarthome_config.json");
     }
 
     public void save() {
@@ -108,11 +98,11 @@ public class SmartHomeAppController {
     }
 
     public void addLogListener(LogListener logListener) {
-        loglisteners.add(logListener);
+        logListeners.add(logListener);
     }
 
     public void notifyLogListeners(LogEntry logEntry) {
-        for (LogListener logListener : loglisteners) {
+        for (LogListener logListener : logListeners) {
             logListener.onLogEntryCreated(logEntry);
         }
     }
