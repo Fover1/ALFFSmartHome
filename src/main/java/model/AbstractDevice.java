@@ -98,8 +98,4 @@ public abstract class AbstractDevice implements SmartDevice {
         return functions.get(name);
     }
 
-//    @Override
-//    public DeviceFunction getFunctionName() {
-//        return functions.keySet().iterator().next();
-//    }
 }
