@@ -124,7 +124,6 @@ public class SmartHomeMainController implements LogListener {
 
     }
 
-    /// todo: wollen wir hier den Namen oder die ganze Datei mit übergeben?
     private void openConfig(String filename) {
 
         appController.loadConfiguration(filename);

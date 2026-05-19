@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,9 +12,10 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.List;
 
+@Setter
 public class PersistenceManager {
 
-    private static final String FILE_NAME = "smarthome_config.json";
+    private static String FILE_NAME = "smarthome_config.json";
 
     private static Gson createGson() {
         return new GsonBuilder()
@@ -23,7 +25,7 @@ public class PersistenceManager {
                 //braucht aktuell die beiden dinger, weil
                 //wird benötigt, damit er genau weiß, wie er mit den verschiedenen Interfaces und abtrakten klassen umgehen muss
                 //brauchen das für diese Klassen, da nicht alle Infos in der Json stehen (anders als bei z.B. Raum)
-                /// todo: brauchen wir diesen adapter nach der umstellung noch?
+                /// todo: brauchen wir diesen adapter nach der umstellung noch? (Lass einfach nachher ausprobieren)
                 .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(SmartDevice.class, new SmartDeviceAdapter())
 //                .registerTypeHierarchyAdapter(SmartDevice.class, new SmartDeviceAdapter())
@@ -44,7 +46,7 @@ public class PersistenceManager {
     }
 
     public static SmartHomeData load(String FileName) {
-        /// todo: was wollen wir laden, wenn das programm gestartet wird?
+        /// todo: was wollen wir laden, wenn das programm gestartet wird? (auswhal mit den bestehenden fensterN)
         File file = new File(FileName);
         if (!file.exists()) {
             return null;
@@ -117,6 +119,10 @@ public class PersistenceManager {
                 }
             }
         }
+    }
+
+    public static void setFileName(String fileName) {
+        FILE_NAME = fileName;
     }
 
     public static class SmartHomeData {

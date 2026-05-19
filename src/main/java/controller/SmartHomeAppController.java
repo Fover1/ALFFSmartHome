@@ -108,6 +108,7 @@ public class SmartHomeAppController {
     }
 
     public void loadConfiguration(String file) {
+        PersistenceManager.setFileName(file);
         this.currentConfigFile = file;
 
         PersistenceManager.SmartHomeData data = PersistenceManager.load(currentConfigFile);
