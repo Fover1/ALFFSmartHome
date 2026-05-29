@@ -270,7 +270,10 @@ public class RoomController implements RoomObserver {
             scene.getStylesheets().add(new atlantafx.base.theme.CupertinoDark().getUserAgentStylesheet());
             deviceWindows.put(device.getId(), stage);
             stage.setScene(scene);
-            stage.setOnHidden(event -> deviceWindows.remove(device.getId()));
+            stage.setOnHidden(event -> {
+                deviceWindows.remove(device.getId());
+                device.removeObserver((deviceController));
+            });
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

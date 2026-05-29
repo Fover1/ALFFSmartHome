@@ -1,6 +1,7 @@
 package frontendController;
 
 import controller.SmartHomeAppController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 import model.DeviceAction;
 import model.DeviceFunction;
+import model.DeviceObserver;
 import model.Room;
 import model.SmartDevice;
 
@@ -24,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class DeviceController {
+public class DeviceController implements DeviceObserver {
     private SmartHomeAppController smartHomeAppController;
     private SmartDevice device;
     private Room selectedRoom;
@@ -54,6 +56,7 @@ public class DeviceController {
         this.device = device;
         this.smartHomeAppController = appController;
         this.selectedRoom = selectedRoom;
+        this.device.addObserver(this);
         updateUI();
     }
 
@@ -213,5 +216,12 @@ public class DeviceController {
         smartHomeAppController.executeAndRemember(action);
         smartHomeAppController.save();
         System.out.println("Aktion ausgeführt, da Slider losgelassen wurde.");
+    }
+
+    @Override
+    public void onStateChanged(SmartDevice device) {
+        Platform.runLater(() -> {
+            updateUI();
+        });
     }
 }
