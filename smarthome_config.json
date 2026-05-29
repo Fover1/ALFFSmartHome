@@ -119,6 +119,29 @@
             "id": "d00fdbe3-f1c4-41b3-8048-b6c70ecf76da",
             "name": "sdfsdf"
           }
+        },
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": false,
+            "id": "b38b72e0-1f6a-4ad6-8e7e-ab652bd40522",
+            "name": "Testtiteiites"
+          }
+        }
+      ]
+    },
+    {
+      "name": "testraum",
+      "smartDevices": [
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": false,
+            "id": "f6ae2c40-fd81-4cf4-ab75-721069b0acb8",
+            "name": "hgjkfld"
+          }
         }
       ]
     }
@@ -143,6 +166,29 @@
             },
             "functionName": "Helligkeit",
             "parameter": 100.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "013c223b-21cd-49da-99ad-69a10fe1c581",
+      "name": "test",
+      "description": "Szenario:  (1 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 0.0,
+                "isOn": false,
+                "id": "f6ae2c40-fd81-4cf4-ab75-721069b0acb8",
+                "name": "hgjkfld"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 65.61264822134386
           }
         }
       ]
