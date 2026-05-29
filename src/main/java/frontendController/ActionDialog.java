@@ -96,14 +96,14 @@ public class ActionDialog extends Dialog<DeviceAction> {
         });
 
         functionComboBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            String initVal = (existingAction != null && existingAction.functionName().equals(newVal))
-                    ? String.valueOf(existingAction.parameter())
+            String initVal = (existingAction != null && existingAction.getFunctionName().equals(newVal))
+                    ? String.valueOf(existingAction.getParameter())
                     : null;
             updateParameterUI(deviceComboBox.getValue(), newVal, initVal);
         });
 
         if (existingAction != null) {
-            SmartDevice actionDevice = existingAction.targetDevice();
+            SmartDevice actionDevice = existingAction.getTargetDevice();
             SmartDevice realDevice = availableDevices.stream()
                     .filter(d -> d.getId().equals(actionDevice.getId()))
                     .findFirst()
@@ -117,7 +117,7 @@ public class ActionDialog extends Dialog<DeviceAction> {
 
             roomComboBox.getSelectionModel().select(realRoom);
             deviceComboBox.getSelectionModel().select(realDevice);
-            functionComboBox.getSelectionModel().select(existingAction.functionName());
+            functionComboBox.getSelectionModel().select(existingAction.getFunctionName());
         }
 
         setResultConverter(dialogButton -> {

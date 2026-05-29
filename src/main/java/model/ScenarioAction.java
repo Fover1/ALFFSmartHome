@@ -43,6 +43,20 @@ public class ScenarioAction implements Action {
     }
 
     @Override
+    public void undo() {
+        if (targetScenario == null) {
+            getTargetScneario();
+        }
+
+        if (targetScenario != null) {
+            System.out.println("Undo TargetSzenario: " + targetScenarioID.toString());
+            targetScenario.undo();
+        } else {
+            System.err.println("Fehler: TargetSzenario konnte für Undo nicht gefunden werden.");
+        }
+    }
+
+    @Override
     public String getDescription() {
         return targetScenario.getName() + ": " + targetScenario.getDescription();
     }

@@ -37,22 +37,22 @@ public class Scenario implements Action {
 
     @Override
     public void execute() {
+        System.out.println("Führe Szenario aus: " + name);
+
         for (Action action : actions) {
-            System.out.println("Execute " + action.toString());
+            System.out.println("Execute: " + action.getDescription());
+            action.execute();
+        }
+    }
 
-            if (action instanceof ScenarioAction) {
-                System.out.println("Execute ScenarioAction");
-                action.execute();
+    @Override
+    public void undo() {
+        System.out.println("Mache Szenario rückgängig: " + name);
 
-            } else if (action instanceof DeviceAction(SmartDevice device, String functionName, Object parameter)) {
-                System.out.println("Execute DeviceAction");
-
-                if (device != null) {
-                    device.executeFunction(functionName, parameter);
-                } else {
-                    System.err.println("Fehler: Kein Zielgerät in der Aktion definiert.");
-                }
-            }
+        for (int i = actions.size() - 1; i >= 0; i--) {
+            Action action = actions.get(i);
+            System.out.println("Undo Aktion: " + action.getDescription());
+            action.undo();
         }
     }
 

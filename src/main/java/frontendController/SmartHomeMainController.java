@@ -100,7 +100,7 @@ public class SmartHomeMainController implements LogListener {
 
     @FXML
     private void handleStepBack() {
-        /// todo: implement
+        appController.undoLastAction();
     }
 
     @FXML

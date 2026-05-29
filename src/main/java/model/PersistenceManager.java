@@ -103,14 +103,14 @@ public class PersistenceManager {
             for (int i = 0; i < actions.size(); i++) {
                 Action action = actions.get(i);
                 if (action instanceof DeviceAction) {
-                    String cloneId = String.valueOf(((DeviceAction) action).targetDevice().getId());
+                    String cloneId = String.valueOf(((DeviceAction) action).getTargetDevice().getId());
                     SmartDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
 
                     if (realDevice != null) {
                         DeviceAction newDeviceAction = new DeviceAction(
                                 realDevice,
-                                ((DeviceAction) action).functionName(),
-                                ((DeviceAction) action).parameter()
+                                ((DeviceAction) action).getFunctionName(),
+                                ((DeviceAction) action).getParameter()
                         );
                         actions.set(i, newDeviceAction);
                     } else {

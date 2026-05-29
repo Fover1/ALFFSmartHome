@@ -15,6 +15,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
+import model.DeviceAction;
 import model.DeviceFunction;
 import model.Room;
 import model.SmartDevice;
@@ -114,7 +115,8 @@ public class DeviceController {
             Color c = colorPicker.getValue();
             String hex = String.format("#%02X%02X%02X",
                     (int) (c.getRed() * 255), (int) (c.getGreen() * 255), (int) (c.getBlue() * 255));
-            device.executeFunction(functionName, hex);
+            DeviceAction action = new DeviceAction(device, functionName, hex);
+            smartHomeAppController.executeAndRemember(action);
             valueLabel.setText(hex);
             smartHomeAppController.save();
         });
@@ -136,7 +138,8 @@ public class DeviceController {
     private void checkBoxListener(String functionName, Label valueLabel, CheckBox checkBox) {
         valueLabel.setText(checkBox.isSelected() ? "Eingeschaltet" : "Ausgeschaltet");
         checkBox.setOnAction(e -> {
-            device.executeFunction(functionName, checkBox.isSelected());
+            DeviceAction action = new DeviceAction(device, functionName, checkBox.isSelected());
+            smartHomeAppController.executeAndRemember(action);
             valueLabel.setText(checkBox.isSelected() ? "Eingeschaltet" : "Ausgeschaltet");
             smartHomeAppController.save();
         });
@@ -206,7 +209,8 @@ public class DeviceController {
     private void executeSliderValue(String functionName, Slider slider) {
         Object param = slider.getValue();
 
-        device.executeFunction(functionName, param);
+        DeviceAction action = new DeviceAction(device, functionName, param);
+        smartHomeAppController.executeAndRemember(action);
         smartHomeAppController.save();
         System.out.println("Aktion ausgeführt, da Slider losgelassen wurde.");
     }

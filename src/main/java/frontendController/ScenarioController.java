@@ -154,7 +154,10 @@ public class ScenarioController {
 
     @FXML
     private void handleExecuteScenario() {
-        smartHomeAppController.executeScenario(scenarioTable.getSelectionModel().getSelectedItem());
+        Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
+        if (selectedScenario != null) {
+            smartHomeAppController.executeScenario(selectedScenario);
+        }
     }
 
 
@@ -166,7 +169,7 @@ public class ScenarioController {
             Optional<DeviceAction> result = dialog.showAndWait();
 
             result.ifPresent(action -> {
-                System.out.println(action.parameter().getClass().getSimpleName());
+                System.out.println(action.getParameter().getClass().getSimpleName());
                 selectedScenario.addAction(action);
                 updateActionList(selectedScenario);
                 scenarioTable.refresh();
@@ -181,7 +184,7 @@ public class ScenarioController {
         Action selectedAction = actionListView.getSelectionModel().getSelectedItem();
 
         if (selectedScenario != null && selectedAction instanceof DeviceAction deviceAction) {
-            System.out.println(deviceAction.functionName() + deviceAction.getDescription() + deviceAction.targetDevice().getName());
+            System.out.println(deviceAction.getFunctionName() + deviceAction.getDescription() + deviceAction.getTargetDevice().getName());
             ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllRooms(), smartHomeAppController.getAllDevices(), deviceAction);
             Optional<DeviceAction> result = dialog.showAndWait();
 

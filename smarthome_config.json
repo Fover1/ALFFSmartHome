@@ -6,7 +6,7 @@
         {
           "className": "devices.Lamp",
           "data": {
-            "brightness": 41.83673177446639,
+            "brightness": 54.081632653061206,
             "isOn": false,
             "id": "e429393a-8671-460d-8874-954f9d0c83a5",
             "name": "Deckenlampe"
@@ -15,7 +15,7 @@
         {
           "className": "devices.RgbLamp",
           "data": {
-            "brightness": 46.938775510204074,
+            "brightness": 31.122448979591823,
             "isOn": true,
             "hexColor": "#B3B31A",
             "id": "3167b57b-7221-4384-904d-628a7e0a297e",
@@ -114,7 +114,7 @@
         {
           "className": "devices.RgbLamp",
           "data": {
-            "brightness": 0.0,
+            "brightness": 45.408163265306115,
             "isOn": false,
             "id": "d00fdbe3-f1c4-41b3-8048-b6c70ecf76da",
             "name": "sdfsdf"
@@ -158,7 +158,7 @@
             "targetDevice": {
               "className": "devices.Lamp",
               "data": {
-                "brightness": 41.83673177446639,
+                "brightness": 54.081632653061206,
                 "isOn": false,
                 "id": "e429393a-8671-460d-8874-954f9d0c83a5",
                 "name": "Deckenlampe"
