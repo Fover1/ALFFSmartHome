@@ -1,22 +1,31 @@
 package model;
 
 import java.lang.reflect.Constructor;
+import java.util.UUID;
 
 import static lang.ErrorMessages.CLASS_NOT_FOUND;
 
 public class DeviceFactory {
 
+    //kann mit dem gefunden String des DeviceScanner ein richtiges Java Objekt bauen
+
     private static final String PACKAGE_NAME = "devices";
 
-    public static AbstractDevice createDevice(String className, String id, String name, Room room) {
+    //hier wird reflection genutzt
+    public static SmartDevice createDevice(String className, UUID id, String name) {
         try {
             String fullClassName = PACKAGE_NAME + "." + className;
+
+            //sucht die "Bauanleitung" des zu erstellenen Gerätes
             Class<?> clazz = Class.forName(fullClassName);
 
-            Constructor<?> constructor = clazz.getConstructor(String.class, String.class, Room.class);
+            //sucht dann nach dem Constructor, der die 2 Parameter hat
+            Constructor<?> constructor = clazz.getConstructor(UUID.class, String.class);
 
-            Object device = constructor.newInstance(id, name, room);
-            return (AbstractDevice) device;
+            //fürht den Constructor aus und gibt das erstellte Gerät dann zurück
+            Object device = constructor.newInstance(id, name);
+
+            return (SmartDevice) device;
 
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException(CLASS_NOT_FOUND + className, e);

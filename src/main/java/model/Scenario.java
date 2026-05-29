@@ -5,23 +5,27 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class Scenario implements Action {
 
+    //Ein Scenario ist eigentlich auch eine Action, in welcher einfach bei execut mehrere Actions aufgerufen werden
+    //Außerdem werden weitere Methoden zur Verwaltung mehrerer Actions implementiert
+
+    private UUID id;
     private String name;
     private String description;
-
     private List<Action> actions = new ArrayList<>();
 
     public Scenario(String name, String description) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
     }
 
     public void addAction(Action action) {
-        /// todo: soll man die selbe action mehrfach hinzufügen können?
         if (!actions.contains(action)) {
             actions.add(action);
         }
@@ -34,7 +38,21 @@ public class Scenario implements Action {
     @Override
     public void execute() {
         for (Action action : actions) {
-            action.execute();
+            System.out.println("Execute " + action.toString());
+
+            if (action instanceof ScenarioAction) {
+                System.out.println("Execute ScenarioAction");
+                action.execute();
+
+            } else if (action instanceof DeviceAction(SmartDevice device, String functionName, Object parameter)) {
+                System.out.println("Execute DeviceAction");
+
+                if (device != null) {
+                    device.executeFunction(functionName, parameter);
+                } else {
+                    System.err.println("Fehler: Kein Zielgerät in der Aktion definiert.");
+                }
+            }
         }
     }
 

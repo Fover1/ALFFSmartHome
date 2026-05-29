@@ -7,44 +7,50 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 
 @Getter
 @Setter
-///  todo: hierfür fehlen noch tests
-
-
-///  todo: ich habe jetzt die devices aus diesem Test coverage ding rausgenommen. Kann man die vernünftig testen, vor allem wenn sie dynamisch geladen werden?
 public abstract class AbstractDevice implements SmartDevice {
 
-    private final String id;
+    //impelementiert Methoden, die alle AbstractDevices haben
+
+    private final UUID id;
     protected transient Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
-    private transient Room room;
     private transient List<DeviceObserver> observers = new ArrayList<>();
 
-    public AbstractDevice(String id, String name, Room room) {
+
+    public AbstractDevice(UUID id, String name) {
         this.id = id;
         this.name = name;
-        this.room = room;
         restoreAfterLoad();
     }
 
+    //diese Methode wird bei den einzelnen Geräten implementiert um die jeweiligen actions festzulegen
     protected abstract void initializeFunctions();
 
+    //observers und functions werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
+    @Override
     public void restoreAfterLoad() {
         this.observers = new ArrayList<>();
         this.functions = new HashMap<>();
         initializeFunctions();
     }
 
+    @Override
     public abstract String getDeviceType();
 
+    @Override
     public abstract String getCurrentState();
+
 
     @Override
     public void executeFunction(String functionName, Object parameter) {
+        /// todo: kann man das vllt schöner machen (ohne das restoreAfterLoad) (optional)
+        restoreAfterLoad();
         DeviceFunction function = functions.get(functionName);
         if (function != null) {
             function.execute(parameter);
@@ -54,11 +60,13 @@ public abstract class AbstractDevice implements SmartDevice {
         }
     }
 
+
     @Override
     public List<String> getAvailableFunctions() {
         return new ArrayList<>(functions.keySet());
     }
 
+    @Override
     public void addObserver(DeviceObserver observer) {
         if (observers == null) {
             observers = new ArrayList<>();
@@ -68,17 +76,26 @@ public abstract class AbstractDevice implements SmartDevice {
         }
     }
 
+    @Override
     public void removeObserver(DeviceObserver observer) {
         if (observers != null) {
             observers.remove(observer);
         }
     }
 
-    protected void notifyObservers() {
+    @Override
+    /// todo: in tutorials war die methode häufig protectet, weiß wer warum? (optional)
+    public void notifyObservers() {
         if (observers != null) {
             for (DeviceObserver observer : observers) {
                 observer.onStateChanged(this);
             }
         }
     }
+
+    @Override
+    public DeviceFunction getFunction(String name) {
+        return functions.get(name);
+    }
+
 }

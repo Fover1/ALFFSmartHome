@@ -7,7 +7,9 @@ import java.util.List;
 
 public class DeviceScanner {
 
-    ///  todo: hier den packageNamen hardcodieren?
+    //Zu beginn des Programmstarts genutzt, um die Gerätetypen die zu verfügung stehen zu erknnen
+    // --> Läd die verschiedenen Devices aus dem packeg devices
+
 
     public static List<String> getAllDeviceTypes(String packageName) {
         List<String> deviceTypes = new ArrayList<>();
@@ -24,18 +26,12 @@ public class DeviceScanner {
                 String[] files = directory.list();
                 if (files != null) {
                     for (String file : files) {
-                        if (file.endsWith(".class")) {
+                        // Für jeden Eventlistener erstellt Java eine weitere .class Datei (mit $). Um die "richtige" Klasse zu finden, braucht man diese weitere Unterschiedung
+                        if (file.endsWith(".class") && !file.contains("$")) {
                             String className = file.substring(0, file.length() - 6);
-
-
-                            /// todo: vllt löschen, wenn im anderen Package liegt?
-                            if (!className.equals("Device") &&
-                                    !className.equals("SmartDevice") &&
-                                    !className.equals("DeviceFunction")) {
-
-                                deviceTypes.add(className);
-                            }
+                            deviceTypes.add(className);
                         }
+
                     }
                 }
             }

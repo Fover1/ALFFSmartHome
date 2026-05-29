@@ -2,14 +2,15 @@ package devices;
 
 import model.AbstractDevice;
 import model.DeviceFunction;
-import model.Room;
+
+import java.util.UUID;
 
 public class Heater extends AbstractDevice {
     private double temperature = 0;
     private boolean isOn = false;
 
-    public Heater(String id, String name, Room room) {
-        super(id, name, room);
+    public Heater(UUID id, String name) {
+        super(id, name);
     }
 
     @Override
@@ -29,6 +30,11 @@ public class Heater extends AbstractDevice {
             }
 
             @Override
+            public Boolean getState() {
+                return isOn;
+            }
+
+            @Override
             public Class<?> getParameterType() {
                 return Boolean.class;
             }
@@ -38,10 +44,25 @@ public class Heater extends AbstractDevice {
         this.functions.put("Temperatur", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
+                System.out.println(parameter.getClass().getSimpleName());
                 if (parameter instanceof Double) {
                     temperature = (Double) parameter;
-                    isOn = temperature > 0;
                 }
+            }
+
+            @Override
+            public Double getMin() {
+                return 0.0;
+            }
+
+            @Override
+            public Double getMax() {
+                return 30.0;
+            }
+
+            @Override
+            public String getUnit() {
+                return "°C";
             }
 
             @Override
@@ -50,19 +71,24 @@ public class Heater extends AbstractDevice {
             }
 
             @Override
+            public Double getValue() {
+                return temperature;
+            }
+
+            @Override
             public Class<?> getParameterType() {
-                return Integer.class;
+                return Double.class;
             }
         });
     }
 
     @Override
     public String getDeviceType() {
-        return "Lampe";
+        return "Heizung";
     }
 
     @Override
     public String getCurrentState() {
-        return isOn ? "An (" + temperature + "C)" : "Aus";
+        return isOn ? "An (" + temperature + "°C)" : "Aus";
     }
 }

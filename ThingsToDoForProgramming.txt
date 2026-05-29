@@ -11,6 +11,9 @@ Dinge mit Söbke zu klären:
 Muss das statische Code analyse tool auch bei ihm laufen?
 hat er DOcker?
 Wir wollten das in nem Docker Container machen
+Was ist mit "Zustandsänderungen der betroffenen Geräte anzeigen " gemeint?
+Was ist mit " Konfiguration speichern und erneut laden " gemeint? das das automatisch passiert oder das man auch selber verschiedene Konfigurationen laden kann?
+Passt das so mit Geräten und Räumen oder brauchen wir links noch nen reiter geräte?
 
 Testabdeckung:
 Sollte die gezielte Testabdeckung nicht erreicht werden, schlägt der Build durch die Action fehl und es kann nicht gemerget werden.
@@ -20,3 +23,13 @@ Aktuell kann man die Coverage sehen, in dem man in der projektstruktur auf targe
 Für neue architektonische Maßnahmen:
 Bitte in folgender Worddatei ca. angeben was gemacht wurde und warum:
 https://hsweserbergland-my.sharepoint.com/personal/finn_limberg_hsw-stud_de/_layouts/15/doc.aspx?sourcedoc={e53c9ef8-daa3-41d7-86a8-0f380caa4b30}&action=edit
+
+Scene Builder:
+Mit einem Scene Builder können die UI's via drag & drop verfahren zusammengebaut werden.
+Bitte Scene Builder Downloaden (https://gluonhq.com/products/scene-builder/)
+Diesen dann installieren
+Sobald er installiert ist, kann in den Einstellungen von Intelij unter Languages & Framework und dann bei JavaFX ein SceneBuilder angegen werden. Dies bitte machen
+Anschließend auf die FX Datei unter Resources mit rechtsklick drücken und dann auf "open in Scene Builder"
+
+Wichtig:
+Bevor neue Objekte erstellt werden, muss erst die ID vergabe (mit UUID) umgesetzt werden, da sonst das Programm crasht!

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainBorderPane" prefHeight="600.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/25" fx:controller="frontendController.SmartHomeMainController">
+
+    <left>
+        <VBox prefWidth="200.0" spacing="10.0" style="-fx-background-color: #2c3e50;">
+            <padding>
+                <Insets bottom="20" left="10" right="10" top="20"/>
+            </padding>
+            <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="Smart Home"/>
+            <Separator style="-fx-opacity: 0.3;"/>
+
+            <Button maxWidth="Infinity" onAction="#showDashboard"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT;"
+                    text="Dashboard"/>
+            <Button maxWidth="Infinity" onAction="#showRooms"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT;"
+                    text="Räume"/>
+            <Button maxWidth="Infinity" onAction="#showScenarios"
+                    style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT;"
+                    text="Szenarien"/>
+            <ListView fx:id="logListView" prefHeight="202.0" prefWidth="179.0"/>
+        </VBox>
+    </left>
+
+    <center>
+        <StackPane fx:id="contentArea" prefHeight="414.0" prefWidth="700.0">
+            <Label text="Willkommen im Smart Home! Bitte wählen Sie eine ein Fenster."/>
+        </StackPane>
+    </center>
+    <top>
+        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" text="Neu" onAction="#handleCreateNewConfig"/>
+            <Button mnemonicParsing="false" text="Öffnen" onAction="#handleOpenConfig"/>
+            <Button mnemonicParsing="false" text="Rückgängig" onAction="#handleStepBack"/>
+            <TextField fx:id="time" alignment="CENTER_RIGHT"/>
+            <TextField fx:id="deviceCount" alignment="CENTER_RIGHT"/>
+        </ToolBar>
+    </top>
+    <bottom>
+        <ListView fx:id="logListView1" prefHeight="120.0" prefWidth="900.0" BorderPane.alignment="CENTER"/>
+    </bottom>
+</BorderPane>
