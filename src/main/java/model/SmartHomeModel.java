@@ -32,6 +32,15 @@ public class SmartHomeModel {
 
     public void removeDevice(SmartDevice device, Room oldRoom) {
         oldRoom.removeDevice(device);
+//        for (Scenario scenario : scenarios) {
+//            for (Action action : scenario.getActions()) {
+//                System.out.println(action.toString());
+//                System.out.println("gefundener name " + action.getDescription().substring(0, action.getDescription().indexOf('-')) + " # gesuchter name: " + device.getName());
+//                if (action.getDescription().substring(0, action.getDescription().indexOf(' ')).equals(device.getName())) {
+//                    scenario.removeAction(action);
+//                }
+//            }
+//        }
     }
 
     public void changeDeviceRoom(SmartDevice device, Room oldRoom, Room newRoom) {
