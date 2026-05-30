@@ -53,7 +53,7 @@ public class ScenarioController {
     public void initialize() {
         // setCellValueFactory bringt den String in ein Format, dass die JavaFX Zeile verseteht
         colName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDiscription()));
         colActionCount.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()));
 
         actionListView.setCellFactory(param -> new ListCell<>() {
@@ -76,7 +76,7 @@ public class ScenarioController {
         if (scenario != null) {
             detailArea.setDisable(false);
             txtName.setText(scenario.getName());
-            txtDescription.setText(scenario.getDescription());
+            txtDescription.setText(scenario.getDiscription());
             updateActionList(scenario);
         } else {
             detailArea.setDisable(true);
@@ -97,6 +97,8 @@ public class ScenarioController {
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);
         scenarioTable.getSelectionModel().select(newScenario);
+        /// todo: braucht man das hier?
+        updateUI();
     }
 
     @FXML
@@ -135,12 +137,9 @@ public class ScenarioController {
     @FXML
     private void handleSaveScenarioDetails() {
         Scenario selected = scenarioTable.getSelectionModel().getSelectedItem();
-        System.out.println("handleSaveScenarioDetails");
         if (selected == null) {
-            System.out.println("selected == null");
             selected.setName(txtName.getText());
             selected.setDescription(txtDescription.getText());
-            System.out.println("in handleScenarioDetail " + selected.getName());
             smartHomeAppController.addSzenario(selected);
             smartHomeAppController.save();
             scenarioTable.refresh();
@@ -150,6 +149,8 @@ public class ScenarioController {
             selected.setDescription(txtDescription.getText());
             smartHomeAppController.save();
         }
+        updateUI();
+
     }
 
     @FXML
@@ -293,6 +294,27 @@ public class ScenarioController {
                 System.out.println("Szenario eingefügt! Gespeicherte ID: " + selectedScenario.getId());
             }
         });
+    }
+
+    public void updateUI() {
+        Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
+        int selectedActionIndex = actionListView.getSelectionModel().getSelectedIndex();
+
+        observableScenarios.setAll(smartHomeAppController.getAllScenarios());
+        scenarioTable.refresh();
+
+        if (selectedScenario != null && observableScenarios.contains(selectedScenario)) {
+
+            scenarioTable.getSelectionModel().select(selectedScenario);
+            showScenarioDetails(selectedScenario);
+
+            if (selectedActionIndex >= 0 && selectedActionIndex < actionListView.getItems().size()) {
+                actionListView.getSelectionModel().select(selectedActionIndex);
+            }
+        } else {
+            scenarioTable.getSelectionModel().clearSelection();
+            showScenarioDetails(null);
+        }
     }
 
 

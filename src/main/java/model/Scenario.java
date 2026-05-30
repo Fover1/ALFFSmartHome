@@ -57,8 +57,12 @@ public class Scenario implements Action {
     }
 
     @Override
-    public String getDescription() {
+    public String toString() {
         return "Szenario: " + name + " (" + actions.size() + " Aktionen)";
+    }
+
+    public String getDiscription() {
+        return description;
     }
 
     public int getCount() {
