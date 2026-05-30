@@ -26,7 +26,6 @@ public class SmartHomeAppController {
 
     public SmartHomeAppController() {
         this.smartHomeModel = new SmartHomeModel();
-        loadConfiguration("smarthome_config.json");
     }
 
     public void save() {

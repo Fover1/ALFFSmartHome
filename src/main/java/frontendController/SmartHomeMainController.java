@@ -6,6 +6,7 @@ import controller.SmartHomeAppController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -51,10 +52,9 @@ public class SmartHomeMainController implements LogListener {
 
     public void setController(SmartHomeAppController appController) {
         this.appController = appController;
-        System.out.println("Logik-Controller wurde erfolgreich an die GUI übergeben!");
         this.appController.addLogListener(this);
-        deviceCount.setText(appController.getAllDevices().size() + " Geräte");
-        showDashboard();
+        //Hauptfenster wird schon gezeichnet, wenn das Popup kommt
+        Platform.runLater(this::handleOpenConfig);
     }
 
     @Override
@@ -115,12 +115,14 @@ public class SmartHomeMainController implements LogListener {
             }
         }
 
+
         if (options.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Keine Dateien gefunden");
             alert.setHeaderText(null);
-            alert.setContentText("Im Ordner '" + configDirectory.getAbsolutePath() + "' wurden keine Konfigurationen gefunden.");
+            alert.setContentText("Im Ordner '" + configDirectory.getAbsolutePath() + "' wurden keine Konfigurationen gefunden. \n Sie werden zur Konfigurationserstellung weitergeleitet");
             alert.showAndWait();
+            handleCreateNewConfig();
             return;
         }
 
