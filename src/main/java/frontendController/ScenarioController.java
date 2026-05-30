@@ -97,7 +97,7 @@ public class ScenarioController {
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);
         scenarioTable.getSelectionModel().select(newScenario);
-        /// todo: braucht man das hier?
+        /// todo: braucht maN das hier?
         updateUI();
     }
 
@@ -236,8 +236,6 @@ public class ScenarioController {
 
     @FXML
     public void handleAddExistingScenario() {
-
-        /// todo: vllt alle Alerts in eine Alertbuilder klasse auslagern oder so?
         Scenario currentScenario = scenarioTable.getSelectionModel().getSelectedItem();
         if (currentScenario == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);

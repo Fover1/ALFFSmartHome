@@ -25,8 +25,7 @@ public class PersistenceManager {
                 //braucht aktuell die beiden dinger, weil
                 //wird benötigt, damit er genau weiß, wie er mit den verschiedenen Interfaces und abtrakten klassen umgehen muss
                 //brauchen das für diese Klassen, da nicht alle Infos in der Json stehen (anders als bei z.B. Raum)
-                /// todo: brauchen wir diesen adapter nach der umstellung noch? (Lass einfach nachher ausprobieren)
-                .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
+//                .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(SmartDevice.class, new SmartDeviceAdapter())
 //                .registerTypeHierarchyAdapter(SmartDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(Action.class, new ActionAdapter())
@@ -46,7 +45,6 @@ public class PersistenceManager {
     }
 
     public static SmartHomeData load(String FileName) {
-        /// todo: was wollen wir laden, wenn das programm gestartet wird? (auswhal mit den bestehenden fensterN)
         File file = new File(FileName);
         if (!file.exists()) {
             return null;

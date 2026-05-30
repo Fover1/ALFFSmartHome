@@ -37,8 +37,7 @@ public class SmartHomeApp extends Application {
 
         guiController.setController(logicController);
 
-        ///  todo: nochmal nachschauen was diese Zeile kann (bzw. das was man übergibt)
-        Scene scene = new Scene(root, 1000, 700); // Etwas größer für die moderne Optik
+        Scene scene = new Scene(root, 1000, 700);
         stage.setTitle("Smart Home Szenario-Editor");
         stage.setScene(scene);
         stage.show();

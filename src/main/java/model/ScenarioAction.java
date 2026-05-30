@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Getter
 public class ScenarioAction implements Action {
-    /// todo: ScenarioAction und DeviceAction vergleichen (optional)
 
     //Es sollte nur der Name des Szenarios gespeichert werden
     //unteranderem Wichtig, um keine Endlosschleife in der Json-Datei zu erzeugen

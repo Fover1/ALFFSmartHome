@@ -90,7 +90,6 @@ public abstract class AbstractDevice implements SmartDevice {
     }
 
     @Override
-    /// todo: in tutorials war die methode häufig protectet, weiß wer warum? (optional)
     public void notifyObservers() {
         if (observers != null) {
             for (DeviceObserver observer : observers) {

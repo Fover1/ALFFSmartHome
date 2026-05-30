@@ -191,13 +191,11 @@ public class DeviceController implements DeviceObserver {
         });
         changeDeviceRoom.setPromptText(selectedRoom.getName());
 
-        /// todo: die ui muss sich noch aktualisieren, dass das gerät im neuen raum ist (also im Room view) vllt mit nem observer?
         changeDeviceRoom.setOnAction(e -> {
             Room room = changeDeviceRoom.getValue();
             if (room != null) {
                 System.out.println("dieser raum wurde ausgewähl" + room.getName());
                 smartHomeAppController.changeDeviceRoom(device, selectedRoom, room);
-                /// todo: device wird erst im neuen Raum angezeigt, wenn man einen anderen Raum auswählt
                 smartHomeAppController.getAllRooms().stream()
                         .filter(r -> r.getName().equals(room.getName()))
                         .findFirst()

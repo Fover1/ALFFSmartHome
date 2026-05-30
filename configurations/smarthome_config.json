@@ -128,22 +128,21 @@
             "id": "b38b72e0-1f6a-4ad6-8e7e-ab652bd40522",
             "name": "Testtiteiites"
           }
-        }
-      ]
-    },
-    {
-      "name": "testraum",
-      "smartDevices": [
+        },
         {
           "className": "devices.Lamp",
           "data": {
             "brightness": 0.0,
             "isOn": false,
-            "id": "f6ae2c40-fd81-4cf4-ab75-721069b0acb8",
-            "name": "hgjkfld"
+            "id": "8a9c35fe-fa35-4cc8-aa36-e7cc9d5d68c6",
+            "name": "hifle"
           }
         }
       ]
+    },
+    {
+      "name": "testse",
+      "smartDevices": []
     }
   ],
   "scenarios": [

@@ -106,7 +106,6 @@ public class RoomController implements RoomObserver {
 
     @FXML
     public void handleAddDevice() {
-        /// todo: ich habe in nem Tutorial gesehen, dass man so fehlermeldungen ausgeben kann. Damit könnten wir ja einen Großteil unseres Fehlerhandlings machen?
         if (currentRoom == null) {
             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
             alert.setTitle("Kein Raum ausgewählt");
@@ -265,7 +264,6 @@ public class RoomController implements RoomObserver {
             Stage stage = new Stage();
             stage.setTitle("Gerätedetails: " + device.getName());
             Scene scene = new Scene(root);
-            /// todo: weiß wer, warum wir diese Zeile brauchen?
             root.setStyle("-fx-background-color: -color-bg-default;");
             scene.getStylesheets().add(new atlantafx.base.theme.CupertinoDark().getUserAgentStylesheet());
             deviceWindows.put(device.getId(), stage);
