@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class SmartHomeMainController implements LogListener {
+    private static final String CONFIG_FOLDER = "configurations";
     private SmartHomeAppController appController;
-
     @FXML
     private StackPane contentArea;
 
@@ -105,7 +105,7 @@ public class SmartHomeMainController implements LogListener {
 
     @FXML
     private void handleOpenConfig() {
-        File configDirectory = new File(System.getProperty("user.dir"));
+        File configDirectory = new File(CONFIG_FOLDER);
         File[] jsonFiles = configDirectory.listFiles((dir, name) -> name.endsWith(".json"));
 
         List<String> options = new ArrayList<>();
@@ -114,7 +114,6 @@ public class SmartHomeMainController implements LogListener {
                 options.add(file.getName());
             }
         }
-
 
         if (options.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -134,7 +133,7 @@ public class SmartHomeMainController implements LogListener {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(selected -> {
-            openConfig(selected);
+            openConfig(CONFIG_FOLDER + "/" + selected);
             System.out.println("Datei wird geladen in handleOpenConfig: " + selected);
         });
 
@@ -183,11 +182,10 @@ public class SmartHomeMainController implements LogListener {
             if (!fileName.toLowerCase().endsWith(".json")) {
                 fileName += ".json";
             }
-            safeNewFile(fileName);
-            File newFile = new File(System.getProperty("user.dir"), fileName);
-            System.out.println("neue datei wurde erstellt");
-            System.out.println(System.getProperty("user.dir"));
-            openConfig(fileName);
+
+            String path = CONFIG_FOLDER + "/" + fileName;
+            safeNewFile(path);
+            openConfig(path);
         });
     }
 

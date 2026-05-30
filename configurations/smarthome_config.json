@@ -6,7 +6,7 @@
         {
           "className": "devices.Lamp",
           "data": {
-            "brightness": 54.081632653061206,
+            "brightness": 33.48017621145375,
             "isOn": false,
             "id": "e429393a-8671-460d-8874-954f9d0c83a5",
             "name": "Deckenlampe"
@@ -158,7 +158,7 @@
             "targetDevice": {
               "className": "devices.Lamp",
               "data": {
-                "brightness": 54.081632653061206,
+                "brightness": 33.48017621145375,
                 "isOn": false,
                 "id": "e429393a-8671-460d-8874-954f9d0c83a5",
                 "name": "Deckenlampe"
@@ -192,6 +192,63 @@
           }
         }
       ]
+    },
+    {
+      "id": "ea946235-c258-4f7a-a0f6-952b81bb5bcb",
+      "name": "Hilfetest ",
+      "description": "Szenario:  (0 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 33.48017621145375,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 33.48017621145375,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 33.48017621145375
+          }
+        }
+      ]
+    },
+    {
+      "id": "26920862-cda2-4d08-a190-3bd316b73eee",
+      "name": "TEstitest",
+      "description": "Was geht?",
+      "actions": []
+    },
+    {
+      "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
+      "name": "ne",
+      "description": "jfklsdf",
+      "actions": []
+    },
+    {
+      "id": "ba095304-4bb7-449c-82ed-33e65aead028",
+      "name": "asd",
+      "description": "assdf",
+      "actions": []
     }
   ]
 }
