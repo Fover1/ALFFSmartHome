@@ -5,6 +5,9 @@ import model.DeviceFunction;
 
 import java.util.UUID;
 
+import static lang.DeviceMessages.LAMP_BRIGHTNESS_FUNCTION_DESCRIPTION;
+import static lang.DeviceMessages.LAMP_SWITCH_FUNCTION_DESCRIPTION;
+
 public class Lamp extends AbstractDevice {
     private double brightness = 0;
     private boolean isOn = false;
@@ -15,7 +18,7 @@ public class Lamp extends AbstractDevice {
 
     @Override
     protected void initializeFunctions() {
-        //hier werden die Funktionen eines Gerätes angegeben (es können mehrere Funktionen angegeben)
+        //Hier werden die Funktionen eines Geraetes angegeben (es können mehrere Funktionen angegeben werden)
         this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
@@ -26,7 +29,7 @@ public class Lamp extends AbstractDevice {
 
             @Override
             public String getDescription() {
-                return "Schaltet die Lampe ein oder aus";
+                return LAMP_SWITCH_FUNCTION_DESCRIPTION;
             }
 
             @Override
@@ -40,7 +43,6 @@ public class Lamp extends AbstractDevice {
             }
         });
 
-
         this.functions.put("Helligkeit", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
@@ -48,7 +50,6 @@ public class Lamp extends AbstractDevice {
                     brightness = (Double) parameter;
                 }
             }
-
 
             @Override
             public Double getMin() {
@@ -65,12 +66,10 @@ public class Lamp extends AbstractDevice {
                 return "%";
             }
 
-
             @Override
             public String getDescription() {
-                return "Stellt die Helligkeit der Lampe ein";
+                return LAMP_BRIGHTNESS_FUNCTION_DESCRIPTION;
             }
-
 
             @Override
             public Double getValue() {

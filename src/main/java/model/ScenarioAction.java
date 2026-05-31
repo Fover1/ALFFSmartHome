@@ -5,16 +5,18 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+import static lang.ErrorMessages.TARGETSZENARIO_NOT_FOUND;
+
 @Getter
 public class ScenarioAction implements Action {
 
     //Es sollte nur der Name des Szenarios gespeichert werden
-    //unteranderem Wichtig, um keine Endlosschleife in der Json-Datei zu erzeugen
+    //unteranderem wichtig, um keine Endlosschleife in der Json-Datei zu erzeugen
     private UUID targetScenarioID;
 
     private transient Scenario targetScenario;
 
-    //diese Leeren Konstruktoren werden für Gson benötigt
+    //diese leeren Konstruktoren werden für Gson benoetigt
     public ScenarioAction() {
     }
 
@@ -26,7 +28,6 @@ public class ScenarioAction implements Action {
         SmartHomeAppController controller = new SmartHomeAppController();
         for (Scenario scenario : controller.getAllScenarios()) {
             if (scenario.getId().equals(targetScenarioID)) {
-                System.out.println(scenario + " das ist das zenario");
                 targetScenario = scenario;
             }
         }
@@ -37,7 +38,6 @@ public class ScenarioAction implements Action {
         if (targetScenario == null) {
             getTargetScneario();
         }
-        System.out.println("TargetSzenario: " + targetScenarioID.toString());
         targetScenario.execute();
     }
 
@@ -48,10 +48,9 @@ public class ScenarioAction implements Action {
         }
 
         if (targetScenario != null) {
-            System.out.println("Undo TargetSzenario: " + targetScenarioID.toString());
             targetScenario.undo();
         } else {
-            System.err.println("Fehler: TargetSzenario konnte für Undo nicht gefunden werden.");
+            System.err.println(TARGETSZENARIO_NOT_FOUND);
         }
     }
 

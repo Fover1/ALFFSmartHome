@@ -10,6 +10,8 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
+import static lang.ErrorMessages.UNKNOWN_DEVICE_TYPE;
+
 public class SmartDeviceAdapter implements JsonSerializer<SmartDevice>, JsonDeserializer<SmartDevice> {
 
     @Override
@@ -30,7 +32,7 @@ public class SmartDeviceAdapter implements JsonSerializer<SmartDevice>, JsonDese
             Class<?> clazz = Class.forName(className);
             return context.deserialize(data, clazz);
         } catch (ClassNotFoundException e) {
-            throw new JsonParseException("Unbekannter Gerätetyp im JSON: " + className, e);
+            throw new JsonParseException(UNKNOWN_DEVICE_TYPE + className, e);
         }
     }
 }

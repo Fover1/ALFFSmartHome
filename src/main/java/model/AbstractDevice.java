@@ -13,15 +13,12 @@ import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 
 @Getter
 @Setter
+//impelementiert Methoden, die alle AbstractDevices haben
 public abstract class AbstractDevice implements SmartDevice {
-
-    //impelementiert Methoden, die alle AbstractDevices haben
-
     private final UUID id;
-    protected transient Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
     private transient List<DeviceObserver> observers = new ArrayList<>();
-
+    protected transient Map<String, DeviceFunction> functions = new HashMap<>();
 
     public AbstractDevice(UUID id, String name) {
         this.id = id;
@@ -29,10 +26,10 @@ public abstract class AbstractDevice implements SmartDevice {
         restoreAfterLoad();
     }
 
-    //diese Methode wird bei den einzelnen Geräten implementiert um die jeweiligen actions festzulegen
+    //Diese Methode wird bei den einzelnen Geraeten implementiert, um die jeweiligen Aktionen festzulegen
     protected abstract void initializeFunctions();
 
-    //observers und functions werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
+    //"observers" und "functions" werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
     @Override
     public void restoreAfterLoad() {
         if (this.observers == null) {
@@ -53,7 +50,6 @@ public abstract class AbstractDevice implements SmartDevice {
     @Override
     public abstract String getCurrentState();
 
-
     @Override
     public void executeFunction(String functionName, Object parameter) {
         restoreAfterLoad();
@@ -65,7 +61,6 @@ public abstract class AbstractDevice implements SmartDevice {
             throw new IllegalArgumentException(FUNCTION_NOT_FOUND + functionName);
         }
     }
-
 
     @Override
     public List<String> getAvailableFunctions() {
@@ -102,5 +97,4 @@ public abstract class AbstractDevice implements SmartDevice {
     public DeviceFunction getFunction(String name) {
         return functions.get(name);
     }
-
 }

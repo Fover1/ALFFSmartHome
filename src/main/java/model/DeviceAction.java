@@ -11,7 +11,7 @@ public class DeviceAction implements Action {
     private final String functionName;
     private final Object parameter;
 
-    // Hier speichern wir den Zustand, bevor die Aktion ausgeführt wurde
+    //Hier wird der Zustand gespeichert, bevor die Aktion ausgefuehrt wurde
     @Getter(lombok.AccessLevel.NONE)
     private Object previousParameter;
 
@@ -30,7 +30,7 @@ public class DeviceAction implements Action {
 
         System.out.println("Alter Wert (" + this.previousParameter + ") gemerkt. Führe neuen Wert aus: " + parameter);
 
-        // 2. Die eigentliche Aktion ausführen
+        //Hier wird die eigentliche Aktion ausgefuehrt
         targetDevice.executeFunction(functionName, parameter);
     }
 

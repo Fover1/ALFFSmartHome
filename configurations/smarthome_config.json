@@ -96,6 +96,15 @@
             "id": "d9d7f1ca-d9ea-49be-9721-60a4cb4215f9",
             "name": "Deckenheizer"
           }
+        },
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 0.0,
+            "isOn": false,
+            "id": "41661299-2ff5-45ae-ad86-3a8b66bef56c",
+            "name": "vxegdr"
+          }
         }
       ]
     },
@@ -143,6 +152,10 @@
     {
       "name": "testse",
       "smartDevices": []
+    },
+    {
+      "name": "scdsy",
+      "smartDevices": []
     }
   ],
   "scenarios": [
@@ -164,7 +177,8 @@
               }
             },
             "functionName": "Helligkeit",
-            "parameter": 100.0
+            "parameter": 100.0,
+            "previousParameter": 33.48017621145375
           }
         }
       ]
@@ -248,6 +262,48 @@
       "name": "asd",
       "description": "assdf",
       "actions": []
+    },
+    {
+      "id": "91c62dab-3402-46c6-98ef-7598c0273f5c",
+      "name": "",
+      "description": "",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 30.102040816326518,
+                "isOn": false,
+                "hexColor": "#E6804D",
+                "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
+                "name": "Lampe1"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 23.333333333333332,
+            "previousParameter": 30.102040816326518
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 30.102040816326518,
+                "isOn": false,
+                "hexColor": "#E6804D",
+                "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
+                "name": "Lampe1"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 42.857142857142854
+          }
+        }
+      ]
     }
   ]
 }

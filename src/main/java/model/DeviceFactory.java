@@ -4,11 +4,10 @@ import java.lang.reflect.Constructor;
 import java.util.UUID;
 
 import static lang.ErrorMessages.CLASS_NOT_FOUND;
+import static lang.ErrorMessages.ERROR_CREATING_DEVICE;
 
+//Kann mit dem gefunden String des DeviceScanner ein richtiges Java Objekt bauen
 public class DeviceFactory {
-
-    //kann mit dem gefunden String des DeviceScanner ein richtiges Java Objekt bauen
-
     private static final String PACKAGE_NAME = "devices";
 
     //hier wird reflection genutzt
@@ -16,13 +15,13 @@ public class DeviceFactory {
         try {
             String fullClassName = PACKAGE_NAME + "." + className;
 
-            //sucht die "Bauanleitung" des zu erstellenen Gerätes
+            //sucht die "Bauanleitung" des zu erstellenden Geraetes
             Class<?> clazz = Class.forName(fullClassName);
 
             //sucht dann nach dem Constructor, der die 2 Parameter hat
             Constructor<?> constructor = clazz.getConstructor(UUID.class, String.class);
 
-            //fürht den Constructor aus und gibt das erstellte Gerät dann zurück
+            //fuehrt den Constructor aus und gibt das erstellte Gerät dann zurueck
             Object device = constructor.newInstance(id, name);
 
             return (SmartDevice) device;
@@ -30,7 +29,7 @@ public class DeviceFactory {
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException(CLASS_NOT_FOUND + className, e);
         } catch (Exception e) {
-            throw new RuntimeException("Error occurred while creating the device: " + className, e);
+            throw new RuntimeException(ERROR_CREATING_DEVICE + className, e);
         }
 
     }

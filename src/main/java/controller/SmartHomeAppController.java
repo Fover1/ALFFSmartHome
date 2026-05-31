@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import static lang.ErrorMessages.NO_ACTION_TO_UNDO;
+
+//Verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
+//Methoden werden teilweise auch von der GUI abgerufen
 public class SmartHomeAppController {
-
-
     public final List<LogListener> logListeners = new ArrayList<>();
-    //verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
-    //Methoden werden teilweise auch von der GUI abgerufen
     private final SmartHomeModel smartHomeModel;
     private final Stack<Action> actionHistory = new Stack<>();
     private String currentConfigFile;
@@ -58,7 +58,6 @@ public class SmartHomeAppController {
         smartHomeModel.changeDeviceRoom(device, oldRoom, newRoom);
     }
 
-
     public List<SmartDevice> getAllDevices() {
         return smartHomeModel.getAllDevices();
     }
@@ -83,7 +82,7 @@ public class SmartHomeAppController {
         action.execute();
         actionHistory.push(action);
 
-        // Wenn es eine manuelle Geräteaktion war, sofort ins Log schreiben!
+        //Wenn es eine manuelle Geraeteaktion war, wird es ins Log geschrieben
         if (action instanceof DeviceAction deviceAction) {
             LogEntry entry = new LogEntry(
                     "Manuell",
@@ -115,10 +114,10 @@ public class SmartHomeAppController {
         if (!actionHistory.isEmpty()) {
             Action lastAction = actionHistory.pop();
             lastAction.undo();
-
+            //TODO: Frage für mich: Ist es so gewollt, dass jede Aktion "System" und "Undo" angezeigt wird, wenn sie rückgängig gemacht wird?
             notifyLogListeners(new LogEntry("System", "Undo", lastAction.getDescription(), "Aktion rückgängig gemacht"));
         } else {
-            System.out.println("Keine Aktion zum Rückgängigmachen vorhanden.");
+            System.out.println(NO_ACTION_TO_UNDO); //TODO: Frage: Muss das nicht auch in den notifyLogListener?
         }
     }
 
@@ -140,13 +139,10 @@ public class SmartHomeAppController {
         if (data != null) {
             if (data.rooms != null) {
                 smartHomeModel.setRooms(data.rooms);
-                System.out.println("Räume werden neu geladen");
             }
             if (data.scenarios != null) {
                 smartHomeModel.setScenarios(data.scenarios);
-                System.out.println("Scenarien werden neu geladen");
             }
         }
-
     }
 }

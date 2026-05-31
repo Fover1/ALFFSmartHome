@@ -25,7 +25,6 @@ public class Room {
         }
     }
 
-
     public void removeDevice(SmartDevice smartDevice) {
         smartDevices.remove(smartDevice);
         notifyObservers();

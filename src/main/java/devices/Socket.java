@@ -5,6 +5,8 @@ import model.DeviceFunction;
 
 import java.util.UUID;
 
+import static lang.DeviceMessages.SOCKET_SWITCH_FUNCTION_DESCRIPTION;
+
 public class Socket extends AbstractDevice {
     private boolean isOn = false;
 
@@ -24,7 +26,7 @@ public class Socket extends AbstractDevice {
 
             @Override
             public String getDescription() {
-                return "Schaltet Steckdose ein oder aus";
+                return SOCKET_SWITCH_FUNCTION_DESCRIPTION;
             }
 
             @Override

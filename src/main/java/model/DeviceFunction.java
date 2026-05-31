@@ -1,13 +1,12 @@
 package model;
 
 public interface DeviceFunction {
-    //Repräsentiert eine einzelne Funktion eines Gerätes
+    //repraesentiert eine einzelne Funktion eines Geraetes
     void execute(Object parameter);
 
-    /// Für die GUI nutzen?
     String getDescription();
 
-    /// hiermit soll die GUI dann wissen, was man für nen eingabetyp hat
+    //hiermit soll die GUI  wissen, was man für nen Eingabetypen hat //TODO: Umformulieren!
     Class<?> getParameterType();
 
     default Double getMin() {
@@ -23,7 +22,6 @@ public interface DeviceFunction {
     }
 
     default String getColor() {
-        System.out.println("aufruf color interface");
         return null;
     }
 
@@ -34,5 +32,4 @@ public interface DeviceFunction {
     default Boolean getState() {
         return null;
     }
-
 }

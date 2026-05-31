@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public record LogEntry(
-
         LocalDateTime timeStamp,
         String scenarioName,
         String deviceName,

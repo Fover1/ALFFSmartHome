@@ -9,11 +9,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
+//Ein Scenario ist eigentlich auch eine Action, in welcher mit der Methode "execute" mehrere Actions aufgerufen werden
+//Außerdem werden weitere Methoden zur Verwaltung mehrerer Actions implementiert
 public class Scenario implements Action {
-
-    //Ein Scenario ist eigentlich auch eine Action, in welcher einfach bei execut mehrere Actions aufgerufen werden
-    //Außerdem werden weitere Methoden zur Verwaltung mehrerer Actions implementiert
-
     private UUID id;
     private String name;
     private String description;
@@ -37,21 +35,15 @@ public class Scenario implements Action {
 
     @Override
     public void execute() {
-        System.out.println("Führe Szenario aus: " + name);
-
         for (Action action : actions) {
-            System.out.println("Execute: " + action.getDescription());
             action.execute();
         }
     }
 
     @Override
     public void undo() {
-        System.out.println("Mache Szenario rückgängig: " + name);
-
         for (int i = actions.size() - 1; i >= 0; i--) {
             Action action = actions.get(i);
-            System.out.println("Undo Aktion: " + action.getDescription());
             action.undo();
         }
     }
