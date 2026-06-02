@@ -78,7 +78,6 @@ public class RoomController implements RoomObserver {
 
         if (deviceContainer != null && smartHomeAppController != null) {
             deviceContainer.getChildren().clear();
-            System.out.println("Geräte unsichtbar gemacht");
         }
         raumAuswahl.setText("Noch kein Raum ausgewählt");
     }
