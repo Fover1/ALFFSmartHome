@@ -61,10 +61,6 @@ public class Scenario implements Action {
         return "Szenario: " + name + " (" + actions.size() + " Aktionen)";
     }
 
-    public String getDiscription() {
-        return description;
-    }
-
     public int getCount() {
         return actions.size();
     }

@@ -53,7 +53,7 @@ public class ScenarioController {
     public void initialize() {
         // setCellValueFactory bringt den String in ein Format, dass die JavaFX Zeile verseteht
         colName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDiscription()));
+        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
         colActionCount.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()));
 
         actionListView.setCellFactory(param -> new ListCell<>() {
@@ -76,7 +76,7 @@ public class ScenarioController {
         if (scenario != null) {
             detailArea.setDisable(false);
             txtName.setText(scenario.getName());
-            txtDescription.setText(scenario.getDiscription());
+            txtDescription.setText(scenario.getDescription());
             updateActionList(scenario);
         } else {
             detailArea.setDisable(true);
@@ -97,8 +97,6 @@ public class ScenarioController {
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);
         scenarioTable.getSelectionModel().select(newScenario);
-        /// todo: braucht maN das hier?
-        updateUI();
     }
 
     @FXML
