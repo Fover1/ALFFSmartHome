@@ -30,7 +30,6 @@
             <Button maxWidth="Infinity" onAction="#showScenarios"
                     style="-fx-background-color: transparent; -fx-text-fill: white; -fx-alignment: CENTER_LEFT;"
                     text="Szenarien"/>
-            <ListView fx:id="logListView" prefHeight="202.0" prefWidth="179.0"/>
         </VBox>
     </left>
 
@@ -49,6 +48,6 @@
         </ToolBar>
     </top>
     <bottom>
-        <ListView fx:id="logListView1" prefHeight="120.0" prefWidth="900.0" BorderPane.alignment="CENTER"/>
+        <ListView fx:id="logListView" prefHeight="120.0" prefWidth="900.0" BorderPane.alignment="CENTER"/>
     </bottom>
 </BorderPane>

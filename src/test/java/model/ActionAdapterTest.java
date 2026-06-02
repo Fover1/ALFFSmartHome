@@ -18,8 +18,7 @@ class ActionAdapterTest {
 
     private ActionAdapter adapter;
 
-    // Eine simple Implementierung des Action-Interfaces für den Test,
-    // um Mockito-Proxy-Klassennamen bei src.getClass() zu vermeiden.
+    //Eine simple Implementierung des Action-Interfaces für den Test, um Mockito-Proxy-Klassennamen bei src.getClass() zu vermeiden.
     static class DummyAction implements Action {
         @Override
         public void execute() {

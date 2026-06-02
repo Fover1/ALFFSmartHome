@@ -28,12 +28,11 @@ public class ActionDialog extends Dialog<DeviceAction> {
         setTitle(existingAction == null ? "Aktion hinzufügen" : "Aktion bearbeiten");
         setHeaderText("Bitte wähle das Gerät und die gewünschte Aktion aus.");
 
-        //schaut automatisch nach, welches Betriebssystem es ist und verschiebt den Button an die richtige stelle
-        //außerdem mit Entertaste verknüpft
+        //schaut automatisch nach, welches Betriebssystem es ist und verschiebt den Button an die richtige Stelle
+        //außerdem mit Entertaste verknuepft
         ButtonType saveButtonType = new ButtonType("Speichern", ButtonBar.ButtonData.OK_DONE);
-        //das DialogPane ist dieses Popup. Die haben standartweise untenn eine Reihe für buttons. Hier werden diese buttons hinzugefügt
-        //JAVAFX hat bereits vorgefertigte buttons. Hier werden Done und Cancel genutzt
-        //automatisch mit esc verknüpft
+        //JAVAFX hat bereits vorgefertigte Buttons. Hier werden Done und Cancel genutzt.
+        //automatisch mit ESC verknuepft
         getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
         grid = new GridPane();
@@ -69,7 +68,7 @@ public class ActionDialog extends Dialog<DeviceAction> {
         grid.add(deviceComboBox, 1, 1);
         grid.add(new Label("Funktion:"), 0, 2);
         grid.add(functionComboBox, 1, 2);
-        grid.add(new Label("Wert (Parameter):"), 0, 3);
+        grid.add(new Label("Wert:"), 0, 3);
 
         getDialogPane().setContent(grid);
 
@@ -144,12 +143,9 @@ public class ActionDialog extends Dialog<DeviceAction> {
 
         if (dynamicParameterControl != null) {
             grid.add(dynamicParameterControl, 1, 3);
-            // Von Stackoverflow, um die Fenstergröße an die neu erstellte Parametereingabe anzupassne
             if (getDialogPane().getScene() != null && getDialogPane().getScene().getWindow() != null) {
                 getDialogPane().getScene().getWindow().sizeToScene();
             }
         }
     }
-
-
 }

@@ -6,7 +6,7 @@ public interface DeviceFunction {
 
     String getDescription();
 
-    //hiermit soll die GUI  wissen, was man für nen Eingabetypen hat //TODO: Umformulieren!
+    //hiermit soll die GUI  wissen, was man fuer einen Eingabetypen hat
     Class<?> getParameterType();
 
     default Double getMin() {

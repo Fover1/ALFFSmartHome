@@ -33,13 +33,13 @@ public class RoomController implements RoomObserver {
     @FXML
     private FlowPane roomContainer;
     @FXML
-    private Label raumAuswahl;
+    private Label roomSelection;
     @FXML
     private Button deleteRoom;
     @FXML
     private Button editRoom;
     @FXML
-    private Label deviceAnzeige;
+    private Label deviceDisplay;
     private Room currentRoom;
 
     public void setAppController(SmartHomeAppController smartHomeAppController) {
@@ -79,7 +79,7 @@ public class RoomController implements RoomObserver {
         if (deviceContainer != null && smartHomeAppController != null) {
             deviceContainer.getChildren().clear();
         }
-        raumAuswahl.setText("Noch kein Raum ausgewählt");
+        roomSelection.setText("Noch kein Raum ausgewählt");
     }
 
     @FXML
@@ -91,16 +91,15 @@ public class RoomController implements RoomObserver {
                 ""
         );
 
-        result.ifPresent(roomName -> {
-            if (!roomName.trim().isEmpty()) {
+        result.ifPresent(inputName -> {
+            String roomName = inputName.trim();
+            if (!roomName.isEmpty()) {
+                if (checkIfRoomNameAlreadyExists(roomName)) { return; }
                 smartHomeAppController.addRoom(roomName);
-                System.out.println("Neuer Raum angelegt: " + roomName);
-
+                smartHomeAppController.save();
+                updateUI();
             }
         });
-
-        smartHomeAppController.save();
-        updateUI();
     }
 
     @FXML
@@ -123,7 +122,6 @@ public class RoomController implements RoomObserver {
         dialog.getDialogPane().getButtonTypes().addAll(addButtonType, javafx.scene.control.ButtonType.CANCEL);
 
         javafx.scene.layout.GridPane grid = new javafx.scene.layout.GridPane();
-        /// todo: hier ist ein weiteres beispiel, wie man padding einbauen kann
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new javafx.geometry.Insets(20, 150, 10, 10));
@@ -144,10 +142,10 @@ public class RoomController implements RoomObserver {
 
         dialog.getDialogPane().setContent(grid);
 
-        //hiermit kann man den Fokus direkt auf das Namenfeld setzten, damit man da direkt reinschreiben kann
+        //hiermit kann der Fokus direkt auf das Namenfeld gesetzt werden, damit direkt reingeschrieben werden kann
         Platform.runLater(nameField::requestFocus);
 
-        // Definiert, was zurückgegeben wird, wenn man auf "Hinzufügen" klickt
+        //definiert, was zurückgegeben wird, wenn auf "Hinzufügen" geklickt wird
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == addButtonType) {
                 return new javafx.util.Pair<>(nameField.getText(), typeComboBox.getValue());
@@ -155,34 +153,42 @@ public class RoomController implements RoomObserver {
             return null;
         });
 
-        // Dialog anzeigen und auf Ergebnis warten
+        //Dialog anzeigen und auf Ergebnis warten
         Optional<javafx.util.Pair<String, String>> result = dialog.showAndWait();
 
-        // Ergebnis verarbeiten
+        //Ergebnis verarbeiten
         result.ifPresent(nameTypePair -> {
-            String deviceName = nameTypePair.getKey();
+            String deviceName = nameTypePair.getKey().trim();
             String deviceType = nameTypePair.getValue();
 
-            if (deviceName != null && !deviceName.trim().isEmpty() && deviceType != null) {
+            if (!deviceName.isEmpty() && deviceType != null) {
+                boolean nameExistsInRoom = currentRoom.getSmartDevices().stream().anyMatch(device -> device.getName().equalsIgnoreCase(deviceName));
+                if (nameExistsInRoom) {
+                    javafx.scene.control.Alert duplicateAlert = new  javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+                    duplicateAlert.setTitle("Der Name ist bereits vergeben.");
+                    duplicateAlert.setHeaderText("Dieses Gerät existiert bereits.");
+                    duplicateAlert.setContentText("Ein Gerät mit dem Namen '" + deviceName + "' ist bereits vorhanden. Bitte wähle einen anderen Namen.");
+                    duplicateAlert.showAndWait();
+                    return;
+                }
+
                 try {
-                    // ID generieren (Da ihr auf UUID umstellen wollt / UUID in DeviceFactory verwendet wird)
                     java.util.UUID newId = java.util.UUID.randomUUID();
 
-                    // Neues Gerät über die DeviceFactory erstellen
+                    //neues Gerät über die DeviceFactory erstellen
                     SmartDevice newDevice = model.DeviceFactory.createDevice(deviceType, newId, deviceName);
 
-                    // Gerät dem aktuellen Raum hinzufügen (notifyObservers wird in addDevice getriggert)
+                    //Gerät dem aktuellen Raum hinzufügen (notifyObservers wird in addDevice getriggert)
                     currentRoom.addDevice(newDevice);
 
-                    // Speichern
+                    //Speichern
                     smartHomeAppController.save();
 
-                    // Ansicht aktualisieren
+                    //Ansicht aktualisieren
                     showDevices(currentRoom);
 
-                    System.out.println("Neues Gerät angelegt: " + deviceName + " (Typ: " + deviceType + ")");
                 } catch (Exception e) {
-                    // Fehlerbehandlung, falls Factory fehlschlägt
+                    //Fehlerbehandlung, falls Factory fehlschlaegt
                     javafx.scene.control.Alert errorAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
                     errorAlert.setTitle("Fehler");
                     errorAlert.setHeaderText("Gerät konnte nicht erstellt werden");
@@ -197,11 +203,10 @@ public class RoomController implements RoomObserver {
     @FXML
     public void showDevices(Room room) {
         this.currentRoom = room;
-        deviceAnzeige.setVisible(true);
+        deviceDisplay.setVisible(true);
         addDevice.setVisible(true);
         updateUI();
-        raumAuswahl.setText("Ausgewählter Raum: " + currentRoom.getName() + "    ");
-        System.out.println("Raum ausgewählt: " + currentRoom.getName());
+        roomSelection.setText("Ausgewählter Raum: " + currentRoom.getName() + "    ");
 
         deleteRoom.setOnAction(e -> {
             smartHomeAppController.deleteRoom(currentRoom);
@@ -212,15 +217,12 @@ public class RoomController implements RoomObserver {
             updateUI();
         });
 
-
         deleteRoom.setVisible(true);
         editRoom.setVisible(true);
 
-
         for (SmartDevice device : getDevices(room)) {
-            Button deviceButton = new Button(device.getName() + " (" + device.getId() + ")" + System.currentTimeMillis());
+            Button deviceButton = new Button(device.getName());
             deviceButton.setOnAction(e -> openDeviceView(device, room));
-
             deviceContainer.getChildren().add(deviceButton);
         }
     }
@@ -228,22 +230,22 @@ public class RoomController implements RoomObserver {
     private void handleRoomNameChange(Room room) {
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Name ändern: " + room.getName());
-        dialog.setHeaderText(String.format("Bitte gebe einen neuen Namen für den Raum \"%s\" ein", room.getName()));
+        dialog.setHeaderText(String.format("Bitte geben Sie einen neuen Namen für den Raum \"%s\" ein", room.getName()));
 
         Optional<String> result = dialog.showAndWait();
 
-        result.ifPresent(roomName -> {
-            if (!roomName.trim().isEmpty()) {
-                smartHomeAppController.changeRoomName(room, roomName);
-                System.out.println("Raumname geändert: " + roomName);
-
+        result.ifPresent(inputName -> {
+            String newRoomName = inputName.trim();
+            if (!newRoomName.isEmpty() && !newRoomName.equalsIgnoreCase(room.getName())) {
+                if (checkIfRoomNameAlreadyExists(newRoomName)) { return; }
+                smartHomeAppController.changeRoomName(room, newRoomName);
+                smartHomeAppController.save();
             }
         });
-        smartHomeAppController.save();
     }
 
     private void openDeviceView(SmartDevice device, Room selectedRoom) {
-        //hier wird geprüft, ob für das Gerät schon ein fenster offen ist
+        //hier wird geprüft, ob für das Geraet schon ein Fenster offen ist
         if (deviceWindows.containsKey(device.getId())) {
             Stage stage = deviceWindows.get(device.getId());
             if (stage.isShowing()) {
@@ -284,5 +286,19 @@ public class RoomController implements RoomObserver {
 
     public List<SmartDevice> getDevices(Room room) {
         return room.getSmartDevices();
+    }
+
+    private boolean checkIfRoomNameAlreadyExists(String roomName) {
+        boolean roomExists = smartHomeAppController.getAllRooms().stream()
+                .anyMatch(r -> r.getName().equalsIgnoreCase(roomName));
+
+        if (roomExists) {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+            alert.setTitle("Name bereits vergeben");
+            alert.setHeaderText("Dieser Raum existiert bereits.");
+            alert.setContentText("Ein Raum mit dem Namen '" + roomName + "' ist bereits vorhanden. Bitte wähle einen anderen Namen.");
+            alert.showAndWait();
+        }
+        return roomExists;
     }
 }

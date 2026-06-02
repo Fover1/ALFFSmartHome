@@ -51,7 +51,7 @@ public class ScenarioController {
 
     @FXML
     public void initialize() {
-        // setCellValueFactory bringt den String in ein Format, dass die JavaFX Zeile verseteht
+        //setCellValueFactory bringt den String in ein Format, welches die JavaFX Zeile versteht
         colName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDiscription()));
         colActionCount.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()));
@@ -67,7 +67,6 @@ public class ScenarioController {
                 }
             }
         });
-
         scenarioTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> showScenarioDetails(newValue));
     }
@@ -97,8 +96,6 @@ public class ScenarioController {
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);
         scenarioTable.getSelectionModel().select(newScenario);
-        /// todo: braucht maN das hier?
-        updateUI();
     }
 
     @FXML
@@ -108,22 +105,10 @@ public class ScenarioController {
             java.util.UUID idToDelete = selected.getId();
 
             for (Scenario scenario : observableScenarios) {
-                System.out.println("Das Scenario: " + scenario.getName() + " mit : " + scenario.getId());
-            }
-
-
-            for (Scenario scenario : smartHomeAppController.getAllScenarios()) {
-                System.out.println("Das Scenario: " + scenario.getName() + " mit : " + scenario.getId());
-            }
-
-            for (Scenario scenario : observableScenarios) {
-                System.out.println("aktuelles Scenario: " + scenario.getName() + " | " + scenario.getId());
                 scenario.getActions().removeIf(action -> {
                     if (action instanceof Scenario) {
-                        System.out.println("ist das gleich? :" + ((Scenario) action).getId().equals(idToDelete));
                         return (((Scenario) action).getId().equals(idToDelete));
                     }
-                    System.out.println("das ist es nicht" + scenario.getName());
                     return false;
                 });
             }
@@ -144,7 +129,6 @@ public class ScenarioController {
             smartHomeAppController.save();
             scenarioTable.refresh();
         } else {
-            System.out.println("selected != null --> es sollte kein neues Szeanrio angelegt werden");
             selected.setName(txtName.getText());
             selected.setDescription(txtDescription.getText());
             smartHomeAppController.save();
@@ -161,7 +145,6 @@ public class ScenarioController {
         }
     }
 
-
     @FXML
     private void handleAddAction() {
         Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
@@ -170,7 +153,6 @@ public class ScenarioController {
             Optional<DeviceAction> result = dialog.showAndWait();
 
             result.ifPresent(action -> {
-                System.out.println(action.getParameter().getClass().getSimpleName());
                 selectedScenario.addAction(action);
                 updateActionList(selectedScenario);
                 scenarioTable.refresh();
@@ -185,7 +167,6 @@ public class ScenarioController {
         Action selectedAction = actionListView.getSelectionModel().getSelectedItem();
 
         if (selectedScenario != null && selectedAction instanceof DeviceAction deviceAction) {
-            System.out.println(deviceAction.getFunctionName() + deviceAction.getDescription() + deviceAction.getTargetDevice().getName());
             ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllRooms(), smartHomeAppController.getAllDevices(), deviceAction);
             Optional<DeviceAction> result = dialog.showAndWait();
 
@@ -239,17 +220,13 @@ public class ScenarioController {
         Scenario currentScenario = scenarioTable.getSelectionModel().getSelectedItem();
         if (currentScenario == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Scenario nicht gefFunden");
-            alert.setContentText("Bitte wählen Sie ein Szenario aus");
+            alert.setTitle("Szenario konnte nicht gefunden werden.");
+            alert.setContentText("Bitte wählen Sie ein Szenario aus.");
             alert.showAndWait();
             return;
         }
 
         List<Scenario> test = smartHomeAppController.getAllScenarios();
-
-        for (Scenario scenario : test) {
-            System.out.println("Name: " + scenario.getName() + "ID: " + scenario.getId());
-        }
 
         List<Scenario> availableScenarios = smartHomeAppController.getAllScenarios().stream()
                 .filter(scenario -> !scenario.getId().equals(currentScenario.getId()))
@@ -257,7 +234,7 @@ public class ScenarioController {
 
         if (availableScenarios.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Keine Szenarien");
+            alert.setTitle("Es konnten keine Szenarien gefunden werden.");
             alert.setHeaderText(null);
             alert.setContentText("Es gibt keine anderen Szenarien zum Einfügen.");
             alert.showAndWait();
@@ -282,14 +259,9 @@ public class ScenarioController {
                     .orElse(null);
 
             if (selectedScenario != null) {
-                ScenarioAction scenarioAction = new ScenarioAction(selectedScenario.getId());
-//                System.out.println("im Coontrolle: Name:" + scenarioAction.getTargetScenario().getName() + "ID:" + scenarioAction.getTargetScenario().getId());
                 currentScenario.addAction(selectedScenario);
-//                updateActionList(scenarioAction);
                 scenarioTable.refresh();
                 smartHomeAppController.save();
-
-                System.out.println("Szenario eingefügt! Gespeicherte ID: " + selectedScenario.getId());
             }
         });
     }
@@ -314,6 +286,4 @@ public class ScenarioController {
             showScenarioDetails(null);
         }
     }
-
-
 }

@@ -1,12 +1,12 @@
 package model;
 
-//TODO Frage: Wollen wir einen eigenen Ordner für die ganzen Interfaces anlegen?
+//TODO Frage: Wollen wir einen eigenen Ordner für die ganzen Interfaces anlegen? --> Alex sagt ja, was sagt Finn?
 
 public interface Action {
-    //Basis, was "getan" werden kann //TODO Frage: Was getan werden kann? Ist das nicht einfach die Beschreibung, was die Geräte können? Also was die Funktionen sind?
+    //Beschreibung der ausgewaehlten Aktion
     String getDescription();
 
-    //gibt an, dass jede Action nur "ausfürbar" sein muss //TODO: Kommentar überarbeiten
+    //gibt an, dass jede Action "execute" implementieren muss
     void execute();
 
     void undo();

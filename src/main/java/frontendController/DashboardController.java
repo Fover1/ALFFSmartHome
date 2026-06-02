@@ -1,0 +1,98 @@
+package frontendController;
+
+import controller.SmartHomeAppController;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import model.DeviceFunction;
+import model.Room;
+import model.SmartDevice;
+
+public class DashboardController {
+
+    private SmartHomeAppController appController;
+
+    @FXML
+    private Label activeDevicesLabel;
+
+    @FXML
+    private Label activeDevicesSubtext;
+
+    @FXML
+    private Label averageTempLabel;
+
+    @FXML
+    private Label warmestRoomLabel;
+
+    public void setAppController(SmartHomeAppController appController) {
+        this.appController = appController;
+        updateClimateData();
+        updateActiveDevices();
+    }
+
+    private void updateActiveDevices() {
+        if (appController == null) return;
+
+        int totalDevices = 0;
+        int activeDevices = 0;
+
+        for (Room room : appController.getAllRooms()) {
+            for (SmartDevice device : room.getSmartDevices()) {
+                totalDevices++;
+
+                if (isDeviceActive(device)) {
+                    activeDevices++;
+                }
+            }
+        }
+        activeDevicesLabel.setText(String.valueOf(activeDevices));
+        activeDevicesSubtext.setText("Von " + totalDevices + " Geräten im Haus eingeschaltet");
+    }
+
+    private void updateClimateData() {
+        if (appController == null) return;
+
+        double totalTemperature = 0.0;
+        int sensorCount = 0;
+        double maxTemperature = -Double.MAX_VALUE;
+        String warmestRoomName = "-";
+
+        for (Room room : appController.getAllRooms()) {
+            for (SmartDevice device : room.getSmartDevices()) {
+                boolean isDeviceOn = isDeviceActive(device);
+                if (isDeviceOn && device.getAvailableFunctions().contains("Temperatur")) {
+                    DeviceFunction tempFunc = device.getFunction("Temperatur");
+                    if (tempFunc.getValue() instanceof Double) {
+                        double currentTemp = tempFunc.getValue();
+
+                        totalTemperature += currentTemp;
+                        sensorCount++;
+                        if (currentTemp > maxTemperature) {
+                            maxTemperature = currentTemp;
+                            warmestRoomName = room.getName();
+                        }
+                    }
+                }
+            }
+        }
+
+        if (sensorCount > 0) {
+            double averageTemp = totalTemperature / sensorCount;
+            averageTempLabel.setText(String.format(java.util.Locale.US, "%.1f °C", averageTemp));
+            warmestRoomLabel.setText(warmestRoomName + " ist am wärmsten (" + String.format(java.util.Locale.US, "%.1f °C", maxTemperature) + ")");
+        } else {
+            averageTempLabel.setText("-- °C");
+            warmestRoomLabel.setText("Keine aktiven Temperatursensoren");
+        }
+    }
+
+    private boolean isDeviceActive(SmartDevice device) {
+        if (device.getAvailableFunctions().contains("Schalten")) {
+            DeviceFunction switchFunc = device.getFunction("Schalten");
+            if (switchFunc.getState() instanceof Boolean) {
+                return switchFunc.getState();
+            }
+        }
+        return true;
+    }
+}

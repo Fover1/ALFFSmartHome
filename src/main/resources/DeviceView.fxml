@@ -42,13 +42,18 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
             </GridPane>
-            <FlowPane alignment="TOP_CENTER" hgap="15.0" rowValignment="TOP" vgap="15.0">
-            <children>
-                  <Button fx:id="changeDeviceName" mnemonicParsing="false" text="Gerät umbennen" />
-                  <ComboBox fx:id="changeDeviceRoom" />
-                  <Button fx:id="deleteDevice" mnemonicParsing="false" text="Gerät Löschen" />
-            </children>
-         </FlowPane>
+            <VBox alignment="CENTER" spacing="5.0" prefWidth="402.0">
+                <children>
+                    <Label fx:id="deviceIdLabel" textFill="#888888" style="-fx-font-size: 11px;" />
+                    <FlowPane alignment="TOP_CENTER" hgap="15.0" rowValignment="TOP" vgap="15.0">
+                        <children>
+                            <Button fx:id="changeDeviceName" mnemonicParsing="false" text="Gerät umbennen" />
+                            <ComboBox fx:id="changeDeviceRoom" />
+                            <Button fx:id="deleteDevice" mnemonicParsing="false" text="Gerät Löschen" />
+                        </children>
+                    </FlowPane>
+                </children>
+            </VBox>
         </FlowPane>
     </VBox>
 </ScrollPane>

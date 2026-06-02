@@ -1,4 +1,74 @@
 {
-  "rooms": [],
-  "scenarios": []
+  "rooms": [
+    {
+      "name": "hi",
+      "smartDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 0.0,
+            "isOn": false,
+            "id": "d0ead41f-436b-47d5-a306-5f64aec4a4e4",
+            "name": "hello"
+          }
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "1c3ce4ae-ae70-4937-b9cd-8d2ba44ea032",
+      "name": "",
+      "description": "",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 0.0,
+                "isOn": false,
+                "id": "d0ead41f-436b-47d5-a306-5f64aec4a4e4",
+                "name": "hello"
+              }
+            },
+            "functionName": "Temperatur",
+            "parameter": 10.384615384615385,
+            "previousParameter": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "bc957fee-7baf-46de-8044-b2e995fc5f90",
+      "name": "",
+      "description": "",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 0.0,
+                "isOn": false,
+                "id": "d0ead41f-436b-47d5-a306-5f64aec4a4e4",
+                "name": "hello"
+              }
+            },
+            "functionName": "Temperatur",
+            "parameter": 17.76923076923077,
+            "previousParameter": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "2929b927-a7d5-4c50-818b-56d69a5475cd",
+      "name": "hi",
+      "description": "asdas",
+      "actions": []
+    }
+  ]
 }

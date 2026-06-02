@@ -1,4 +1,241 @@
 {
-  "rooms": [],
-  "scenarios": []
+  "rooms": [
+    {
+      "name": "Wohnzimmer",
+      "smartDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 30.0,
+            "isOn": false,
+            "id": "68908f53-13ef-45fb-8d1a-9f04613b766a",
+            "name": "Kamin"
+          }
+        },
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 100.0,
+            "isOn": true,
+            "id": "04b5a84e-281e-4797-9ad6-e4aee1ae8e28",
+            "name": "Katzenlampe"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gamingraum",
+      "smartDevices": [
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": false,
+            "hexColor": "#FFFFFF",
+            "id": "dee949c5-184b-4770-ad34-464b5f8d4d09",
+            "name": "LED"
+          }
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "d206fcd9-2709-4d0d-96be-1ea40b878f9e",
+      "name": "Gaming Feeling",
+      "description": "Cozy Gaming Time",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Socket",
+              "data": {
+                "isOn": true,
+                "id": "315bbf3c-e83a-46e0-87f8-fd2a0803da0c",
+                "name": "PC"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true,
+            "previousParameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 40.6060606060606,
+                "isOn": true,
+                "hexColor": "#8066CC",
+                "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                "name": "LED"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true,
+            "previousParameter": true
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 40.6060606060606,
+                "isOn": true,
+                "hexColor": "#8066CC",
+                "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                "name": "LED"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 40.6060606060606,
+            "previousParameter": 40.6060606060606
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 40.6060606060606,
+                "isOn": true,
+                "hexColor": "#8066CC",
+                "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                "name": "LED"
+              }
+            },
+            "functionName": "Farbe",
+            "parameter": "#8066CC",
+            "previousParameter": "#8066CC"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fcee3a3a-d827-4880-8cf3-830f5cc5a610",
+      "name": "Coming Home",
+      "description": "Cozy Home",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 26.92596829547312,
+                "isOn": true,
+                "id": "34b9639d-264b-4171-b8a3-cb8f886644ba",
+                "name": "Fußbodenheizung"
+              }
+            },
+            "functionName": "Temperatur",
+            "parameter": 26.92596829547312
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 40.6060606060606,
+                "isOn": true,
+                "hexColor": "#8066CC",
+                "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                "name": "LED"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 81.04265402843602
+          }
+        },
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "d206fcd9-2709-4d0d-96be-1ea40b878f9e",
+            "name": "Gaming Feeling",
+            "description": "Cozy Gaming Time",
+            "actions": [
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.Socket",
+                    "data": {
+                      "isOn": true,
+                      "id": "315bbf3c-e83a-46e0-87f8-fd2a0803da0c",
+                      "name": "PC"
+                    }
+                  },
+                  "functionName": "Schalten",
+                  "parameter": true,
+                  "previousParameter": true
+                }
+              },
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.RgbLamp",
+                    "data": {
+                      "brightness": 40.6060606060606,
+                      "isOn": true,
+                      "hexColor": "#8066CC",
+                      "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                      "name": "LED"
+                    }
+                  },
+                  "functionName": "Schalten",
+                  "parameter": true,
+                  "previousParameter": true
+                }
+              },
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.RgbLamp",
+                    "data": {
+                      "brightness": 40.6060606060606,
+                      "isOn": true,
+                      "hexColor": "#8066CC",
+                      "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                      "name": "LED"
+                    }
+                  },
+                  "functionName": "Helligkeit",
+                  "parameter": 40.6060606060606,
+                  "previousParameter": 81.04265402843602
+                }
+              },
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.RgbLamp",
+                    "data": {
+                      "brightness": 40.6060606060606,
+                      "isOn": true,
+                      "hexColor": "#8066CC",
+                      "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                      "name": "LED"
+                    }
+                  },
+                  "functionName": "Farbe",
+                  "parameter": "#8066CC",
+                  "previousParameter": "#8066CC"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
 }

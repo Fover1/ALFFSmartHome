@@ -11,36 +11,20 @@ import javafx.scene.paint.Color;
 import model.DeviceFunction;
 import model.SmartDevice;
 
-//da die Parametereingaben in verschiedenen Anwendungsfällen benötigt werden, werden diese hier Zentral erstellt
-//sollte ein neuer Parametertyp vorkommen, kann man diesen hier implementieren und somit können die verschiedenen Klassen diesen neuen typen "automatisch" handeln
+//Da die Parametereingaben in verschiedenen Anwendungsfaellen benoetigt werden, werden diese hier zentral erstellt.
+//Sollte ein neuer Parametertyp vorkommen, kann dieser hier implementieren und somit koennen die verschiedenen Klassen diesen neuen Typen "automatisch" handeln.
 public class ParameterControlFactory {
 
-    //Node ist wie ein Abstract Device für Frontend Kopmonenten (also z.B. Slider, Checkbox und so sind alles Nodes)
+    //Node ist wie ein Abstract Device fuer Frontend Komponenten (also z.B. Slider, Checkbox und so sind alles Nodes)
     public static Node createControl(SmartDevice device, String functionName, String initialValue) {
         if (device == null || functionName == null) {
-            return new TextField("kein device / functionname");
+            return new TextField("Kein Gerät / Kein Funktionsname");
         }
-
-////        DeviceFunction function = device.getFunctions().get(functionName);
-//        List<String> functions = device.getAvailableFunctions();
-//        for (int i = 0; i < functions.size(); i++) {}
-//        DeviceFunction function = device.getAvailableFunctions().get
-
-//        DeviceFunction function = device.getFunctions().get(i)
-
-//        List<DeviceFunction> functions = device.getFunctions();
-//        DeviceFunction function = null;
-//        for (DeviceFunction function1 : functions) {
-//            if (function1.getClass().getSimpleName().equals(functionName)) {
-//                System.out.println(functionName.getClass().getSimpleName());
-//                function = function1;
-//            }
-//        }
 
         DeviceFunction function = device.getFunction(functionName);
 
         if (function == null) {
-            return new TextField("funcktion: " + functionName + " nicht gefunden");
+            return new TextField("Funktion: " + functionName + " nicht gefunden.");
         }
 
         Class<?> paramType = function.getParameterType();
@@ -102,12 +86,10 @@ public class ParameterControlFactory {
         return checkBox;
     }
 
-
     public static Object getValueFromControl(Node control) {
         if (control instanceof Slider slider) {
             return slider.getValue();
         } else if (control instanceof ColorPicker picker) {
-            System.out.println("ColorPicker value: " + picker.getValue().toString());
             Color c = picker.getValue();
             return String.format("#%02X%02X%02X",
                     (int) (c.getRed() * 255),

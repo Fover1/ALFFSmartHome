@@ -37,5 +37,4 @@ Bevor neue Objekte erstellt werden, muss erst die ID vergabe (mit UUID) umgesetz
 
 
 WEITERE DINGE:
-- Gerätenamen sind stand jetzt weiterhin mit der ID verbunden --> unschön --> noch ändern
-- müssen wir auch die Funktion haben neue Gerätetypen hinzuzufügen oder war nur die Möglichkeit, das erweitern zu können (also so wie es jetzt ist) gefordert?
+- configs am Ende nochmal anpassen!!!

@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 import static lang.ErrorMessages.UNKNOWN_ACTION_JSON;
 
 //Da GSON beim Serialisieren/Deserialisieren der JSON nicht weiß, was er für eine Art Action vor sich hat (Action ist ein Interface das von anderen konkreten Klassen implementiert wird), braucht es diesen Adapter
-//Also weiß nicht, ob es jetzt eine DeviceAction oder ein Szenario war //TODO ????
+//Also weiß nicht, ob es jetzt eine DeviceAction oder ein Szenario war //TODO ???? --> Finn fragen
 public class ActionAdapter implements JsonSerializer<Action>, JsonDeserializer<Action> {
 
     //JsonElement: Erzeugt Baum aus Action Informationen
@@ -32,7 +32,7 @@ public class ActionAdapter implements JsonSerializer<Action>, JsonDeserializer<A
     public Action deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         //nimmt sich ein Objekt aus der Action Sektion
         JsonObject jsonObject = json.getAsJsonObject();
-        //holt sich den ClassName (was ist das für eine Art Action) //TODO ???
+        //holt sich den ClassName (was ist das für eine Art Action) //TODO ??? --> Finn fragen
         String className = jsonObject.get("className").getAsString();
         //holt sich die Daten der konkreten Action
         JsonElement data = jsonObject.get("data");

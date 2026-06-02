@@ -16,11 +16,10 @@ public record LogEntry(
         System.out.println(this);
     }
 
-
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        return String.format("[%s] Szenario: '%s' | Gerät: '%s' | Aktion: '%s' -> %s",
+        return String.format("[%s] Szenario: '%s' | Gerät: '%s' | Aktion: '%s' ➜ %s",
                 timeStamp.format(formatter), scenarioName, deviceName, action, result);
     }
 }

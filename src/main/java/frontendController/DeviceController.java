@@ -52,6 +52,9 @@ public class DeviceController implements DeviceObserver {
     @FXML
     private ComboBox<Room> changeDeviceRoom;
 
+    @FXML
+    private Label deviceIdLabel;
+
     public void setData(SmartDevice device, SmartHomeAppController appController, Room selectedRoom) {
         this.device = device;
         this.smartHomeAppController = appController;
@@ -61,13 +64,16 @@ public class DeviceController implements DeviceObserver {
     }
 
     private void updateUI() {
-
         List<Room> roomlist = smartHomeAppController.getAllRooms();
         deviceGrid.getChildren().clear();
 
         deviceName.setText("Gerät: " + device.getName());
         deviceType.setText("Gerätetype: " + device.getDeviceType());
         roomLabel.setText("Raum: " + selectedRoom.getName());
+
+        if (deviceIdLabel != null) {
+            deviceIdLabel.setText("ID: " + device.getId().toString());
+        }
 
         int functionCounter = 0;
         for (String functionName : device.getAvailableFunctions()) {
@@ -90,14 +96,9 @@ public class DeviceController implements DeviceObserver {
 
             functionCounter++;
         }
-
         ObservableList<Room> rooms = FXCollections.observableArrayList(roomlist);
-
         setupRoomComboBox(rooms);
-
         setupControllButtons();
-
-
     }
 
     private void initializeLiveListener(String functionName, Node control, Label valueLabel, DeviceFunction func, String initialValue) {
@@ -150,18 +151,29 @@ public class DeviceController implements DeviceObserver {
 
     private void setupControllButtons() {
         changeDeviceName.setOnAction(e -> {
-            /// todo: kann man das dialog fenster nicht in eine andere Klasse machen, damit man das nicht 5x den sleeben code im projekt hat?
             System.out.println("changeDeviceName.setOnAction");
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Name ändern: " + device.getName());
-            dialog.setHeaderText(String.format("Bitte gebe einen neuen Namen für den Raum \"%s\" ein", device.getName()));
+            dialog.setHeaderText(String.format("Bitte geben Sie einen neuen Namen für das Gerät \"%s\" ein", device.getName()));
 
             Optional<String> result = dialog.showAndWait();
 
-            result.ifPresent(roomName -> {
-                if (!roomName.trim().isEmpty()) {
-                    smartHomeAppController.changeDeviceName(device, roomName);
-                    System.out.println("Raumname geändert: " + roomName);
+            result.ifPresent(inputName -> {
+                String newDeviceName = inputName.trim();
+
+                if (!newDeviceName.isEmpty() && !newDeviceName.equalsIgnoreCase(device.getName())) {
+                    boolean nameExistsInRoom = selectedRoom.getSmartDevices().stream()
+                            .anyMatch(d -> d.getName().equalsIgnoreCase(newDeviceName));
+
+                    if (nameExistsInRoom) {
+                        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+                        alert.setTitle("Name bereits vergeben");
+                        alert.setHeaderText("Dieses Gerät existiert bereits in diesem Raum.");
+                        alert.setContentText("Ein Gerät mit dem Namen '" + newDeviceName + "' ist in diesem Raum bereits vorhanden. Bitte wähle einen anderen Namen.");
+                        alert.showAndWait();
+                        return;
+                    }
+                    smartHomeAppController.changeDeviceName(device, newDeviceName);
                     smartHomeAppController.save();
                     updateUI();
                 }
@@ -170,10 +182,11 @@ public class DeviceController implements DeviceObserver {
 
         deleteDevice.setOnAction(e -> {
             smartHomeAppController.deleteDevice(device, selectedRoom);
-            System.out.println("Geräte wird gelsöcht");
             smartHomeAppController.save();
+
+            javafx.stage.Stage stage = (javafx.stage.Stage) deleteDevice.getScene().getWindow();
+            stage.close();
         });
-        /// todo: die platzierung der buttons überzeugt mich noch nicht gnaz / lable als erklärung hinzufügen was das kann :)
     }
 
     private void setupRoomComboBox(ObservableList<Room> rooms) {
@@ -194,7 +207,6 @@ public class DeviceController implements DeviceObserver {
         changeDeviceRoom.setOnAction(e -> {
             Room room = changeDeviceRoom.getValue();
             if (room != null) {
-                System.out.println("dieser raum wurde ausgewähl" + room.getName());
                 smartHomeAppController.changeDeviceRoom(device, selectedRoom, room);
                 smartHomeAppController.getAllRooms().stream()
                         .filter(r -> r.getName().equals(room.getName()))
@@ -213,7 +225,6 @@ public class DeviceController implements DeviceObserver {
         DeviceAction action = new DeviceAction(device, functionName, param);
         smartHomeAppController.executeAndRemember(action);
         smartHomeAppController.save();
-        System.out.println("Aktion ausgeführt, da Slider losgelassen wurde.");
     }
 
     @Override

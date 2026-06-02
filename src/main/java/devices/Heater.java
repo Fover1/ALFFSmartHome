@@ -18,7 +18,7 @@ public class Heater extends AbstractDevice {
 
     @Override
     protected void initializeFunctions() {
-        this.functions.put("Schalten", new DeviceFunction() { //TODO Frage: Soll sowas und "Manuell" auch in die Lang oder nur Sätze?
+        this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
                 if (parameter instanceof Boolean) {

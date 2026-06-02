@@ -114,10 +114,10 @@ public class SmartHomeAppController {
         if (!actionHistory.isEmpty()) {
             Action lastAction = actionHistory.pop();
             lastAction.undo();
-            //TODO: Frage für mich: Ist es so gewollt, dass jede Aktion "System" und "Undo" angezeigt wird, wenn sie rückgängig gemacht wird?
+            //TODO: Frage: Ist es so gewollt, dass jede Aktion "System" und "Undo" angezeigt wird, wenn sie rückgängig gemacht wird? --> Sollten wir nochmal drüber sprechen
             notifyLogListeners(new LogEntry("System", "Undo", lastAction.getDescription(), "Aktion rückgängig gemacht"));
         } else {
-            System.out.println(NO_ACTION_TO_UNDO); //TODO: Frage: Muss das nicht auch in den notifyLogListener?
+            System.out.println(NO_ACTION_TO_UNDO); //TODO: Frage: Muss das nicht auch in den notifyLogListener? Bisher wird es nur in der Konsole ausgegeben --> Alex sagt auch ins Log
         }
     }
 

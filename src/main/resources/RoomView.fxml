@@ -17,23 +17,23 @@
         <HBox alignment="CENTER_LEFT" spacing="20.0">
             <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Räume &amp; Geräte"/>
         </HBox>
-        <HBox prefHeight="0.0" prefWidth="386.0">
+        <HBox prefHeight="0.0" prefWidth="386.0" spacing="20.0">
             <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Meine Räume" textFill="#555555"/>
-            <Button onAction="#handleAddRoom" text="+ Raum hinzufügen"/>
+            <Button onAction="#handleAddRoom" text="Raum hinzufügen"/>
         </HBox>
         <FlowPane fx:id="roomContainer" hgap="15.0" vgap="15.0">
             <Label text="Lade Räume..." textFill="#999999"/>
         </FlowPane>
 
-        <HBox>
-            <Label fx:id="raumAuswahl" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <HBox spacing="20.0">
+            <Label fx:id="roomSelection" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
             <Button fx:id="editRoom" mnemonicParsing="false" text="Raum bearbeiten" visible="false"/>
             <Button fx:id="deleteRoom" mnemonicParsing="false" text="Raum löschen" visible="false"/>
         </HBox>
-        <HBox>
-            <Label fx:id="deviceAnzeige" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Geräte im Raum"
+        <HBox spacing="20.0">
+            <Label fx:id="deviceDisplay" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Geräte im Raum"
                    visible="false"/>
-            <Button fx:id="addDevice" onAction="#handleAddDevice" text="+ Gerät hinzufügen" visible="false"/>
+            <Button fx:id="addDevice" onAction="#handleAddDevice" text="Gerät hinzufügen" visible="false"/>
         </HBox>
         <FlowPane fx:id="deviceContainer" hgap="15.0" vgap="15.0">
             <Label text="Keine Geräte vorhanden."/>

@@ -76,7 +76,7 @@ class LogEntryTest {
 
         // Assert
         // Erwartet wird das Format HH:mm:ss, also [09:05:09]
-        String expectedString = "[09:05:09] Szenario: 'TestSzenario' | Gerät: 'TestGerät' | Aktion: 'TestAktion' -> TestResultat";
+        String expectedString = "[09:05:09] Szenario: 'TestSzenario' | Gerät: 'TestGerät' | Aktion: 'TestAktion' ➜ TestResultat";
         assertEquals(expectedString, resultString);
     }
 }

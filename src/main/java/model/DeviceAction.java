@@ -28,8 +28,6 @@ public class DeviceAction implements Action {
             }
         }
 
-        System.out.println("Alter Wert (" + this.previousParameter + ") gemerkt. Führe neuen Wert aus: " + parameter);
-
         //Hier wird die eigentliche Aktion ausgefuehrt
         targetDevice.executeFunction(functionName, parameter);
     }
@@ -43,6 +41,13 @@ public class DeviceAction implements Action {
 
     @Override
     public String getDescription() {
-        return targetDevice.getName() + " -> " + functionName + " " + parameter;
+        return targetDevice.getName() + " ➜ " + functionName + " " + getFormattedParameter();
+    }
+
+    public String getFormattedParameter() {
+        if (parameter instanceof Double) {
+            return String.format(java.util.Locale.US, "%.2f", (Double) parameter);
+        }
+        return String.valueOf(parameter);
     }
 }
