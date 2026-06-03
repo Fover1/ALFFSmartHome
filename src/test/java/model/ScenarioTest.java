@@ -97,7 +97,7 @@ class ScenarioTest {
         // Act
         scenario.execute();
 
-        // Assert: Prüfen, ob execute() in der richtigen Reihenfolge aufgerufen wird
+        // Assert: Pruefen, ob execute() in der richtigen Reihenfolge aufgerufen wird
         InOrder inOrder = inOrder(mockAction1, mockAction2);
         inOrder.verify(mockAction1).execute();
         inOrder.verify(mockAction2).execute();
@@ -112,9 +112,9 @@ class ScenarioTest {
         // Act
         scenario.undo();
 
-        // Assert: Prüfen, ob undo() in umgekehrter Reihenfolge (von hinten nach vorne) aufgerufen wird
+        // Assert: Pruefen, ob undo() in umgekehrter Reihenfolge (von hinten nach vorne) aufgerufen wird
         InOrder inOrder = inOrder(mockAction1, mockAction2);
-        inOrder.verify(mockAction2).undo(); // Action 2 muss zuerst rückgängig gemacht werden
+        inOrder.verify(mockAction2).undo(); // Action 2 muss zuerst rueckgaengig gemacht werden
         inOrder.verify(mockAction1).undo(); // Dann Action 1
     }
 

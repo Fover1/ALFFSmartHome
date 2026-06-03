@@ -18,7 +18,7 @@ public class Lamp extends AbstractDevice {
 
     @Override
     protected void initializeFunctions() {
-        //Hier werden die Funktionen eines Geraetes angegeben (es können mehrere Funktionen angegeben werden)
+        //Hier werden die Funktionen eines Geraetes angegeben (es koennen mehrere Funktionen angegeben werden)
         this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {

@@ -56,7 +56,7 @@ public class PersistenceManager {
             if (data != null && data.rooms != null) {
                 for (Room room : data.rooms) {
                     for (SmartDevice device : room.getSmartDevices()) {
-                        //wird für jedes Geraet aufgerufen das es gibt, um die transient Felder neu zu initialisieren
+                        //wird fuer jedes Geraet aufgerufen das es gibt, um die transient Felder neu zu initialisieren
                         device.restoreAfterLoad();
 
                     }

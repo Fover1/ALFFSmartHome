@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class PersistenceManagerTest {
 
-    // JUnit erstellt automatisch einen temporären Ordner für uns
+    // JUnit erstellt automatisch einen temporaeren Ordner
     @TempDir
     Path tempDir;
 
@@ -34,14 +34,14 @@ class PersistenceManagerTest {
 
     @BeforeEach
     void setUp() {
-        // Leite die Speicher-Datei in unseren temporären Ordner um
+        // Leite die Speicher-Datei in unseren temporaeren Ordner um
         tempFile = tempDir.resolve("test_config.json").toFile();
         PersistenceManager.setFileName(tempFile.getAbsolutePath());
     }
 
     @AfterEach
     void tearDown() {
-        // Setze den Dateinamen nach jedem Test zurück, um Seiteneffekte zu vermeiden
+        // Setze den Dateinamen nach jedem Test zurueck, um Seiteneffekte zu vermeiden
         PersistenceManager.setFileName(originalFileName);
     }
 
@@ -54,13 +54,13 @@ class PersistenceManagerTest {
         // Act: Speichern
         PersistenceManager.save(rooms, scenarios);
 
-        // Assert: Prüfen, ob die Datei erstellt wurde
+        // Assert: Pruefen, ob die Datei erstellt wurde
         assertTrue(tempFile.exists(), "Die JSON-Datei sollte erstellt worden sein");
 
         // Act: Laden
         PersistenceManager.SmartHomeData loadedData = PersistenceManager.load(tempFile.getAbsolutePath());
 
-        // Assert: Prüfen, ob die Daten korrekt (und leer) geladen wurden
+        // Assert: Pruefen, ob die Daten korrekt (und leer) geladen wurden
         assertNotNull(loadedData);
         assertNotNull(loadedData.rooms);
         assertNotNull(loadedData.scenarios);
@@ -71,7 +71,7 @@ class PersistenceManagerTest {
     @Test
     void testLoad_FileDoesNotExist() {
         // Act
-        // Wir übergeben einen Pfad, den es garantiert nicht gibt
+        // Uebergabe eines Pfads, den es garantiert nicht gibt
         PersistenceManager.SmartHomeData loadedData = PersistenceManager.load(tempDir.resolve("gibt_es_nicht.json").toString());
 
         // Assert
@@ -81,9 +81,9 @@ class PersistenceManagerTest {
     @Test
     void testLoad_InvalidJsonFormat() throws IOException {
         // Arrange
-        // Wir schreiben absichtlich kaputtes JSON in die Datei
+        // Absichtlich kaputtes JSON in die Datei schreiben
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("{ kaputtes json formatiert ]");
+            writer.write("{ kaputtes json Format ]");
         }
 
         // Act
@@ -98,7 +98,7 @@ class PersistenceManagerTest {
         // Arrange
         UUID sharedId = UUID.randomUUID();
 
-        // 1. Das "echte" Gerät im Raum vorbereiten
+        // 1. Das "echte" Geraet im Raum vorbereiten
         SmartDevice realDevice = mock(SmartDevice.class);
         when(realDevice.getId()).thenReturn(sharedId);
 
@@ -111,7 +111,7 @@ class PersistenceManagerTest {
 
         DeviceAction action = new DeviceAction(clonedDevice, "turnOn", null);
 
-        // Da die Liste im Scenario verändert wird (actions.set), muss sie modifizierbar sein
+        // Da die Liste im Scenario veraendert wird (actions.set), muss sie modifizierbar sein
         List<Action> scenarioActions = new ArrayList<>();
         scenarioActions.add(action);
 
@@ -170,7 +170,7 @@ class PersistenceManagerTest {
         PersistenceManager.linkScenariosToRealDevices(data);
 
         // Assert
-        // Da die IDs nicht übereinstimmen, darf das Gerät nicht ersetzt werden
+        // Da die IDs nicht uebereinstimmen, darf das Geraet nicht ersetzt werden
         Action notUpdatedAction = scenarioActions.get(0);
         assertEquals(clonedDevice, ((DeviceAction) notUpdatedAction).getTargetDevice(),
                 "Das TargetDevice darf nicht ausgetauscht werden, wenn die ID nicht gefunden wird");

@@ -28,7 +28,7 @@ class SmartDeviceAdapterTest {
 
         @Override
         protected void initializeFunctions() {
-            // Für diesen Test nicht relevant
+            // Fuer diesen Test nicht relevant
         }
 
         @Override
