@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public class DeviceAction implements Action {
-
     private final SmartDevice targetDevice;
     private final String functionName;
     private final Object parameter;

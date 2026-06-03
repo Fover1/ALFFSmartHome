@@ -13,7 +13,6 @@ public class ScenarioAction implements Action {
     //Es sollte nur der Name des Szenarios gespeichert werden
     //unteranderem wichtig, um keine Endlosschleife in der Json-Datei zu erzeugen
     private UUID targetScenarioID;
-
     private transient Scenario targetScenario;
 
     //diese leeren Konstruktoren werden für Gson benoetigt

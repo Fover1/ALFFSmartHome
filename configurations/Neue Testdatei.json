@@ -1,0 +1,133 @@
+{
+  "rooms": [
+    {
+      "name": "Gamingraum",
+      "smartDevices": [
+        {
+          "className": "devices.RgbLamp",
+          "data": {
+            "brightness": 78.98550724637681,
+            "isOn": true,
+            "hexColor": "#FFFFFF",
+            "id": "4e68b100-4a44-487d-a8ca-21fe2c77f385",
+            "name": "LED"
+          }
+        },
+        {
+          "className": "devices.Socket",
+          "data": {
+            "isOn": true,
+            "id": "5e7b87a2-d4a2-43e9-8eda-95278f06c6fe",
+            "name": "PC"
+          }
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "5e0a9802-6046-4dfb-b29d-dd7ce5ed8d98",
+      "name": "Cozy Vibe",
+      "description": "Für den tollen Vibe",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 78.98550724637681,
+                "isOn": true,
+                "hexColor": "#FFFFFF",
+                "id": "4e68b100-4a44-487d-a8ca-21fe2c77f385",
+                "name": "LED"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true,
+            "previousParameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Socket",
+              "data": {
+                "isOn": true,
+                "id": "5e7b87a2-d4a2-43e9-8eda-95278f06c6fe",
+                "name": "PC"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true,
+            "previousParameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 78.98550724637681,
+                "isOn": true,
+                "hexColor": "#FFFFFF",
+                "id": "4e68b100-4a44-487d-a8ca-21fe2c77f385",
+                "name": "LED"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 78.98550724637681,
+            "previousParameter": 0.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "4d68c673-ab98-40ff-b403-d2e97787251a",
+      "name": "Tolle Lampen",
+      "description": "Aus mit denen",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 78.98550724637681,
+                "isOn": true,
+                "hexColor": "#FFFFFF",
+                "id": "4e68b100-4a44-487d-a8ca-21fe2c77f385",
+                "name": "LED"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Socket",
+              "data": {
+                "isOn": true,
+                "id": "5e7b87a2-d4a2-43e9-8eda-95278f06c6fe",
+                "name": "PC"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.ScenarioAction",
+          "data": {
+            "targetScenarioID": "5e0a9802-6046-4dfb-b29d-dd7ce5ed8d98"
+          }
+        }
+      ]
+    }
+  ]
+}

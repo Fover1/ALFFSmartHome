@@ -38,6 +38,9 @@ public class SmartHomeAppController {
     }
 
     public void deleteRoom(Room room) {
+        for (SmartDevice device : room.getSmartDevices()) {
+            removeDeviceFromAllScenarios(device);
+        }
         smartHomeModel.removeRoom(room);
         save();
     }
@@ -51,7 +54,9 @@ public class SmartHomeAppController {
     }
 
     public void deleteDevice(SmartDevice device, Room oldRoom) {
+        removeDeviceFromAllScenarios(device);
         smartHomeModel.removeDevice(device, oldRoom);
+        save();
     }
 
     public void changeDeviceRoom(SmartDevice device, Room oldRoom, Room newRoom) {
@@ -96,7 +101,6 @@ public class SmartHomeAppController {
 
     public void executeScenario(Scenario scenario) {
         executeAndRemember(scenario);
-
         for (Action action : scenario.getActions()) {
             if (action instanceof DeviceAction deviceAction) {
                 LogEntry entry = new LogEntry(
@@ -144,5 +148,29 @@ public class SmartHomeAppController {
                 smartHomeModel.setScenarios(data.scenarios);
             }
         }
+    }
+
+    private void removeDeviceFromAllScenarios(SmartDevice device) {
+        List<Scenario> emptyScenarios = new ArrayList<>();
+
+        for (Scenario scenario : smartHomeModel.getScenarios()) {
+            removeDeviceFromScenario(scenario, device);
+            if (scenario.getActions().isEmpty()) {
+                emptyScenarios.add(scenario);
+            }
+        }
+        smartHomeModel.getScenarios().removeAll(emptyScenarios);
+    }
+
+    private void removeDeviceFromScenario(Scenario scenario, SmartDevice device) {
+        scenario.getActions().removeIf(action -> {
+            if (action instanceof DeviceAction deviceAction) {
+                return deviceAction.getTargetDevice().getId().equals(device.getId());
+            } else if (action instanceof Scenario nestedScenario) {
+                removeDeviceFromScenario(nestedScenario, device);
+                return nestedScenario.getActions().isEmpty();
+            }
+            return false;
+        });
     }
 }
