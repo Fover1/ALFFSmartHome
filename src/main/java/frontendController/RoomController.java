@@ -145,7 +145,7 @@ public class RoomController implements RoomObserver {
         //hiermit kann der Fokus direkt auf das Namenfeld gesetzt werden, damit direkt reingeschrieben werden kann
         Platform.runLater(nameField::requestFocus);
 
-        //definiert, was zurückgegeben wird, wenn auf "Hinzufügen" geklickt wird
+        //definiert, was zurueckgegeben wird, wenn auf "Hinzufuegen" geklickt wird
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == addButtonType) {
                 return new javafx.util.Pair<>(nameField.getText(), typeComboBox.getValue());
@@ -175,10 +175,10 @@ public class RoomController implements RoomObserver {
                 try {
                     java.util.UUID newId = java.util.UUID.randomUUID();
 
-                    //neues Gerät über die DeviceFactory erstellen
+                    //neues Geraet ueber die DeviceFactory erstellen
                     SmartDevice newDevice = model.DeviceFactory.createDevice(deviceType, newId, deviceName);
 
-                    //Gerät dem aktuellen Raum hinzufügen (notifyObservers wird in addDevice getriggert)
+                    //Geraet dem aktuellen Raum hinzufuegen (notifyObservers wird in addDevice getriggert)
                     currentRoom.addDevice(newDevice);
 
                     //Speichern
@@ -245,7 +245,7 @@ public class RoomController implements RoomObserver {
     }
 
     private void openDeviceView(SmartDevice device, Room selectedRoom) {
-        //hier wird geprüft, ob für das Geraet schon ein Fenster offen ist
+        //hier wird geprueft, ob fuer das Geraet schon ein Fenster offen ist
         if (deviceWindows.containsKey(device.getId())) {
             Stage stage = deviceWindows.get(device.getId());
             if (stage.isShowing()) {

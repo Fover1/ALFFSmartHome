@@ -64,16 +64,16 @@ class RoomTest {
         assertTrue(room.getSmartDevices().contains(mockDevice));
         assertEquals(1, room.getSmartDevices().size());
 
-        // Prüfen, ob der Observer benachrichtigt wurde
+        // Pruefen, ob der Observer benachrichtigt wurde
         verify(mockObserver, times(1)).onDeviceListChanged(room);
     }
 
     @Test
     void testAddDevice_DuplicateDevice() {
         room.addObserver(mockObserver);
-        room.addDevice(mockDevice); // Erstes Hinzufügen (notify = 1)
+        room.addDevice(mockDevice); // Erstes Hinzufuegen (notify = 1)
 
-        // Act: Versuche dasselbe Gerät nochmal hinzuzufügen
+        // Act: Versuche dasselbe Geraet nochmal hinzuzufuegen
         room.addDevice(mockDevice);
 
         // Assert
@@ -101,7 +101,7 @@ class RoomTest {
         room.addObserver(mockObserver);
         assertTrue(room.getRoomObservers().contains(mockObserver));
 
-        // Doppeltes Hinzufügen testen
+        // Doppeltes Hinzufuegen testen
         room.addObserver(mockObserver);
         assertEquals(1, room.getRoomObservers().size());
     }
@@ -144,8 +144,8 @@ class RoomTest {
     void testNotifyObservers_NullList() {
         room.setRoomObservers(null);
 
-        // addDevice löst notifyObservers() aus.
-        // Wenn die Liste null ist, darf das Programm nicht abstürzen.
+        // addDevice loest notifyObservers() aus.
+        // Wenn die Liste null ist, darf das Programm nicht abstuerzen.
         room.addDevice(mockDevice);
 
         // Da die Liste null war und der Observer nie drin war, passiert logischerweise nichts

@@ -67,7 +67,7 @@ class ScenarioActionTest {
         when(mockScenario.getId()).thenReturn(id);
 
         // Mit MockedConstruction fangen wir das "new SmartHomeAppController()" im Code ab
-        // Jedes Mal, wenn die Klasse einen Controller erstellt, geben wir unseren präparierten Mock zurück
+        // Jedes Mal, wenn die Klasse einen Controller erstellt, geben wir unseren praeparierten Mock zurueck
         try (MockedConstruction<SmartHomeAppController> mockedController = mockConstruction(
                 SmartHomeAppController.class,
                 (mockControllerInstance, context) -> {
@@ -78,7 +78,7 @@ class ScenarioActionTest {
             action.execute();
 
             // Assert
-            // Das Szenario muss aus dem Controller geladen und anschließend ausgeführt worden sein
+            // Das Szenario muss aus dem Controller geladen und anschließend ausgefuehrt worden sein
             verify(mockScenario).execute();
             assertEquals(mockScenario, action.getTargetScenario());
         }
@@ -130,7 +130,7 @@ class ScenarioActionTest {
         UUID id = UUID.randomUUID();
         ScenarioAction action = new ScenarioAction(id);
 
-        // Wir simulieren einen Controller, der eine leere Liste zurückgibt (Szenario nicht gefunden)
+        // Wir simulieren einen Controller, der eine leere Liste zurueckgibt (Szenario nicht gefunden)
         try (MockedConstruction<SmartHomeAppController> mockedController = mockConstruction(
                 SmartHomeAppController.class,
                 (mockControllerInstance, context) -> {
@@ -143,11 +143,11 @@ class ScenarioActionTest {
             // Assert
             assertNull(action.getTargetScenario(), "Szenario sollte weiterhin null sein");
 
-            // Prüfen, ob die Error-Nachricht auf System.err ausgegeben wurde
+            // Pruefen, ob die Error-Nachricht auf System.err ausgegeben wurde
             String printedError = errStreamCaptor.toString().trim();
             assertTrue(printedError.length() > 0, "Es sollte eine Fehlermeldung ausgegeben werden");
             // Hinweis: Da wir ErrorMessages.TARGETSZENARIO_NOT_FOUND nicht direkt importiert haben,
-            // prüfen wir hier einfach, ob überhaupt ein Fehler geloggt wurde.
+            // pruefen wir hier einfach, ob überhaupt ein Fehler geloggt wurde.
         }
     }
 

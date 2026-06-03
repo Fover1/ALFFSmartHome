@@ -21,7 +21,7 @@ public class DeviceFactory {
             //sucht dann nach dem Constructor, der die 2 Parameter hat
             Constructor<?> constructor = clazz.getConstructor(UUID.class, String.class);
 
-            //fuehrt den Constructor aus und gibt das erstellte Gerät dann zurueck
+            //fuehrt den Constructor aus und gibt das erstellte Geraet dann zurueck
             Object device = constructor.newInstance(id, name);
 
             return (SmartDevice) device;

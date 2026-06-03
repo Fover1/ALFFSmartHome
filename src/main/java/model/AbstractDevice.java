@@ -29,7 +29,7 @@ public abstract class AbstractDevice implements SmartDevice {
     //Diese Methode wird bei den einzelnen Geraeten implementiert, um die jeweiligen Aktionen festzulegen
     protected abstract void initializeFunctions();
 
-    //"observers" und "functions" werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
+    //"observers" und "functions" werden nicht in der JSON gespeichert und muessen somit neu erstellt werden
     @Override
     public void restoreAfterLoad() {
         if (this.observers == null) {

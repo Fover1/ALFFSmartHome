@@ -16,7 +16,7 @@ public class ScenarioAction implements Action {
 
     private transient Scenario targetScenario;
 
-    //diese leeren Konstruktoren werden für Gson benoetigt
+    //diese leeren Konstruktoren werden fuer Gson benoetigt
     public ScenarioAction() {
     }
 

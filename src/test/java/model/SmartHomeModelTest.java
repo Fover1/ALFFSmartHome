@@ -65,7 +65,7 @@ class SmartHomeModelTest {
 
     @Test
     void testAddAndRemoveRoom() {
-        // Hinzufügen
+        // Hinzufuegen
         model.addRoom(mockRoom1);
         assertEquals(1, model.getRooms().size());
         assertTrue(model.getRooms().contains(mockRoom1));
@@ -97,17 +97,17 @@ class SmartHomeModelTest {
 
     @Test
     void testChangeDeviceRoom() {
-        // Act: Verschiebt das Gerät von Raum 1 in Raum 2
+        // Act: Verschiebt das Geraet von Raum 1 in Raum 2
         model.changeDeviceRoom(mockDevice1, mockRoom1, mockRoom2);
 
-        // Assert: Es muss aus Raum 1 entfernt und zu Raum 2 hinzugefügt worden sein
+        // Assert: Es muss aus Raum 1 entfernt und zu Raum 2 hinzugefuegt worden sein
         verify(mockRoom1).removeDevice(mockDevice1);
         verify(mockRoom2).addDevice(mockDevice1);
     }
 
     @Test
     void testAddAndRemoveScenario() {
-        // Hinzufügen
+        // Hinzufuegen
         model.addScenario(mockScenario);
         assertEquals(1, model.getScenarios().size());
         assertTrue(model.getScenarios().contains(mockScenario));
@@ -120,11 +120,11 @@ class SmartHomeModelTest {
     @Test
     void testGetAllDevices() {
         // Arrange
-        // Wir fügen dem Model zwei Räume hinzu
+        // Wir fuegen dem Model zwei Raeume hinzu
         model.addRoom(mockRoom1);
         model.addRoom(mockRoom2);
 
-        // Raum 1 enthält Gerät 1, Raum 2 enthält Gerät 2
+        // Raum 1 enthaelt Geraet 1, Raum 2 enthaelt Geraet 2
         when(mockRoom1.getSmartDevices()).thenReturn(List.of(mockDevice1));
         when(mockRoom2.getSmartDevices()).thenReturn(List.of(mockDevice2));
 
@@ -132,7 +132,7 @@ class SmartHomeModelTest {
         List<SmartDevice> allDevices = model.getAllDevices();
 
         // Assert
-        // Das Model muss eine kombinierte Liste aus allen Räumen zurückgeben
+        // Das Model muss eine kombinierte Liste aus allen Raeumen zurueckgeben
         assertEquals(2, allDevices.size());
         assertTrue(allDevices.contains(mockDevice1));
         assertTrue(allDevices.contains(mockDevice2));
@@ -140,7 +140,7 @@ class SmartHomeModelTest {
 
     @Test
     void testGetAllDevices_EmptyRooms() {
-        // Arrange: Raum existiert, aber hat keine Geräte
+        // Arrange: Raum existiert, aber hat keine Geraete
         model.addRoom(mockRoom1);
         when(mockRoom1.getSmartDevices()).thenReturn(new ArrayList<>());
 
@@ -156,7 +156,7 @@ class SmartHomeModelTest {
         String newDeviceName = "Stehlampe";
         model.changeDeviceName(mockDevice1, newDeviceName);
 
-        // Das Model sollte einfach setName auf dem Gerät aufrufen
+        // Das Model sollte einfach setName auf dem Geraet aufrufen
         verify(mockDevice1).setName(newDeviceName);
     }
 }

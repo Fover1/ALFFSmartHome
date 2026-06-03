@@ -171,7 +171,24 @@
       "id": "26920862-cda2-4d08-a190-3bd316b73eee",
       "name": "TEstitest",
       "description": "Was geht?",
-      "actions": []
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 100.0,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true
+          }
+        }
+      ]
     },
     {
       "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
