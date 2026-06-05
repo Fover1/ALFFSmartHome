@@ -61,13 +61,6 @@ public class RoomController implements RoomObserver {
 
     @Override
     public void onDeviceListChanged(Room room) {
-//        Platform.runLater(() -> {
-//            if (this.currentRoom != null) {
-//                showDevices(this.currentRoom);
-//            } else {
-//                updateUI();
-//            }
-//        });
         updateUI();
     }
 
