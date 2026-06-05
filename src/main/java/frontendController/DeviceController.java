@@ -206,12 +206,9 @@ public class DeviceController implements DeviceObserver {
 
         changeDeviceRoom.setOnAction(e -> {
             Room room = changeDeviceRoom.getValue();
-            if (room != null) {
+            if (room != null && !room.getName().equals(selectedRoom.getName())) {
                 smartHomeAppController.changeDeviceRoom(device, selectedRoom, room);
-                smartHomeAppController.getAllRooms().stream()
-                        .filter(r -> r.getName().equals(room.getName()))
-                        .findFirst()
-                        .ifPresent(r -> r.addDevice(device));
+                selectedRoom = room;
                 smartHomeAppController.save();
             }
             updateUI();
