@@ -41,7 +41,19 @@ public class DeviceAction implements Action {
 
     @Override
     public String getDescription() {
-        return targetDevice.getName() + " ➜ " + functionName + " " + getFormattedParameter();
+        String prev = formatValue(previousParameter);
+        String curr = formatValue(parameter);
+        return functionName + " (" + prev + " ➜ " + curr + ")";
+    }
+
+    private String formatValue(Object val) {
+        if (val == null) {
+            return "unbekannt";
+        }
+        if (val instanceof Double) {
+            return String.format(java.util.Locale.US, "%.2f", (Double) val);
+        }
+        return String.valueOf(val);
     }
 
     public String getFormattedParameter() {
