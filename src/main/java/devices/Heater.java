@@ -1,7 +1,7 @@
 package devices;
 
 import model.AbstractDevice;
-import model.DeviceFunction;
+import interfaces.DeviceFunction;
 
 import java.util.UUID;
 

@@ -1,13 +1,13 @@
 package controller;
 
-import model.Action;
+import interfaces.Action;
 import model.DeviceAction;
 import model.LogEntry;
-import model.LogListener;
+import interfaces.LogListener;
 import model.PersistenceManager;
 import model.Room;
 import model.Scenario;
-import model.SmartDevice;
+import interfaces.SmartDevice;
 import model.SmartHomeModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

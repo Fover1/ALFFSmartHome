@@ -1,4 +1,4 @@
-package model;
+package interfaces;
 
 public interface DeviceFunction {
     //repraesentiert eine einzelne Funktion eines Geraetes

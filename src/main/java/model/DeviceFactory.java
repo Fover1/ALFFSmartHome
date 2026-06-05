@@ -1,5 +1,7 @@
 package model;
 
+import interfaces.SmartDevice;
+
 import java.lang.reflect.Constructor;
 import java.util.UUID;
 

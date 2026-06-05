@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainBorderPane" prefHeight="600.0" prefWidth="900.0"
             xmlns="http://javafx.com/javafx/25" fx:controller="frontendController.SmartHomeMainController">
 
@@ -35,7 +36,7 @@
 
     <center>
         <StackPane fx:id="contentArea" prefHeight="414.0" prefWidth="700.0">
-            <Label text="Willkommen im Smart Home! Bitte wählen Sie eine ein Fenster."/>
+            <Label text="Willkommen im Smart Home! Bitte wählen Sie ein Fenster."/>
         </StackPane>
     </center>
     <top>
@@ -51,8 +52,15 @@
         <VBox prefHeight="150.0" prefWidth="900.0" BorderPane.alignment="CENTER">
             <children>
                 <ListView fx:id="logListView" prefHeight="120.0" prefWidth="900.0"/>
-                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="1062.0" text="Konsole Löschen"
-                        onAction="#clearConsole"/>
+                <AnchorPane>
+                    <Button mnemonicParsing="false"
+                            text="Konsole Löschen"
+                            onAction="#clearConsole"
+                            AnchorPane.leftAnchor="0.0"
+                            AnchorPane.rightAnchor="0.0"
+                            AnchorPane.bottomAnchor="0.0"
+                    />
+                </AnchorPane>
             </children>
         </VBox>
     </bottom>

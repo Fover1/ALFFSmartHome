@@ -13,7 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import model.Action;
+import interfaces.Action;
 import model.DeviceAction;
 import model.Scenario;
 
@@ -148,6 +148,22 @@ public class ScenarioController {
     private void handleExecuteScenario() {
         Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
         if (selectedScenario != null) {
+            if (selectedScenario.getName() == null || selectedScenario.getName().trim().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Unvollständiges Szenario");
+                alert.setHeaderText("Ausführung nicht möglich");
+                alert.setContentText("Bitte geben Sie dem Szenario zuerst einen Namen und klicken Sie auf 'Speichern'.");
+                alert.showAndWait();
+                return;
+            }
+            if (selectedScenario.getActions().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Leeres Szenario");
+                alert.setHeaderText("Ausführung nicht möglich");
+                alert.setContentText("Das Szenario '" + selectedScenario.getName() + "' enthält noch keine Aktionen.");
+                alert.showAndWait();
+                return;
+            }
             smartHomeAppController.executeScenario(selectedScenario);
         }
     }
@@ -233,8 +249,6 @@ public class ScenarioController {
             return;
         }
 
-        List<Scenario> test = smartHomeAppController.getAllScenarios();
-
         List<Scenario> availableScenarios = smartHomeAppController.getAllScenarios().stream()
                 .filter(scenario -> !scenario.getId().equals(currentScenario.getId()))
                 .toList();
@@ -258,7 +272,6 @@ public class ScenarioController {
 
         java.util.Optional<String> result = dialog.showAndWait();
 
-        System.out.println("result: " + result);
         result.ifPresent(selectedName -> {
             Scenario selectedScenario = availableScenarios.stream()
                     .filter(scenario -> scenario.getName().equals(selectedName))

@@ -1,5 +1,6 @@
 package model;
 
+import interfaces.Action;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +21,10 @@ import static org.mockito.Mockito.inOrder;
 @ExtendWith(MockitoExtension.class)
 class ScenarioTest {
 
+    private Scenario scenario;
     private final String scenarioName = "Guten Morgen";
     private final String scenarioDescription = "Fährt die Rollläden hoch und kocht Kaffee";
-    private Scenario scenario;
+
     @Mock
     private Action mockAction1;
 
@@ -68,7 +70,6 @@ class ScenarioTest {
         assertEquals(1, scenario.getCount());
         assertTrue(scenario.getActions().contains(mockAction1));
 
-        // Teste, ob Duplikate verhindert werden
         scenario.addAction(mockAction1);
         assertEquals(1, scenario.getCount(), "Aktion darf nicht doppelt hinzugefügt werden");
     }
@@ -86,33 +87,25 @@ class ScenarioTest {
     }
 
     @Test
-    void testExecute_CallsActionsInOrder() {
-        // Arrange
+    void testExecuteCallsActionsInOrder() {
         scenario.addAction(mockAction1);
         scenario.addAction(mockAction2);
-
-        // Act
         scenario.execute();
 
-        // Assert: Pruefen, ob execute() in der richtigen Reihenfolge aufgerufen wird
         InOrder inOrder = inOrder(mockAction1, mockAction2);
         inOrder.verify(mockAction1).execute();
         inOrder.verify(mockAction2).execute();
     }
 
     @Test
-    void testUndo_CallsActionsInReverseOrder() {
-        // Arrange
+    void testUndoCallsActionsInReverseOrder() {
         scenario.addAction(mockAction1);
         scenario.addAction(mockAction2);
-
-        // Act
         scenario.undo();
 
-        // Assert: Pruefen, ob undo() in umgekehrter Reihenfolge (von hinten nach vorne) aufgerufen wird
         InOrder inOrder = inOrder(mockAction1, mockAction2);
-        inOrder.verify(mockAction2).undo(); // Action 2 muss zuerst rueckgaengig gemacht werden
-        inOrder.verify(mockAction1).undo(); // Dann Action 1
+        inOrder.verify(mockAction2).undo();
+        inOrder.verify(mockAction1).undo();
     }
 
     @Test
@@ -124,11 +117,10 @@ class ScenarioTest {
         assertEquals(expectedString, scenario.toString());
     }
 
-//    @Test
-//    void testGetDiscription() {
-//        // Testet die manuell geschriebene Methode mit dem Tippfehler
-//        assertEquals(scenarioDescription, scenario.getDiscription());
-//    }
+    @Test
+    void testGetDescription() {
+        assertEquals(scenarioDescription, scenario.getDescription());
+    }
 
     @Test
     void testGetCount() {

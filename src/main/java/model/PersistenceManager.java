@@ -2,6 +2,8 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import interfaces.Action;
+import interfaces.SmartDevice;
 import lombok.Setter;
 
 import java.io.File;
@@ -23,7 +25,6 @@ public class PersistenceManager {
     private static Gson createGson() {
         return new GsonBuilder()
                 .setPrettyPrinting()
-                //TODO: ist es richtig, dass der registerTypeAdapter mit dem unteren Kommentar gemeint war? War mir nicht sicher --> Finn fragen
                 //registerTypeAdapter: wird benoetigt, damit Builder genau weiß, wie er mit den verschiedenen Interfaces und abstrakten Klassen umgehen muss
                 //brauchen das fuer diese Klassen, da nicht alle Infos in der Json stehen (anders als bei z.B. Raum)
                 .registerTypeAdapter(SmartDevice.class, new SmartDeviceAdapter())

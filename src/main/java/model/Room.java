@@ -1,5 +1,7 @@
 package model;
 
+import interfaces.RoomObserver;
+import interfaces.SmartDevice;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,7 +13,7 @@ import java.util.List;
 public class Room {
     private String name;
     private List<SmartDevice> smartDevices = new ArrayList<>();
-    private transient List<RoomObserver> roomObservers = new ArrayList<>();
+    private transient List<RoomObserver> roomObservers;
 
     public Room(String name) {
         this.name = name;

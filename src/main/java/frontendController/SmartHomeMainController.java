@@ -3,6 +3,7 @@ package frontendController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controller.SmartHomeAppController;
+import interfaces.LogListener;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,10 +19,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import model.LogEntry;
-import model.LogListener;
 import model.PersistenceManager;
-import model.Room;
-import model.Scenario;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -165,7 +163,7 @@ public class SmartHomeMainController implements LogListener {
 
     @FXML
     private void handleCreateNewConfig() {
-        TextInputDialog dialog = new TextInputDialog("was das hier?"); ///TODO!!!
+        TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Neue Konfiguration erstellen");
         dialog.setHeaderText("Geben Sie den Namen der neuen Konfigurationsdatei ein:");
         dialog.setContentText("Dateiname:");
@@ -184,7 +182,7 @@ public class SmartHomeMainController implements LogListener {
 
     private void safeNewFile(String filePath) {
         try (FileWriter fw = new FileWriter(filePath)) {
-            PersistenceManager.SmartHomeData emptyData = new PersistenceManager.SmartHomeData(new ArrayList<Room>(), new ArrayList<Scenario>());
+            PersistenceManager.SmartHomeData emptyData = new PersistenceManager.SmartHomeData(new ArrayList<>(), new ArrayList<>());
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(emptyData, fw);
         } catch (IOException e) {

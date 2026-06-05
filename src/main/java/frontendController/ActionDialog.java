@@ -12,7 +12,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
 import model.DeviceAction;
 import model.Room;
-import model.SmartDevice;
+import interfaces.SmartDevice;
 
 import java.util.List;
 

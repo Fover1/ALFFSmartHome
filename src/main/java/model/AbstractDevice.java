@@ -1,5 +1,8 @@
 package model;
 
+import interfaces.DeviceFunction;
+import interfaces.DeviceObserver;
+import interfaces.SmartDevice;
 import lombok.Getter;
 import lombok.Setter;
 

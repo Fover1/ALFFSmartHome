@@ -12,8 +12,8 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import model.Room;
-import model.RoomObserver;
-import model.SmartDevice;
+import interfaces.RoomObserver;
+import interfaces.SmartDevice;
 
 import java.io.IOException;
 import java.util.HashMap;

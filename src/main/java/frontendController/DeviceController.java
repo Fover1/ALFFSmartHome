@@ -17,10 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 import model.DeviceAction;
-import model.DeviceFunction;
-import model.DeviceObserver;
+import interfaces.DeviceFunction;
+import interfaces.DeviceObserver;
 import model.Room;
-import model.SmartDevice;
+import interfaces.SmartDevice;
 
 import java.util.List;
 import java.util.Optional;
@@ -81,9 +81,9 @@ public class DeviceController implements DeviceObserver {
             deviceGrid.add(new Label(functionName + ": "), 0, functionCounter);
 
             String initialValue = "";
-            if (func.getParameterType() == Boolean.class) initialValue = String.valueOf(func.getState());
-            else if (func.getParameterType() == Double.class) initialValue = String.valueOf(func.getValue());
-            else if (func.getParameterType() == Color.class) initialValue = func.getColor();
+            if (func.getParameterType() == Boolean.class) { initialValue = String.valueOf(func.getState()); }
+            else if (func.getParameterType() == Double.class) { initialValue = String.valueOf(func.getValue()); }
+            else if (func.getParameterType() == Color.class) { initialValue = func.getColor(); }
 
             //UI Element wird von der Factory erstellt
             Node control = ParameterControlFactory.createControl(device, functionName, initialValue);

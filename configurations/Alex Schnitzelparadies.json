@@ -1,0 +1,147 @@
+{
+  "rooms": [
+    {
+      "name": "Schnitzelpalast",
+      "smartDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 21.53846153846154,
+            "isOn": true,
+            "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
+            "name": "Fußbodenheizung"
+          }
+        }
+      ]
+    },
+    {
+      "name": "xgv",
+      "smartDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 0.0,
+            "isOn": false,
+            "id": "79846875-3657-4514-8166-4a58e3bcd131",
+            "name": "wer"
+          }
+        },
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": true,
+            "id": "3d6ff404-a720-4caf-ad16-fa57a19d0d90",
+            "name": "ewrwf"
+          }
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "6fad6a87-85f5-45df-a889-0be3a61a67d6",
+      "name": "asdasd",
+      "description": "hi",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 21.53846153846154,
+                "isOn": true,
+                "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
+                "name": "Fußbodenheizung"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 21.53846153846154,
+                "isOn": true,
+                "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
+                "name": "Fußbodenheizung"
+              }
+            },
+            "functionName": "Temperatur",
+            "parameter": 30.0
+          }
+        }
+      ]
+    },
+    {
+      "id": "9923f24e-352a-4c7e-9dd6-bd6fd0654639",
+      "name": "asd",
+      "description": "asda",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Heater",
+              "data": {
+                "temperature": 21.53846153846154,
+                "isOn": true,
+                "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
+                "name": "Fußbodenheizung"
+              }
+            },
+            "functionName": "Temperatur",
+            "parameter": 16.208530805687204
+          }
+        },
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "6fad6a87-85f5-45df-a889-0be3a61a67d6",
+            "name": "asdasd",
+            "description": "hi",
+            "actions": [
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.Heater",
+                    "data": {
+                      "temperature": 21.53846153846154,
+                      "isOn": true,
+                      "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
+                      "name": "Fußbodenheizung"
+                    }
+                  },
+                  "functionName": "Schalten",
+                  "parameter": true
+                }
+              },
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.Heater",
+                    "data": {
+                      "temperature": 21.53846153846154,
+                      "isOn": true,
+                      "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
+                      "name": "Fußbodenheizung"
+                    }
+                  },
+                  "functionName": "Temperatur",
+                  "parameter": 30.0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
