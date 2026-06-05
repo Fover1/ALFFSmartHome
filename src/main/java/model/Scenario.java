@@ -1,6 +1,7 @@
 package model;
 
 import interfaces.Action;
+import interfaces.SmartDevice;
 import lombok.Getter;
 import lombok.Setter;
 

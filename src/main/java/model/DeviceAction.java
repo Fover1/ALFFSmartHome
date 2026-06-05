@@ -50,7 +50,7 @@ public class DeviceAction implements Action {
 
     @Override
     public String getName() {
-        return getDescription();
+        return targetDevice.getName() + ": " + getDescription();
     }
 
     private String formatValue(Object val) {
@@ -61,12 +61,5 @@ public class DeviceAction implements Action {
             return String.format(java.util.Locale.US, "%.2f", (Double) val);
         }
         return String.valueOf(val);
-    }
-
-    public String getFormattedParameter() {
-        if (parameter instanceof Double) {
-            return String.format(java.util.Locale.US, "%.2f", (Double) parameter);
-        }
-        return String.valueOf(parameter);
     }
 }

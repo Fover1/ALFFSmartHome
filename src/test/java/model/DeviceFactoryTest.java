@@ -13,42 +13,31 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class DeviceFactoryTest {
 
     @Test
-    void testCreateDevice_Success() {
-        // Arrange
+    void testCreateDeviceSuccess() {
         UUID expectedId = UUID.randomUUID();
-        String expectedName = "Mein Test Gerät";
-
-        // Act
-        // Ruft unser Dummy-Gerät "TestDevice" aus dem devices-Package auf
+        String expectedName = "Test Gerät";
         SmartDevice device = DeviceFactory.createDevice("TestDevice", expectedId, expectedName);
 
-        // Assert
         assertNotNull(device, "Das erstellte Gerät darf nicht null sein");
         assertEquals(expectedId, device.getId());
         assertEquals(expectedName, device.getName());
     }
 
     @Test
-    void testCreateDevice_ClassNotFoundThrowsIllegalArgumentException() {
-        // Arrange
+    void testCreateDeviceClassNotFoundThrowsIllegalArgumentException() {
         UUID id = UUID.randomUUID();
-
-        // Act & Assert
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            DeviceFactory.createDevice("EinGeraetDasEsNichtGibt", id, "Name");
+            DeviceFactory.createDevice("Unbekanntes Gerät", id, "Name");
         });
 
-        // Prüfen, ob der fehlerhafte Klassenname in der Exception steht
-        assertTrue(exception.getMessage().contains("EinGeraetDasEsNichtGibt"));
+        assertTrue(exception.getMessage().contains("Unbekanntes Gerät"));
     }
 
     @Test
-    void testCreateDevice_MissingConstructorThrowsRuntimeException() {
-        // Arrange
+    void testCreateDeviceMissingConstructorThrowsRuntimeException() {
         UUID id = UUID.randomUUID();
 
-        // Act & Assert
-        // InvalidDevice existiert zwar, hat aber nicht den (UUID, String) Konstruktor
+        //InvalidDevice existiert zwar, hat aber nicht den (UUID, String) Konstruktor
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             DeviceFactory.createDevice("InvalidDevice", id, "Name");
         });

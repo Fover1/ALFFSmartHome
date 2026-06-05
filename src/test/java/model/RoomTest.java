@@ -39,13 +39,11 @@ class RoomTest {
 
     @Test
     void testConstructorAndLombokGettersSetters() {
-        // Assert Constructor
         assertEquals(roomName, room.getName());
         assertNotNull(room.getSmartDevices());
         assertNotNull(room.getRoomObservers());
         assertTrue(room.getSmartDevices().isEmpty());
 
-        // Test Setters
         room.setName("Schlafzimmer");
         assertEquals("Schlafzimmer", room.getName());
 
@@ -58,30 +56,20 @@ class RoomTest {
     @Test
     void testAddDevice() {
         room.addObserver(mockObserver);
-
-        // Act
         room.addDevice(mockDevice);
 
-        // Assert
         assertTrue(room.getSmartDevices().contains(mockDevice));
         assertEquals(1, room.getSmartDevices().size());
-
-        // Pruefen, ob der Observer benachrichtigt wurde
         verify(mockObserver, times(1)).onDeviceListChanged(room);
     }
 
     @Test
-    void testAddDevice_DuplicateDevice() {
+    void testAddDeviceDuplicateDevice() {
         room.addObserver(mockObserver);
-        room.addDevice(mockDevice); // Erstes Hinzufuegen (notify = 1)
-
-        // Act: Versuche dasselbe Geraet nochmal hinzuzufuegen
+        room.addDevice(mockDevice);
         room.addDevice(mockDevice);
 
-        // Assert
         assertEquals(1, room.getSmartDevices().size(), "Gerät darf nicht doppelt in der Liste sein");
-
-        // notifyObservers() darf bei Duplikaten nicht nochmal aufgerufen werden
         verify(mockObserver, times(1)).onDeviceListChanged(room);
     }
 
@@ -89,11 +77,8 @@ class RoomTest {
     void testRemoveDevice() {
         room.addDevice(mockDevice);
         room.addObserver(mockObserver);
-
-        // Act
         room.removeDevice(mockDevice);
 
-        // Assert
         assertFalse(room.getSmartDevices().contains(mockDevice));
         verify(mockObserver, times(1)).onDeviceListChanged(room);
     }
@@ -103,20 +88,15 @@ class RoomTest {
         room.addObserver(mockObserver);
         assertTrue(room.getRoomObservers().contains(mockObserver));
 
-        // Doppeltes Hinzufuegen testen
         room.addObserver(mockObserver);
         assertEquals(1, room.getRoomObservers().size());
     }
 
     @Test
-    void testAddObserver_NullList() {
-        // Simuliere Zustand nach JSON Deserialisierung (transient List = null)
+    void testAddObserverNullList() {
         room.setRoomObservers(null);
-
-        // Act
         room.addObserver(mockObserver);
 
-        // Assert
         assertNotNull(room.getRoomObservers(), "Die Liste sollte neu initialisiert werden");
         assertTrue(room.getRoomObservers().contains(mockObserver));
     }
@@ -124,19 +104,14 @@ class RoomTest {
     @Test
     void testRemoveObserver() {
         room.addObserver(mockObserver);
-
-        // Act
         room.removeObserver(mockObserver);
 
-        // Assert
         assertFalse(room.getRoomObservers().contains(mockObserver));
     }
 
     @Test
-    void testRemoveObserver_NullList() {
+    void testRemoveObserverNullList() {
         room.setRoomObservers(null);
-
-        // Darf keine NullPointerException werfen
         room.removeObserver(mockObserver);
 
         assertNull(room.getRoomObservers());
@@ -145,12 +120,8 @@ class RoomTest {
     @Test
     void testNotifyObservers_NullList() {
         room.setRoomObservers(null);
-
-        // addDevice loest notifyObservers() aus.
-        // Wenn die Liste null ist, darf das Programm nicht abstuerzen.
         room.addDevice(mockDevice);
 
-        // Da die Liste null war und der Observer nie drin war, passiert logischerweise nichts
         verify(mockObserver, never()).onDeviceListChanged(room);
     }
 }
