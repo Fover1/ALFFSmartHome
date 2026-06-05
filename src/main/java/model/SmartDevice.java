@@ -22,4 +22,14 @@ public interface SmartDevice {
     List<String> getAvailableFunctions();
 
     void executeFunction(String functionName, Object parameter);
+
+    void addObserver(DeviceObserver observer);
+
+    void removeObserver(DeviceObserver observer);
+
+    void restoreAfterLoad();
+
+    void notifyObservers();
+
+    DeviceFunction getFunction(String functionName);
 }

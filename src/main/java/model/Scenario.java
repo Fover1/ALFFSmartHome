@@ -19,8 +19,6 @@ public class Scenario implements Action {
     private String description;
     private List<Action> actions = new ArrayList<>();
 
-    /// todo: muss man den durchreichen oder kann man den immer neu machen?
-//    private SmartHomeAppController smarthomeAppController = new SmartHomeAppController();
     public Scenario(String name, String description) {
         this.id = UUID.randomUUID();
         this.name = name;
@@ -39,29 +37,27 @@ public class Scenario implements Action {
 
     @Override
     public void execute() {
+        System.out.println("Führe Szenario aus: " + name);
+
         for (Action action : actions) {
-            System.out.println("Execute " + action.toString());
-
-            if (action instanceof ScenarioAction) {
-                System.out.println("Execute ScenarioAction");
-                action.execute();
-
-            } else if (action instanceof DeviceAction(SmartDevice device, String functionName, Object parameter)) {
-                System.out.println("Execute DeviceAction");
-
-                AbstractDevice targetDevice = (AbstractDevice) device;
-
-                if (targetDevice != null) {
-                    targetDevice.executeFunction(functionName, parameter);
-                } else {
-                    System.err.println("Fehler: Kein Zielgerät in der Aktion definiert.");
-                }
-            }
+            System.out.println("Execute: " + action.getDescription());
+            action.execute();
         }
     }
 
     @Override
-    public String getDescription() {
+    public void undo() {
+        System.out.println("Mache Szenario rückgängig: " + name);
+
+        for (int i = actions.size() - 1; i >= 0; i--) {
+            Action action = actions.get(i);
+            System.out.println("Undo Aktion: " + action.getDescription());
+            action.undo();
+        }
+    }
+
+    @Override
+    public String toString() {
         return "Szenario: " + name + " (" + actions.size() + " Aktionen)";
     }
 

@@ -26,17 +26,24 @@ public class SmartHomeModel {
         room.setName(name);
     }
 
-    public void addDevice(Room room, AbstractDevice device) {
+    public void addDevice(Room room, SmartDevice device) {
         room.addDevice(device);
     }
 
-    public void removeDevice(AbstractDevice device, Room oldRoom) {
-        /// todo: das gerät muss auch noch aus der json gelöscht werden
-        /// todo: generell, wie ist das mit dem speichern in der json bei den verschiedenen aktionen
+    public void removeDevice(SmartDevice device, Room oldRoom) {
         oldRoom.removeDevice(device);
+//        for (Scenario scenario : scenarios) {
+//            for (Action action : scenario.getActions()) {
+//                System.out.println(action.toString());
+//                System.out.println("gefundener name " + action.getDescription().substring(0, action.getDescription().indexOf('-')) + " # gesuchter name: " + device.getName());
+//                if (action.getDescription().substring(0, action.getDescription().indexOf(' ')).equals(device.getName())) {
+//                    scenario.removeAction(action);
+//                }
+//            }
+//        }
     }
 
-    public void changeDeviceRoom(AbstractDevice device, Room oldRoom, Room newRoom) {
+    public void changeDeviceRoom(SmartDevice device, Room oldRoom, Room newRoom) {
         removeDevice(device, oldRoom);
 
         // 2. Gerät dem neuen Raum hinzufügen
@@ -51,15 +58,15 @@ public class SmartHomeModel {
         scenarios.remove(scenario);
     }
 
-    public List<AbstractDevice> getAllDevices() {
-        List<AbstractDevice> allDevices = new ArrayList<>();
+    public List<SmartDevice> getAllDevices() {
+        List<SmartDevice> allDevices = new ArrayList<>();
         for (Room room : rooms) {
-            allDevices.addAll(room.getAbstractDevices());
+            allDevices.addAll(room.getSmartDevices());
         }
         return allDevices;
     }
 
-    public void changeDeviceName(AbstractDevice device, String name) {
+    public void changeDeviceName(SmartDevice device, String name) {
         device.setName(name);
     }
 

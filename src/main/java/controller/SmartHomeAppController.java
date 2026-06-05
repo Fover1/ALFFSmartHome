@@ -1,6 +1,5 @@
 package controller;
 
-import model.AbstractDevice;
 import model.Action;
 import model.DeviceAction;
 import model.LogEntry;
@@ -8,34 +7,25 @@ import model.LogListener;
 import model.PersistenceManager;
 import model.Room;
 import model.Scenario;
+import model.SmartDevice;
 import model.SmartHomeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class SmartHomeAppController {
 
-    /// todo: die anderen Listen auf final machen?
-    public final List<LogListener> loglisteners = new ArrayList<>();
-    /// todo: padding in der ui einheitlich (bzw. erstmal einfügen)?
+
+    public final List<LogListener> logListeners = new ArrayList<>();
     //verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
     //Methoden werden teilweise auch von der GUI abgerufen
     private final SmartHomeModel smartHomeModel;
+    private final Stack<Action> actionHistory = new Stack<>();
     private String currentConfigFile;
 
     public SmartHomeAppController() {
         this.smartHomeModel = new SmartHomeModel();
-        loadInitialData();
-    }
-
-    //lädt die Daten aus der JSON in den nur für die Session verfügbaren smartHomeModelSpeicher
-    private void loadInitialData() {
-        ///todo: hier wird jetzt standardmäßig diese datei beim ersten öffnen geladen, wie wollen wir das machen?
-        PersistenceManager.SmartHomeData data = PersistenceManager.load("smarthome_config.json");
-        if (data != null) {
-            if (data.rooms != null) smartHomeModel.setRooms(data.rooms);
-            if (data.scenarios != null) smartHomeModel.setScenarios(data.scenarios);
-        }
     }
 
     public void save() {
@@ -56,41 +46,20 @@ public class SmartHomeAppController {
         smartHomeModel.changeRoomName(room, name);
     }
 
-    public void changeDeviceName(AbstractDevice device, String name) {
+    public void changeDeviceName(SmartDevice device, String name) {
         smartHomeModel.changeDeviceName(device, name);
     }
 
-    public void deleteDevice(AbstractDevice device, Room oldRoom) {
+    public void deleteDevice(SmartDevice device, Room oldRoom) {
         smartHomeModel.removeDevice(device, oldRoom);
     }
 
-    public void changeDeviceRoom(AbstractDevice device, Room oldRoom, Room newRoom) {
+    public void changeDeviceRoom(SmartDevice device, Room oldRoom, Room newRoom) {
         smartHomeModel.changeDeviceRoom(device, oldRoom, newRoom);
     }
 
-    //Geräte ID´s werden automatisch generiert
-//    ID´s: erste 3 Buchstaben des Klassennamens und dann ein counter hochzählend (bis auf 4 stellen mit null vorran aufgefüllt)
 
-    /// todo: id vllt gegen uuid tauschen?
-    // Ist ein String, damit man an der ID erkennen konnte, welche Art von Gerät es ist
-//    public String generateDeviceId(String deviceType) {
-//        String shortName = deviceType.length() >= 3 ? deviceType.substring(0, 3) : deviceType;
-//        String prefix = shortName.toUpperCase() + "-";
-//
-//        int maxNumber = 0;
-//        for (AbstractDevice device : smartHomeModel.getAllDevices()) {
-//            if (device.getId().startsWith(prefix)) {
-//                try {
-//                    String numberPart = device.getId().substring(prefix.length());
-//                    maxNumber = Integer.parseInt(numberPart);
-//                } catch (NumberFormatException e) {
-//                    // TODO: Fehlerbehandlung (wie in deinem originalen Code)
-//                }
-//            }
-//        }
-//        return prefix + String.format("%04d", maxNumber + 1);
-//    }
-    public List<AbstractDevice> getAllDevices() {
+    public List<SmartDevice> getAllDevices() {
         return smartHomeModel.getAllDevices();
     }
 
@@ -110,40 +79,61 @@ public class SmartHomeAppController {
         smartHomeModel.removeScenario(scenario);
     }
 
-    //    public AbstractDevice getDeviceById(String id) {
-//        return smartHomeModel.findRealDeviceById(id);
-//    }
+    public void executeAndRemember(Action action) {
+        action.execute();
+        actionHistory.push(action);
 
-    /// todo: muss das noch in das model?
+        // Wenn es eine manuelle Geräteaktion war, sofort ins Log schreiben!
+        if (action instanceof DeviceAction deviceAction) {
+            LogEntry entry = new LogEntry(
+                    "Manuell",
+                    deviceAction.getTargetDevice().getName(),
+                    deviceAction.getDescription(),
+                    String.valueOf(deviceAction.getParameter())
+            );
+            notifyLogListeners(entry);
+        }
+    }
+
     public void executeScenario(Scenario scenario) {
-        scenario.execute();
+        executeAndRemember(scenario);
+
         for (Action action : scenario.getActions()) {
-
-
-            if (action instanceof DeviceAction) {
+            if (action instanceof DeviceAction deviceAction) {
                 LogEntry entry = new LogEntry(
                         scenario.getName(),
-                        ((DeviceAction) action).targetDevice().getName(),
+                        deviceAction.getTargetDevice().getName(),
                         action.getDescription(),
-                        ((DeviceAction) action).parameter().toString()
+                        String.valueOf(deviceAction.getParameter())
                 );
                 notifyLogListeners(entry);
             }
+        }
+    }
 
+    public void undoLastAction() {
+        if (!actionHistory.isEmpty()) {
+            Action lastAction = actionHistory.pop();
+            lastAction.undo();
+
+            notifyLogListeners(new LogEntry("System", "Undo", lastAction.getDescription(), "Aktion rückgängig gemacht"));
+        } else {
+            System.out.println("Keine Aktion zum Rückgängigmachen vorhanden.");
         }
     }
 
     public void addLogListener(LogListener logListener) {
-        loglisteners.add(logListener);
+        logListeners.add(logListener);
     }
 
     public void notifyLogListeners(LogEntry logEntry) {
-        for (LogListener logListener : loglisteners) {
+        for (LogListener logListener : logListeners) {
             logListener.onLogEntryCreated(logEntry);
         }
     }
 
     public void loadConfiguration(String file) {
+        PersistenceManager.setFileName(file);
         this.currentConfigFile = file;
 
         PersistenceManager.SmartHomeData data = PersistenceManager.load(currentConfigFile);

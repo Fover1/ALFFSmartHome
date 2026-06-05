@@ -6,4 +6,6 @@ public interface Action {
 
     //gibt an, dass jede Action nur "ausfürbar" sein muss
     void execute();
+
+    void undo();
 }

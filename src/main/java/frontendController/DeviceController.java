@@ -1,6 +1,7 @@
 package frontendController;
 
 import controller.SmartHomeAppController;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,17 +16,19 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
-import model.AbstractDevice;
+import model.DeviceAction;
 import model.DeviceFunction;
+import model.DeviceObserver;
 import model.Room;
+import model.SmartDevice;
 
 import java.util.List;
 import java.util.Optional;
 
 
-public class DeviceController {
+public class DeviceController implements DeviceObserver {
     private SmartHomeAppController smartHomeAppController;
-    private AbstractDevice device;
+    private SmartDevice device;
     private Room selectedRoom;
 
     @FXML
@@ -49,10 +52,11 @@ public class DeviceController {
     @FXML
     private ComboBox<Room> changeDeviceRoom;
 
-    public void setData(AbstractDevice device, SmartHomeAppController appController, Room selectedRoom) {
+    public void setData(SmartDevice device, SmartHomeAppController appController, Room selectedRoom) {
         this.device = device;
         this.smartHomeAppController = appController;
         this.selectedRoom = selectedRoom;
+        this.device.addObserver(this);
         updateUI();
     }
 
@@ -67,7 +71,7 @@ public class DeviceController {
 
         int functionCounter = 0;
         for (String functionName : device.getAvailableFunctions()) {
-            DeviceFunction func = device.getFunctions().get(functionName);
+            DeviceFunction func = device.getFunction(functionName);
             deviceGrid.add(new Label(functionName + ": "), 0, functionCounter);
 
             String initialValue = "";
@@ -114,7 +118,8 @@ public class DeviceController {
             Color c = colorPicker.getValue();
             String hex = String.format("#%02X%02X%02X",
                     (int) (c.getRed() * 255), (int) (c.getGreen() * 255), (int) (c.getBlue() * 255));
-            device.executeFunction(functionName, hex);
+            DeviceAction action = new DeviceAction(device, functionName, hex);
+            smartHomeAppController.executeAndRemember(action);
             valueLabel.setText(hex);
             smartHomeAppController.save();
         });
@@ -136,7 +141,8 @@ public class DeviceController {
     private void checkBoxListener(String functionName, Label valueLabel, CheckBox checkBox) {
         valueLabel.setText(checkBox.isSelected() ? "Eingeschaltet" : "Ausgeschaltet");
         checkBox.setOnAction(e -> {
-            device.executeFunction(functionName, checkBox.isSelected());
+            DeviceAction action = new DeviceAction(device, functionName, checkBox.isSelected());
+            smartHomeAppController.executeAndRemember(action);
             valueLabel.setText(checkBox.isSelected() ? "Eingeschaltet" : "Ausgeschaltet");
             smartHomeAppController.save();
         });
@@ -185,14 +191,11 @@ public class DeviceController {
         });
         changeDeviceRoom.setPromptText(selectedRoom.getName());
 
-        /// todo: die ui muss sich noch aktualisieren, dass das gerät im neuen raum ist (also im Room view) vllt mit nem observer?
         changeDeviceRoom.setOnAction(e -> {
             Room room = changeDeviceRoom.getValue();
             if (room != null) {
                 System.out.println("dieser raum wurde ausgewähl" + room.getName());
-                /// todo: was davon braucht man wirklich? (raum und gerät sind doppelt verbunden, am ende nochmal nachschaneun)
                 smartHomeAppController.changeDeviceRoom(device, selectedRoom, room);
-                /// todo: device wird erst im neuen Raum angezeigt, wenn man einen anderen Raum auswählt
                 smartHomeAppController.getAllRooms().stream()
                         .filter(r -> r.getName().equals(room.getName()))
                         .findFirst()
@@ -207,8 +210,16 @@ public class DeviceController {
     private void executeSliderValue(String functionName, Slider slider) {
         Object param = slider.getValue();
 
-        device.executeFunction(functionName, param);
+        DeviceAction action = new DeviceAction(device, functionName, param);
+        smartHomeAppController.executeAndRemember(action);
         smartHomeAppController.save();
         System.out.println("Aktion ausgeführt, da Slider losgelassen wurde.");
+    }
+
+    @Override
+    public void onStateChanged(SmartDevice device) {
+        Platform.runLater(() -> {
+            updateUI();
+        });
     }
 }

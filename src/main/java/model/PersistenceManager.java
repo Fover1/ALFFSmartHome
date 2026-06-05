@@ -2,6 +2,7 @@ package model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,6 +12,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.List;
 
+@Setter
 public class PersistenceManager {
 
     private static String FILE_NAME = null;
@@ -23,7 +25,7 @@ public class PersistenceManager {
                 //braucht aktuell die beiden dinger, weil
                 //wird benötigt, damit er genau weiß, wie er mit den verschiedenen Interfaces und abtrakten klassen umgehen muss
                 //brauchen das für diese Klassen, da nicht alle Infos in der Json stehen (anders als bei z.B. Raum)
-                .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
+//                .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(SmartDevice.class, new SmartDeviceAdapter())
 //                .registerTypeHierarchyAdapter(SmartDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(Action.class, new ActionAdapter())
@@ -43,7 +45,6 @@ public class PersistenceManager {
     }
 
     public static SmartHomeData load(String FileName) {
-        /// todo: was wollen wir laden, wenn das programm gestartet wird?
         File file = new File(FileName);
         if (!file.exists()) {
             return null;
@@ -59,12 +60,13 @@ public class PersistenceManager {
             //es wird bei jedem Gerät neu gemacht
             if (data != null && data.rooms != null) {
                 for (Room room : data.rooms) {
-                    ///  todo: geht das auch mit smart device?
-                    for (SmartDevice device : room.getAbstractDevices()) {
-                        if (device instanceof AbstractDevice) {
-                            //wird für jedes Gerät aufgerufen, das es gibt um die transient felder neu zu initialisieren
-                            ((AbstractDevice) device).restoreAfterLoad();
-                        }
+//                    if (room.getSmartDevices() == null) {
+//                        room.setSmartDevices(new java.util.ArrayList<>());
+//                    }
+                    for (SmartDevice device : room.getSmartDevices()) {
+                        //wird für jedes Gerät aufgerufen, das es gibt um die transient felder neu zu initialisieren
+                        device.restoreAfterLoad();
+
                     }
                 }
             }
@@ -83,15 +85,14 @@ public class PersistenceManager {
 
     //DTO (Data Transfer Objekt)
 
-    private static AbstractDevice findRealDeviceById(List<Room> rooms, String targetId) {
+    private static SmartDevice findRealDeviceById(List<Room> rooms, String targetId) {
         for (Room room : rooms) {
-            for (SmartDevice device : room.getAbstractDevices()) {
-                if (device instanceof AbstractDevice) {
-                    if (String.valueOf(device.getId()).equals(targetId)) {
-                        return (AbstractDevice) device;
-                    }
+            for (SmartDevice device : room.getSmartDevices()) {
+                if (String.valueOf(device.getId()).equals(targetId)) {
+                    return device;
                 }
             }
+
         }
         return null;
     }
@@ -105,14 +106,14 @@ public class PersistenceManager {
             for (int i = 0; i < actions.size(); i++) {
                 Action action = actions.get(i);
                 if (action instanceof DeviceAction) {
-                    String cloneId = String.valueOf(((DeviceAction) action).targetDevice().getId());
-                    AbstractDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
+                    String cloneId = String.valueOf(((DeviceAction) action).getTargetDevice().getId());
+                    SmartDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
 
                     if (realDevice != null) {
                         DeviceAction newDeviceAction = new DeviceAction(
                                 realDevice,
-                                ((DeviceAction) action).functionName(),
-                                ((DeviceAction) action).parameter()
+                                ((DeviceAction) action).getFunctionName(),
+                                ((DeviceAction) action).getParameter()
                         );
                         actions.set(i, newDeviceAction);
                     } else {
@@ -125,6 +126,8 @@ public class PersistenceManager {
 
     public String getFileName() {
         return FILE_NAME;
+    public static void setFileName(String fileName) {
+        FILE_NAME = fileName;
     }
 
     public static class SmartHomeData {

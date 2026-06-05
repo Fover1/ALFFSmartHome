@@ -89,6 +89,6 @@ public class Heater extends AbstractDevice {
 
     @Override
     public String getCurrentState() {
-        return isOn ? "An (" + temperature + "C)" : "Aus";
+        return isOn ? "An (" + temperature + "°C)" : "Aus";
     }
 }

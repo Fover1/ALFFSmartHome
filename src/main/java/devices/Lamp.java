@@ -6,7 +6,6 @@ import model.DeviceFunction;
 import java.util.UUID;
 
 public class Lamp extends AbstractDevice {
-    //konkretes Gerät
     private double brightness = 0;
     private boolean isOn = false;
 

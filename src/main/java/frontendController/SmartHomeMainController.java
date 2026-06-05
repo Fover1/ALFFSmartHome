@@ -3,6 +3,10 @@ package frontendController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controller.SmartHomeAppController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,8 +14,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import model.LogEntry;
 import model.LogListener;
 import model.PersistenceManager;
@@ -21,13 +27,15 @@ import model.Scenario;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class SmartHomeMainController implements LogListener {
+    private static final String CONFIG_FOLDER = "configurations";
     private SmartHomeAppController appController;
-
     @FXML
     private StackPane contentArea;
 
@@ -38,13 +46,16 @@ public class SmartHomeMainController implements LogListener {
     private ListView<LogEntry> logListView1;
 
     @FXML
-    private Label hausanzeige;
+    private TextField time;
+
+    @FXML
+    private TextField deviceCount;
 
     public void setController(SmartHomeAppController appController) {
         this.appController = appController;
-        System.out.println("Logik-Controller wurde erfolgreich an die GUI übergeben!");
         this.appController.addLogListener(this);
-        showDashboard();
+        //Hauptfenster wird schon gezeichnet, wenn das Popup kommt
+        Platform.runLater(this::handleOpenConfig);
     }
 
     @Override
@@ -92,13 +103,12 @@ public class SmartHomeMainController implements LogListener {
 
     @FXML
     private void handleStepBack() {
-        /// todo: implement
+        appController.undoLastAction();
     }
 
     @FXML
     private void handleOpenConfig() {
-        /// todo: hier muss noch etwas implementiert werden, um das mopped auszuwählen
-        File configDirectory = new File(System.getProperty("user.dir"));
+        File configDirectory = new File(CONFIG_FOLDER);
         File[] jsonFiles = configDirectory.listFiles((dir, name) -> name.endsWith(".json"));
 
         List<String> options = new ArrayList<>();
@@ -112,8 +122,9 @@ public class SmartHomeMainController implements LogListener {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Keine Dateien gefunden");
             alert.setHeaderText(null);
-            alert.setContentText("Im Ordner '" + configDirectory.getAbsolutePath() + "' wurden keine Konfigurationen gefunden.");
+            alert.setContentText("Im Ordner '" + configDirectory.getAbsolutePath() + "' wurden keine Konfigurationen gefunden. \n Sie werden zur Konfigurationserstellung weitergeleitet");
             alert.showAndWait();
+            handleCreateNewConfig();
             return;
         }
 
@@ -125,13 +136,34 @@ public class SmartHomeMainController implements LogListener {
         Optional<String> result = dialog.showAndWait();
 
         result.ifPresent(selected -> {
-            openConfig(selected);
+            openConfig(CONFIG_FOLDER + "/" + selected);
             System.out.println("Datei wird geladen in handleOpenConfig: " + selected);
         });
 
     }
 
-    /// todo: wollen wir hier den Namen oder die ganze Datei mit übergeben?
+    //Problem: In JAva FX gibt es nur einen Thread. Daher kann man diesem nicht einfach sagen, aktualisiere durchgehend die Uhr
+    //Daher gibt es die Timeline. Dieser kann man sagen, führen folgenden Code immer nach so und so viel Zeit aus.
+    //Dieser geht dann zum Thread, führt den Code aus und wartet dann wieder eine bestimmte Zeit im Hintergrund
+    @FXML
+    public void initialize() {
+        // Eine Timeline erstellen, die jede Sekunde ausgelöst wird
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            //Uhrzeit aktualisieren
+            LocalTime currentTime = LocalTime.now();
+            time.setText(currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+            //Geräteanzahl aktualisieren
+            if (appController != null) {
+                int totalDevices = appController.getAllDevices().size();
+                deviceCount.setText(totalDevices + " Geräte");
+            }
+        }), new KeyFrame(Duration.seconds(1)));
+
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+    }
+
     private void openConfig(String filename) {
 
         appController.loadConfiguration(filename);
@@ -153,11 +185,10 @@ public class SmartHomeMainController implements LogListener {
             if (!fileName.toLowerCase().endsWith(".json")) {
                 fileName += ".json";
             }
-            safeNewFile(fileName);
-            File newFile = new File(System.getProperty("user.dir"), fileName);
-            System.out.println("neue datei wurde erstellt");
-            System.out.println(System.getProperty("user.dir"));
-            openConfig(fileName);
+
+            String path = CONFIG_FOLDER + "/" + fileName;
+            safeNewFile(path);
+            openConfig(path);
         });
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 public class Room {
     private String name;
-    private List<AbstractDevice> abstractDevices = new ArrayList<>();
+    private List<SmartDevice> smartDevices = new ArrayList<>();
     private transient List<RoomObserver> roomObservers = new ArrayList<>();
 
     public Room(String name) {
@@ -18,17 +18,16 @@ public class Room {
         this.roomObservers = new ArrayList<>();
     }
 
-    public void addDevice(AbstractDevice abstractDevice) {
-        if (!abstractDevices.contains(abstractDevice)) {
-            abstractDevices.add(abstractDevice);
+    public void addDevice(SmartDevice smartDevice) {
+        if (!smartDevices.contains(smartDevice)) {
+            smartDevices.add(smartDevice);
             notifyObservers();
         }
     }
 
-    /// todo: vllt ne methode public List<AbstractDevice> devicesList() {return abstractDevices} ?
 
-    public void removeDevice(AbstractDevice abstractDevice) {
-        abstractDevices.remove(abstractDevice);
+    public void removeDevice(SmartDevice smartDevice) {
+        smartDevices.remove(smartDevice);
         notifyObservers();
     }
 

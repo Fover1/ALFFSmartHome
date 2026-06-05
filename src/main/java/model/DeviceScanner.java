@@ -1,44 +1,74 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class DeviceScanner {
-
-    //Zu beginn des Programmstarts genutzt, um die Gerätetypen die zu verfügung stehen zu erknnen
-    // --> Läd die verschiedenen Devices aus dem packeg devices
-
 
     public static List<String> getAllDeviceTypes(String packageName) {
         List<String> deviceTypes = new ArrayList<>();
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-
         String path = packageName.replace('.', '/');
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         URL resource = classLoader.getResource(path);
 
         if (resource != null) {
-            File directory = new File(resource.getFile());
+            try {
+                URI uri = resource.toURI();
 
-            if (directory.exists()) {
-                String[] files = directory.list();
-                if (files != null) {
-                    for (String file : files) {
-                        // Für jeden Eventlistener erstellt Java eine weitere .class Datei (mit $). Um die "richtige" Klasse zu finden, braucht man diese weitere Unterschiedung
-                        if (file.endsWith(".class") && !file.contains("$")) {
-                            String className = file.substring(0, file.length() - 6);
-                            deviceTypes.add(className);
-                        }
-
+                if ("jar".equals(uri.getScheme())) {
+                    try (FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.emptyMap())) {
+                        Path jarPath = fileSystem.getPath(path);
+                        scanPathForClasses(jarPath, deviceTypes);
                     }
+                } else {
+                    Path localPath = Paths.get(uri);
+                    scanPathForClasses(localPath, deviceTypes);
+                }
+            } catch (Exception e) {
+                System.err.println("Fehler beim Scannen des internen Packages: " + e.getMessage());
+            }
+        }
+        File pluginFolder = new File("devices");
+
+        File[] externalFiles = pluginFolder.listFiles((dir, name) -> name.endsWith(".class"));
+        if (externalFiles != null) {
+            for (File file : externalFiles) {
+                String className = file.getName().replace(".class", "");
+                // Für jeden Eventlistener erstellt Java eine weitere .class Datei (mit $). Um die "richtige" Klasse zu finden, braucht man diese weitere Unterschiedung
+                if (!className.contains("$") && !deviceTypes.contains(className)) {
+                    deviceTypes.add(className);
                 }
             }
-        } else {
-            System.err.println("Package nicht gefunden: " + packageName);
         }
 
         return deviceTypes;
+    }
+
+    private static void scanPathForClasses(Path path, List<String> deviceTypes) throws IOException {
+        if (Files.exists(path)) {
+            try (Stream<Path> walk = Files.walk(path, 1)) {
+                walk.forEach(p -> {
+                    String fileName = p.getFileName().toString();
+                    if (fileName.endsWith(".class") && !fileName.contains("$")) {
+                        String className = fileName.substring(0, fileName.length() - 6);
+                        if (!deviceTypes.contains(className)) {
+                            deviceTypes.add(className);
+                        }
+                    }
+                });
+            }
+        }
     }
 }

@@ -10,7 +10,6 @@ import java.util.UUID;
 ///  Es wurde bewusst auf eine Vererbung von Lampe verzichtet, um die autonomie der Klasse RgbLamp von Lampe sicherzustellen
 @Getter
 public class RgbLamp extends AbstractDevice {
-    //konkretes Gerät
     private double brightness = 0;
     private boolean isOn = false;
     private String hexColor = "#FFFFFF";

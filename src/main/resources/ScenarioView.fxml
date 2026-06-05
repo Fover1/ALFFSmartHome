@@ -23,7 +23,6 @@
                 <Insets bottom="10" left="10" right="10" top="10"/>
             </padding>
             <HBox spacing="10.0">
-                <!--               todo: Buttontext überall: neu oder +? -->
                 <Button onAction="#handleNewScenario" text="Neu"/>
                 <Button onAction="#handleDeleteScenario" text="Löschen"/>
                 <Pane HBox.hgrow="ALWAYS"/>
@@ -63,7 +62,6 @@
             </GridPane>
 
             <HBox spacing="10">
-                <!--                todo: bei jedem speichern wird das szenario dubliziert & man kann keine beschreibung speichern-->
                 <Button onAction="#handleSaveScenarioDetails" text="Speichern"/>
             </HBox>
 

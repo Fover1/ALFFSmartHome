@@ -93,7 +93,6 @@ public class ScenarioController {
     @FXML
     private void handleNewScenario() {
 
-        /// todo: wenn man einmal was hinzufügt, kommen 2 dazu
         Scenario newScenario = new Scenario("", "");
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);
@@ -136,12 +135,9 @@ public class ScenarioController {
     @FXML
     private void handleSaveScenarioDetails() {
         Scenario selected = scenarioTable.getSelectionModel().getSelectedItem();
-        System.out.println("handleSaveScenarioDetails");
         if (selected == null) {
-            System.out.println("selected == null");
             selected.setName(txtName.getText());
             selected.setDescription(txtDescription.getText());
-            System.out.println("in handleScenarioDetail " + selected.getName());
             smartHomeAppController.addSzenario(selected);
             smartHomeAppController.save();
             scenarioTable.refresh();
@@ -151,11 +147,16 @@ public class ScenarioController {
             selected.setDescription(txtDescription.getText());
             smartHomeAppController.save();
         }
+        updateUI();
+
     }
 
     @FXML
     private void handleExecuteScenario() {
-        smartHomeAppController.executeScenario(scenarioTable.getSelectionModel().getSelectedItem());
+        Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
+        if (selectedScenario != null) {
+            smartHomeAppController.executeScenario(selectedScenario);
+        }
     }
 
 
@@ -167,7 +168,7 @@ public class ScenarioController {
             Optional<DeviceAction> result = dialog.showAndWait();
 
             result.ifPresent(action -> {
-                System.out.println(action.parameter().getClass().getSimpleName());
+                System.out.println(action.getParameter().getClass().getSimpleName());
                 selectedScenario.addAction(action);
                 updateActionList(selectedScenario);
                 scenarioTable.refresh();
@@ -182,7 +183,7 @@ public class ScenarioController {
         Action selectedAction = actionListView.getSelectionModel().getSelectedItem();
 
         if (selectedScenario != null && selectedAction instanceof DeviceAction deviceAction) {
-            System.out.println(deviceAction.functionName() + deviceAction.getDescription() + deviceAction.targetDevice().getName());
+            System.out.println(deviceAction.getFunctionName() + deviceAction.getDescription() + deviceAction.getTargetDevice().getName());
             ActionDialog dialog = new ActionDialog(smartHomeAppController.getAllRooms(), smartHomeAppController.getAllDevices(), deviceAction);
             Optional<DeviceAction> result = dialog.showAndWait();
 
@@ -233,8 +234,6 @@ public class ScenarioController {
 
     @FXML
     public void handleAddExistingScenario() {
-
-        /// todo: vllt alle Alerts in eine Alertbuilder klasse auslagern oder so?
         Scenario currentScenario = scenarioTable.getSelectionModel().getSelectedItem();
         if (currentScenario == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -291,6 +290,27 @@ public class ScenarioController {
                 System.out.println("Szenario eingefügt! Gespeicherte ID: " + selectedScenario.getId());
             }
         });
+    }
+
+    public void updateUI() {
+        Scenario selectedScenario = scenarioTable.getSelectionModel().getSelectedItem();
+        int selectedActionIndex = actionListView.getSelectionModel().getSelectedIndex();
+
+        observableScenarios.setAll(smartHomeAppController.getAllScenarios());
+        scenarioTable.refresh();
+
+        if (selectedScenario != null && observableScenarios.contains(selectedScenario)) {
+
+            scenarioTable.getSelectionModel().select(selectedScenario);
+            showScenarioDetails(selectedScenario);
+
+            if (selectedActionIndex >= 0 && selectedActionIndex < actionListView.getItems().size()) {
+                actionListView.getSelectionModel().select(selectedActionIndex);
+            }
+        } else {
+            scenarioTable.getSelectionModel().clearSelection();
+            showScenarioDetails(null);
+        }
     }
 
 

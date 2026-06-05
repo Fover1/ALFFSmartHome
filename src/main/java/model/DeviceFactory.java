@@ -12,7 +12,7 @@ public class DeviceFactory {
     private static final String PACKAGE_NAME = "devices";
 
     //hier wird reflection genutzt
-    public static AbstractDevice createDevice(String className, UUID id, String name) {
+    public static SmartDevice createDevice(String className, UUID id, String name) {
         try {
             String fullClassName = PACKAGE_NAME + "." + className;
 
@@ -25,8 +25,7 @@ public class DeviceFactory {
             //fürht den Constructor aus und gibt das erstellte Gerät dann zurück
             Object device = constructor.newInstance(id, name);
 
-            /// todo: gliech mal ausprobieren ob hier auch smartdevice geht
-            return (AbstractDevice) device;
+            return (SmartDevice) device;
 
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException(CLASS_NOT_FOUND + className, e);

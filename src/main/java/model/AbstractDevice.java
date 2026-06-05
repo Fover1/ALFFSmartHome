@@ -13,10 +13,6 @@ import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 
 @Getter
 @Setter
-///  todo: hierfür fehlen noch tests
-
-
-///  todo: ich habe jetzt die devices aus diesem Test coverage ding rausgenommen.
 public abstract class AbstractDevice implements SmartDevice {
 
     //impelementiert Methoden, die alle AbstractDevices haben
@@ -28,7 +24,6 @@ public abstract class AbstractDevice implements SmartDevice {
 
 
     public AbstractDevice(UUID id, String name) {
-        /// todo: Problem: Räume speichern ihre Geräte und Geräte speichern ihre Räume. Darüber sollten wir nochmal sprechen
         this.id = id;
         this.name = name;
         restoreAfterLoad();
@@ -38,21 +33,29 @@ public abstract class AbstractDevice implements SmartDevice {
     protected abstract void initializeFunctions();
 
     //observers und functions werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
+    @Override
     public void restoreAfterLoad() {
-        this.observers = new ArrayList<>();
-        this.functions = new HashMap<>();
-        initializeFunctions();
+        if (this.observers == null) {
+            this.observers = new ArrayList<>();
+        }
+
+        if (this.functions == null) {
+            this.functions = new HashMap<>();
+            initializeFunctions();
+        } else if (this.functions.isEmpty()) {
+            initializeFunctions();
+        }
     }
 
+    @Override
     public abstract String getDeviceType();
 
+    @Override
     public abstract String getCurrentState();
 
 
     @Override
     public void executeFunction(String functionName, Object parameter) {
-//        System.out.println("das sind die functions: " + getFunctions());
-        /// todo: kann man das vllt schöner machen (ohne das restoreAfterLoad)
         restoreAfterLoad();
         DeviceFunction function = functions.get(functionName);
         if (function != null) {
@@ -69,6 +72,7 @@ public abstract class AbstractDevice implements SmartDevice {
         return new ArrayList<>(functions.keySet());
     }
 
+    @Override
     public void addObserver(DeviceObserver observer) {
         if (observers == null) {
             observers = new ArrayList<>();
@@ -78,17 +82,25 @@ public abstract class AbstractDevice implements SmartDevice {
         }
     }
 
+    @Override
     public void removeObserver(DeviceObserver observer) {
         if (observers != null) {
             observers.remove(observer);
         }
     }
 
-    protected void notifyObservers() {
+    @Override
+    public void notifyObservers() {
         if (observers != null) {
             for (DeviceObserver observer : observers) {
                 observer.onStateChanged(this);
             }
         }
     }
+
+    @Override
+    public DeviceFunction getFunction(String name) {
+        return functions.get(name);
+    }
+
 }

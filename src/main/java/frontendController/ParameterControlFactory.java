@@ -8,20 +8,36 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import model.AbstractDevice;
 import model.DeviceFunction;
+import model.SmartDevice;
 
 //da die Parametereingaben in verschiedenen Anwendungsfällen benötigt werden, werden diese hier Zentral erstellt
 //sollte ein neuer Parametertyp vorkommen, kann man diesen hier implementieren und somit können die verschiedenen Klassen diesen neuen typen "automatisch" handeln
 public class ParameterControlFactory {
 
     //Node ist wie ein Abstract Device für Frontend Kopmonenten (also z.B. Slider, Checkbox und so sind alles Nodes)
-    public static Node createControl(AbstractDevice device, String functionName, String initialValue) {
+    public static Node createControl(SmartDevice device, String functionName, String initialValue) {
         if (device == null || functionName == null) {
             return new TextField("kein device / functionname");
         }
 
-        DeviceFunction function = device.getFunctions().get(functionName);
+////        DeviceFunction function = device.getFunctions().get(functionName);
+//        List<String> functions = device.getAvailableFunctions();
+//        for (int i = 0; i < functions.size(); i++) {}
+//        DeviceFunction function = device.getAvailableFunctions().get
+
+//        DeviceFunction function = device.getFunctions().get(i)
+
+//        List<DeviceFunction> functions = device.getFunctions();
+//        DeviceFunction function = null;
+//        for (DeviceFunction function1 : functions) {
+//            if (function1.getClass().getSimpleName().equals(functionName)) {
+//                System.out.println(functionName.getClass().getSimpleName());
+//                function = function1;
+//            }
+//        }
+
+        DeviceFunction function = device.getFunction(functionName);
 
         if (function == null) {
             return new TextField("funcktion: " + functionName + " nicht gefunden");
