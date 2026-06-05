@@ -17,10 +17,10 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      - name: Java 25 einrichten
+      - name: Java 23 einrichten
         uses: actions/setup-java@v4
         with:
-          java-version: '25'
+          java-version: '23'
           distribution: 'temurin'
           cache: maven
 
