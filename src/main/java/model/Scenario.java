@@ -60,4 +60,13 @@ public class Scenario implements Action {
     public int getCount() {
         return actions.size();
     }
+
+    public void removeActionsForDevice(SmartDevice device) {
+        actions.removeIf(action -> {
+            if (action instanceof DeviceAction) {
+                return ((DeviceAction) action).getTargetDevice().equals(device);
+            }
+            return false;
+        });
+    }
 }

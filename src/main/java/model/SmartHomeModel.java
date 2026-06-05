@@ -18,7 +18,18 @@ public class SmartHomeModel {
     }
 
     public void removeRoom(Room room) {
+        if (room.getSmartDevices() != null) {
+            for (SmartDevice device : room.getSmartDevices()) {
+                cleanUpScenariosForDevice(device);
+            }
+        }
         rooms.remove(room);
+    }
+
+    private void cleanUpScenariosForDevice(SmartDevice device) {
+        for (Scenario scenario : scenarios) {
+            scenario.removeActionsForDevice(device);
+        }
     }
 
     public void changeRoomName(Room room, String name) {
@@ -31,6 +42,7 @@ public class SmartHomeModel {
 
     public void removeDevice(SmartDevice device, Room oldRoom) {
         oldRoom.removeDevice(device);
+        cleanUpScenariosForDevice(device);
     }
 
     public void changeDeviceRoom(SmartDevice device, Room oldRoom, Room newRoom) {
