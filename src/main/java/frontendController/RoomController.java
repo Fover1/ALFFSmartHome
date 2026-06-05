@@ -61,7 +61,7 @@ public class RoomController implements RoomObserver {
 
     @Override
     public void onDeviceListChanged(Room room) {
-        Platform.runLater(this::updateUI);
+        updateUI();
     }
 
     private void updateUI() {
@@ -71,15 +71,32 @@ public class RoomController implements RoomObserver {
             for (Room room : getRooms()) {
                 Button roomButton = new Button(room.getName());
                 roomButton.setOnAction(e -> showDevices(room));
-
                 roomContainer.getChildren().add(roomButton);
             }
         }
 
+        if (currentRoom == null) {
+            deviceDisplay.setVisible(false);
+            addDevice.setVisible(false);
+            deleteRoom.setVisible(false);
+            editRoom.setVisible(false);
+        }
+
         if (deviceContainer != null && smartHomeAppController != null) {
             deviceContainer.getChildren().clear();
+
+            if (currentRoom != null) {
+                roomSelection.setText("Ausgewählter Raum: " + currentRoom.getName() + "    ");
+
+                for (SmartDevice device : getDevices(currentRoom)) {
+                    Button deviceButton = new Button(device.getName());
+                    deviceButton.setOnAction(e -> openDeviceView(device, currentRoom));
+                    deviceContainer.getChildren().add(deviceButton);
+                }
+            } else {
+                roomSelection.setText("Noch kein Raum ausgewählt");
+            }
         }
-        roomSelection.setText("Noch kein Raum ausgewählt");
     }
 
     @FXML
@@ -94,7 +111,9 @@ public class RoomController implements RoomObserver {
         result.ifPresent(inputName -> {
             String roomName = inputName.trim();
             if (!roomName.isEmpty()) {
-                if (checkIfRoomNameAlreadyExists(roomName)) { return; }
+                if (checkIfRoomNameAlreadyExists(roomName)) {
+                    return;
+                }
                 smartHomeAppController.addRoom(roomName);
                 smartHomeAppController.save();
                 updateUI();
@@ -153,10 +172,8 @@ public class RoomController implements RoomObserver {
             return null;
         });
 
-        //Dialog anzeigen und auf Ergebnis warten
         Optional<javafx.util.Pair<String, String>> result = dialog.showAndWait();
 
-        //Ergebnis verarbeiten
         result.ifPresent(nameTypePair -> {
             String deviceName = nameTypePair.getKey().trim();
             String deviceType = nameTypePair.getValue();
@@ -164,7 +181,7 @@ public class RoomController implements RoomObserver {
             if (!deviceName.isEmpty() && deviceType != null) {
                 boolean nameExistsInRoom = currentRoom.getSmartDevices().stream().anyMatch(device -> device.getName().equalsIgnoreCase(deviceName));
                 if (nameExistsInRoom) {
-                    javafx.scene.control.Alert duplicateAlert = new  javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+                    javafx.scene.control.Alert duplicateAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
                     duplicateAlert.setTitle("Der Name ist bereits vergeben.");
                     duplicateAlert.setHeaderText("Dieses Gerät existiert bereits.");
                     duplicateAlert.setContentText("Ein Gerät mit dem Namen '" + deviceName + "' ist bereits vorhanden. Bitte wähle einen anderen Namen.");
@@ -177,18 +194,11 @@ public class RoomController implements RoomObserver {
 
                     //neues Geraet ueber die DeviceFactory erstellen
                     SmartDevice newDevice = model.DeviceFactory.createDevice(deviceType, newId, deviceName);
-
-                    //Geraet dem aktuellen Raum hinzufuegen (notifyObservers wird in addDevice getriggert)
                     currentRoom.addDevice(newDevice);
-
-                    //Speichern
                     smartHomeAppController.save();
-
-                    //Ansicht aktualisieren
                     showDevices(currentRoom);
 
                 } catch (Exception e) {
-                    //Fehlerbehandlung, falls Factory fehlschlaegt
                     javafx.scene.control.Alert errorAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
                     errorAlert.setTitle("Fehler");
                     errorAlert.setHeaderText("Gerät konnte nicht erstellt werden");
@@ -202,29 +212,32 @@ public class RoomController implements RoomObserver {
 
     @FXML
     public void showDevices(Room room) {
+        if (this.currentRoom != null) {
+            this.currentRoom.removeObserver(this);
+        }
         this.currentRoom = room;
+        if (this.currentRoom != null) {
+            this.currentRoom.addObserver(this);
+        }
+
         deviceDisplay.setVisible(true);
         addDevice.setVisible(true);
-        updateUI();
-        roomSelection.setText("Ausgewählter Raum: " + currentRoom.getName() + "    ");
+        deleteRoom.setVisible(true);
+        editRoom.setVisible(true);
 
         deleteRoom.setOnAction(e -> {
             smartHomeAppController.deleteRoom(currentRoom);
+            if (this.currentRoom != null) {
+                this.currentRoom.removeObserver(this);
+            }
+            this.currentRoom = null;
             updateUI();
         });
         editRoom.setOnAction(e -> {
             handleRoomNameChange(currentRoom);
             updateUI();
         });
-
-        deleteRoom.setVisible(true);
-        editRoom.setVisible(true);
-
-        for (SmartDevice device : getDevices(room)) {
-            Button deviceButton = new Button(device.getName());
-            deviceButton.setOnAction(e -> openDeviceView(device, room));
-            deviceContainer.getChildren().add(deviceButton);
-        }
+        updateUI();
     }
 
     private void handleRoomNameChange(Room room) {
@@ -237,7 +250,9 @@ public class RoomController implements RoomObserver {
         result.ifPresent(inputName -> {
             String newRoomName = inputName.trim();
             if (!newRoomName.isEmpty() && !newRoomName.equalsIgnoreCase(room.getName())) {
-                if (checkIfRoomNameAlreadyExists(newRoomName)) { return; }
+                if (checkIfRoomNameAlreadyExists(newRoomName)) {
+                    return;
+                }
                 smartHomeAppController.changeRoomName(room, newRoomName);
                 smartHomeAppController.save();
             }

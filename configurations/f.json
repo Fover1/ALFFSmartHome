@@ -117,6 +117,149 @@
           }
         }
       ]
+    },
+    {
+      "id": "48628ef8-604e-44eb-bbe6-1c345bb08873",
+      "name": "katze aus",
+      "description": "sdfsdf",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 100.0,
+                "isOn": true,
+                "id": "04b5a84e-281e-4797-9ad6-e4aee1ae8e28",
+                "name": "Katzenlampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 16.35514018691589
+          }
+        }
+      ]
+    },
+    {
+      "id": "cd91a2a6-d186-4a5c-b5c4-61e002b5537b",
+      "name": "sammel",
+      "description": "sfhsj",
+      "actions": [
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "48628ef8-604e-44eb-bbe6-1c345bb08873",
+            "name": "katze aus",
+            "description": "sdfsdf",
+            "actions": [
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.Lamp",
+                    "data": {
+                      "brightness": 100.0,
+                      "isOn": true,
+                      "id": "04b5a84e-281e-4797-9ad6-e4aee1ae8e28",
+                      "name": "Katzenlampe"
+                    }
+                  },
+                  "functionName": "Helligkeit",
+                  "parameter": 16.35514018691589
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "c5dfc2e0-afc3-4e1a-8cb8-78785d55b7b1",
+      "name": "dj",
+      "description": "fgh",
+      "actions": [
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "d206fcd9-2709-4d0d-96be-1ea40b878f9e",
+            "name": "Gaming Feeling",
+            "description": "Cozy Gaming Time",
+            "actions": [
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.Socket",
+                    "data": {
+                      "isOn": true,
+                      "id": "315bbf3c-e83a-46e0-87f8-fd2a0803da0c",
+                      "name": "PC"
+                    }
+                  },
+                  "functionName": "Schalten",
+                  "parameter": true,
+                  "previousParameter": false
+                }
+              },
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.RgbLamp",
+                    "data": {
+                      "brightness": 40.6060606060606,
+                      "isOn": true,
+                      "hexColor": "#8066CC",
+                      "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                      "name": "LED"
+                    }
+                  },
+                  "functionName": "Schalten",
+                  "parameter": true,
+                  "previousParameter": true
+                }
+              },
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.RgbLamp",
+                    "data": {
+                      "brightness": 40.6060606060606,
+                      "isOn": true,
+                      "hexColor": "#8066CC",
+                      "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                      "name": "LED"
+                    }
+                  },
+                  "functionName": "Helligkeit",
+                  "parameter": 40.6060606060606,
+                  "previousParameter": 40.6060606060606
+                }
+              },
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.RgbLamp",
+                    "data": {
+                      "brightness": 40.6060606060606,
+                      "isOn": true,
+                      "hexColor": "#8066CC",
+                      "id": "0b680045-10b1-4d35-ac3a-ace9b837d6be",
+                      "name": "LED"
+                    }
+                  },
+                  "functionName": "Farbe",
+                  "parameter": "#8066CC",
+                  "previousParameter": "#8066CC"
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

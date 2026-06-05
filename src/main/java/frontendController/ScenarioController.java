@@ -52,7 +52,7 @@ public class ScenarioController {
     public void initialize() {
         //setCellValueFactory bringt den String in ein Format, welches die JavaFX Zeile versteht
         colName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDiscription()));
+        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
         colActionCount.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()));
 
         actionListView.setCellFactory(param -> new ListCell<>() {
@@ -62,7 +62,7 @@ public class ScenarioController {
                 if (empty || action == null) {
                     setText(null);
                 } else {
-                    setText(action.getDescription());
+                    setText(action.getName());
                 }
             }
         });
@@ -74,7 +74,7 @@ public class ScenarioController {
         if (scenario != null) {
             detailArea.setDisable(false);
             txtName.setText(scenario.getName());
-            txtDescription.setText(scenario.getDiscription());
+            txtDescription.setText(scenario.getDescription());
             updateActionList(scenario);
         } else {
             detailArea.setDisable(true);
@@ -90,6 +90,15 @@ public class ScenarioController {
 
     @FXML
     private void handleNewScenario() {
+        if (smartHomeAppController.getAllDevices().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Kein Gerät gefunden");
+            alert.setHeaderText(null);
+            alert.setContentText("Ohne verfügbare Geräte kann kein Szenario erstellt werden");
+            alert.showAndWait();
+            return;
+        }
+
         Scenario newScenario = new Scenario("", "");
         smartHomeAppController.addSzenario(newScenario);
         observableScenarios.add(newScenario);
@@ -273,6 +282,7 @@ public class ScenarioController {
                 currentScenario.addAction(selectedScenario);
                 scenarioTable.refresh();
                 smartHomeAppController.save();
+                updateUI();
             }
         });
     }

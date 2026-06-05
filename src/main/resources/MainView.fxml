@@ -40,14 +40,20 @@
     </center>
     <top>
         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" text="Neu" onAction="#handleCreateNewConfig"/>
-            <Button mnemonicParsing="false" text="Öffnen" onAction="#handleOpenConfig"/>
-            <Button mnemonicParsing="false" text="Rückgängig" onAction="#handleStepBack"/>
+            <Button mnemonicParsing="false" onAction="#handleCreateNewConfig" text="Neu"/>
+            <Button mnemonicParsing="false" onAction="#handleOpenConfig" text="Öffnen"/>
+            <Button mnemonicParsing="false" onAction="#handleStepBack" text="Rückgängig"/>
             <TextField fx:id="time" alignment="CENTER_RIGHT"/>
             <TextField fx:id="deviceCount" alignment="CENTER_RIGHT"/>
         </ToolBar>
     </top>
     <bottom>
-        <ListView fx:id="logListView" prefHeight="120.0" prefWidth="900.0" BorderPane.alignment="CENTER"/>
+        <VBox prefHeight="150.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+            <children>
+                <ListView fx:id="logListView" prefHeight="120.0" prefWidth="900.0"/>
+                <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="1062.0" text="Konsole Löschen"
+                        onAction="#clearConsole"/>
+            </children>
+        </VBox>
     </bottom>
 </BorderPane>

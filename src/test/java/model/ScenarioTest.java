@@ -17,16 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class ScenarioTest {
 
-    private Scenario scenario;
     private final String scenarioName = "Guten Morgen";
     private final String scenarioDescription = "Fährt die Rollläden hoch und kocht Kaffee";
-
+    private Scenario scenario;
     @Mock
     private Action mockAction1;
 
@@ -128,11 +125,11 @@ class ScenarioTest {
         assertEquals(expectedString, scenario.toString());
     }
 
-    @Test
-    void testGetDiscription() {
-        // Testet die manuell geschriebene Methode mit dem Tippfehler
-        assertEquals(scenarioDescription, scenario.getDiscription());
-    }
+//    @Test
+//    void testGetDiscription() {
+//        // Testet die manuell geschriebene Methode mit dem Tippfehler
+//        assertEquals(scenarioDescription, scenario.getDiscription());
+//    }
 
     @Test
     void testGetCount() {

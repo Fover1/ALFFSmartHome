@@ -93,24 +93,30 @@ public class PersistenceManager {
             return;
         }
         for (Scenario scenario : smartHomeData.scenarios) {
-            List<Action> actions = scenario.getActions();
-            for (int i = 0; i < actions.size(); i++) {
-                Action action = actions.get(i);
-                if (action instanceof DeviceAction) {
-                    String cloneId = String.valueOf(((DeviceAction) action).getTargetDevice().getId());
-                    SmartDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
+            linkActionsToRealDevices(scenario.getActions(), smartHomeData.rooms);
+        }
+    }
 
-                    if (realDevice != null) {
-                        DeviceAction newDeviceAction = new DeviceAction(
-                                realDevice,
-                                ((DeviceAction) action).getFunctionName(),
-                                ((DeviceAction) action).getParameter()
-                        );
-                        actions.set(i, newDeviceAction);
-                    } else {
-                        System.out.println(DEVICE_FOR_SCENARIO_NOT_FOUND);
-                    }
+    private static void linkActionsToRealDevices(List<Action> actions, List<Room> rooms) {
+        for (int i = 0; i < actions.size(); i++) {
+            Action action = actions.get(i);
+
+            if (action instanceof DeviceAction deviceAction) {
+                String cloneId = String.valueOf(deviceAction.getTargetDevice().getId());
+                SmartDevice realDevice = findRealDeviceById(rooms, cloneId);
+
+                if (realDevice != null) {
+                    DeviceAction newDeviceAction = new DeviceAction(
+                            realDevice,
+                            deviceAction.getFunctionName(),
+                            deviceAction.getParameter()
+                    );
+                    actions.set(i, newDeviceAction);
+                } else {
+                    System.out.println(DEVICE_FOR_SCENARIO_NOT_FOUND);
                 }
+            } else if (action instanceof Scenario nestedScenario) {
+                linkActionsToRealDevices(nestedScenario.getActions(), rooms);
             }
         }
     }

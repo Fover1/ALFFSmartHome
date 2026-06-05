@@ -6,8 +6,8 @@ on:
   pull_request:
     branches: [ "development" ]
 
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -17,12 +17,12 @@ jobs:
       - name: Code auschecken
         uses: actions/checkout@v4
 
-      - name: Java 21 einrichten
+      - name: Java 23 einrichten
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '23'
           distribution: 'temurin'
           cache: maven
 
       - name: Maven Build und Tests ausführen
-        run: mvn -B clean verify
+        run: xvfb-run mvn -B clean verify

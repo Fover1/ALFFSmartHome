@@ -7,7 +7,7 @@
           "className": "devices.Heater",
           "data": {
             "temperature": 0.0,
-            "isOn": false,
+            "isOn": true,
             "id": "d0ead41f-436b-47d5-a306-5f64aec4a4e4",
             "name": "hello"
           }
@@ -28,14 +28,13 @@
               "className": "devices.Heater",
               "data": {
                 "temperature": 0.0,
-                "isOn": false,
+                "isOn": true,
                 "id": "d0ead41f-436b-47d5-a306-5f64aec4a4e4",
                 "name": "hello"
               }
             },
             "functionName": "Temperatur",
-            "parameter": 10.384615384615385,
-            "previousParameter": 0.0
+            "parameter": 10.384615384615385
           }
         }
       ]
@@ -52,14 +51,13 @@
               "className": "devices.Heater",
               "data": {
                 "temperature": 0.0,
-                "isOn": false,
+                "isOn": true,
                 "id": "d0ead41f-436b-47d5-a306-5f64aec4a4e4",
                 "name": "hello"
               }
             },
             "functionName": "Temperatur",
-            "parameter": 17.76923076923077,
-            "previousParameter": 0.0
+            "parameter": 17.76923076923077
           }
         }
       ]
