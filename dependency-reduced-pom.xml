@@ -18,7 +18,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>org.example.Main</mainClass>
+                  <mainClass>org.startmenu.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -106,7 +106,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>org.example.Main</mainClass>
+                  <mainClass>org.startmenu.Main</mainClass>
                 </transformer>
               </transformers>
             </configuration>

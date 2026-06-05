@@ -4,7 +4,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import org.example.SmartHomeApp;
+import org.startmenu.SmartHomeApp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;

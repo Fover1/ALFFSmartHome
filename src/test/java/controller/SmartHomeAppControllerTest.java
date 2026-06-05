@@ -210,7 +210,7 @@ class SmartHomeAppControllerTest {
         ArgumentCaptor<LogEntry> logCaptor = ArgumentCaptor.forClass(LogEntry.class);
         verify(mockLogListener).onLogEntryCreated(logCaptor.capture());
 
-        assertEquals("System", logCaptor.getValue().scenarioName());
+        assertEquals("Rückgängig", logCaptor.getValue().scenarioName());
     }
 
     @Test

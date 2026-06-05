@@ -25,11 +25,11 @@
         {
           "className": "devices.RgbLamp",
           "data": {
-            "brightness": 74.48979591836734,
+            "brightness": 0.0,
             "isOn": false,
-            "hexColor": "#1A0068",
-            "id": "1638c59b-1830-4d45-bebd-d9e8633f8ed3",
-            "name": "bunti"
+            "hexColor": "#FFFFFF",
+            "id": "be9edf95-6cef-4839-a9ca-185b95d3ab6a",
+            "name": "LED"
           }
         }
       ]
@@ -66,103 +66,104 @@
           }
         }
       ]
-    },
-    {
-      "name": "Fionas mini Kämmerchen",
-      "smartDevices": [
-        {
-          "className": "devices.Heater",
-          "data": {
-            "temperature": 30.0,
-            "isOn": true,
-            "id": "2d9b2326-787d-418b-90f7-111197825b45",
-            "name": "fußbodenheizung"
-          }
-        },
-        {
-          "className": "devices.Heater",
-          "data": {
-            "temperature": 19.591836734693874,
-            "isOn": true,
-            "id": "a3f91c84-8b22-4a55-9730-8d5c1a7b4e9f",
-            "name": "fueßchenwaermer"
-          }
-        },
-        {
-          "className": "devices.Heater",
-          "data": {
-            "temperature": 0.0,
-            "isOn": false,
-            "id": "d9d7f1ca-d9ea-49be-9721-60a4cb4215f9",
-            "name": "Deckenheizer"
-          }
-        },
-        {
-          "className": "devices.Heater",
-          "data": {
-            "temperature": 0.0,
-            "isOn": false,
-            "id": "41661299-2ff5-45ae-ad86-3a8b66bef56c",
-            "name": "vxegdr"
-          }
-        },
-        {
-          "className": "devices.Socket",
-          "data": {
-            "isOn": true,
-            "id": "7f6d4d12-8e7c-4a30-8041-866418804820",
-            "name": "Coffeeeee"
-          }
-        }
-      ]
-    },
-    {
-      "name": "Leons schlösschen",
-      "smartDevices": [
-        {
-          "className": "devices.RgbLamp",
-          "data": {
-            "brightness": 45.408163265306115,
-            "isOn": false,
-            "id": "d00fdbe3-f1c4-41b3-8048-b6c70ecf76da",
-            "name": "sdfsdf"
-          }
-        },
-        {
-          "className": "devices.Lamp",
-          "data": {
-            "brightness": 0.0,
-            "isOn": false,
-            "id": "b38b72e0-1f6a-4ad6-8e7e-ab652bd40522",
-            "name": "Testtiteiites"
-          }
-        }
-      ]
-    },
-    {
-      "name": "testse",
-      "smartDevices": [
-        {
-          "className": "devices.Lamp",
-          "data": {
-            "brightness": 0.0,
-            "isOn": false,
-            "id": "8a9c35fe-fa35-4cc8-aa36-e7cc9d5d68c6",
-            "name": "hifle"
-          }
-        }
-      ]
-    },
-    {
-      "name": "scdsy",
-      "smartDevices": []
     }
   ],
   "scenarios": [
     {
       "id": "26920862-cda2-4d08-a190-3bd316b73eee",
-      "name": "TEstitest",
-      "description": "Was geht?",
+      "name": "Gute Nacht",
+      "description": "Macht alle Lichter im Haus aus!",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 29.591836734693878,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 31.122448979591823,
+                "isOn": true,
+                "hexColor": "#B3B31A",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 0.0,
+                "isOn": false,
+                "hexColor": "#FFFFFF",
+                "id": "be9edf95-6cef-4839-a9ca-185b95d3ab6a",
+                "name": "LED"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 30.102040816326518,
+                "isOn": false,
+                "hexColor": "#E6804D",
+                "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
+                "name": "Lampe1"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 31.122448979591823,
+                "isOn": false,
+                "hexColor": "#E6804D",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
+      "name": "Guten Morgen",
+      "description": "Macht alle Lichter im Haus an und startet die Kaffeemaschine",
       "actions": [
         {
           "className": "model.DeviceAction",
@@ -179,36 +180,105 @@
             "functionName": "Schalten",
             "parameter": true
           }
-        }
-      ]
-    },
-    {
-      "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
-      "name": "ne",
-      "description": "jfklsdf",
-      "actions": [
+        },
         {
-          "className": "model.Scenario",
+          "className": "model.DeviceAction",
           "data": {
-            "id": "ba095304-4bb7-449c-82ed-33e65aead028",
-            "name": "asd",
-            "description": "assdf",
-            "actions": []
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 31.122448979591823,
+                "isOn": true,
+                "hexColor": "#B3B31A",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true
           }
-        }
-      ]
-    },
-    {
-      "id": "ba095304-4bb7-449c-82ed-33e65aead028",
-      "name": "asd",
-      "description": "assdf",
-      "actions": []
-    },
-    {
-      "id": "91c62dab-3402-46c6-98ef-7598c0273f5c",
-      "name": "sef",
-      "description": "sdf",
-      "actions": [
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 0.0,
+                "isOn": false,
+                "hexColor": "#FFFFFF",
+                "id": "be9edf95-6cef-4839-a9ca-185b95d3ab6a",
+                "name": "LED"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Socket",
+              "data": {
+                "isOn": false,
+                "id": "5e76d930-5f61-4cc5-9823-1465d5f43331",
+                "name": "Kaffeemaschine"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 31.122448979591823,
+                "isOn": false,
+                "hexColor": "#E6804D",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Socket",
+              "data": {
+                "isOn": false,
+                "id": "5e76d930-5f61-4cc5-9823-1465d5f43331",
+                "name": "Kaffeemaschine"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": true
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.RgbLamp",
+              "data": {
+                "brightness": 31.122448979591823,
+                "isOn": false,
+                "hexColor": "#E6804D",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 82.21153846153845
+          }
+        },
         {
           "className": "model.DeviceAction",
           "data": {
@@ -223,7 +293,23 @@
               }
             },
             "functionName": "Helligkeit",
-            "parameter": 23.333333333333332
+            "parameter": 83.17307692307693
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 29.591836734693878,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 72.22222222222221
           }
         },
         {
@@ -232,56 +318,15 @@
             "targetDevice": {
               "className": "devices.RgbLamp",
               "data": {
-                "brightness": 30.102040816326518,
-                "isOn": false,
-                "hexColor": "#E6804D",
-                "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
-                "name": "Lampe1"
+                "brightness": 31.122448979591823,
+                "isOn": true,
+                "hexColor": "#B3B31A",
+                "id": "3167b57b-7221-4384-904d-628a7e0a297e",
+                "name": "Dekolampe"
               }
             },
             "functionName": "Helligkeit",
-            "parameter": 42.857142857142854
-          }
-        },
-        {
-          "className": "model.Scenario",
-          "data": {
-            "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
-            "name": "ne",
-            "description": "jfklsdf",
-            "actions": [
-              {
-                "className": "model.Scenario",
-                "data": {
-                  "id": "ba095304-4bb7-449c-82ed-33e65aead028",
-                  "name": "asd",
-                  "description": "assdf",
-                  "actions": []
-                }
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "id": "040326c5-dc98-4943-bed6-495c5040214d",
-      "name": "asdlkaslk",
-      "description": "jsdkfjslödkf",
-      "actions": []
-    },
-    {
-      "id": "56b61298-8d36-4fd4-80fa-69802a0a0187",
-      "name": "",
-      "description": "",
-      "actions": [
-        {
-          "className": "model.Scenario",
-          "data": {
-            "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
-            "name": "ne",
-            "description": "jfklsdf",
-            "actions": []
+            "parameter": 72.72727272727273
           }
         },
         {
@@ -290,59 +335,15 @@
             "targetDevice": {
               "className": "devices.RgbLamp",
               "data": {
-                "brightness": 30.102040816326518,
+                "brightness": 0.0,
                 "isOn": false,
-                "hexColor": "#E6804D",
-                "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
-                "name": "Lampe1"
+                "hexColor": "#FFFFFF",
+                "id": "be9edf95-6cef-4839-a9ca-185b95d3ab6a",
+                "name": "LED"
               }
             },
             "functionName": "Helligkeit",
-            "parameter": 62.38095238095238
-          }
-        },
-        {
-          "className": "model.Scenario",
-          "data": {
-            "id": "91c62dab-3402-46c6-98ef-7598c0273f5c",
-            "name": "sef",
-            "description": "sdf",
-            "actions": [
-              {
-                "className": "model.DeviceAction",
-                "data": {
-                  "targetDevice": {
-                    "className": "devices.RgbLamp",
-                    "data": {
-                      "brightness": 30.102040816326518,
-                      "isOn": false,
-                      "hexColor": "#E6804D",
-                      "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
-                      "name": "Lampe1"
-                    }
-                  },
-                  "functionName": "Helligkeit",
-                  "parameter": 23.333333333333332
-                }
-              },
-              {
-                "className": "model.DeviceAction",
-                "data": {
-                  "targetDevice": {
-                    "className": "devices.RgbLamp",
-                    "data": {
-                      "brightness": 30.102040816326518,
-                      "isOn": false,
-                      "hexColor": "#E6804D",
-                      "id": "8448f869-906b-4e1b-8f35-64906f2f254e",
-                      "name": "Lampe1"
-                    }
-                  },
-                  "functionName": "Helligkeit",
-                  "parameter": 42.857142857142854
-                }
-              }
-            ]
+            "parameter": 88.88888888888889
           }
         }
       ]

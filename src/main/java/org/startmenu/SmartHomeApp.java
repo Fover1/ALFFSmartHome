@@ -1,4 +1,4 @@
-package org.example;
+package org.startmenu;
 
 import atlantafx.base.theme.CupertinoDark;
 import controller.SmartHomeAppController;
