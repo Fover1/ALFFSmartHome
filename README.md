@@ -4,12 +4,12 @@ Leistungsnachweis für das Modul "Fortgeschrittene Programmierung in Java".
 Um dieses Projekt auszuführen, werden verschiedene Voraussetzungen benötigt. Stellen Sie sicher, dass alle Voraussetzungen erfüllt sind, bevor Sie fortfahren:
 Java Development Kit (JDK): Version 23 (oder neuer) ist installiert.
 Eine IDE: Wir empfehlen IntelliJ IDEA, da diese IDE hervorragende Werkzeuge für die Java- und JavaFX-Entwicklung bietet und nativ mit dem hier verwendeten Build-Tool Maven harmoniert.
-## 2 - Import in IntelliJ IDEA (Anleitung für den Dozenten)
+## 2 - Import in IntelliJ IDEA 
 Da das Projekt mit Maven verwaltet wird (erkennbar an der pom.xml), ist der Import in IntelliJ IDEA sehr unkompliziert. Bitte folgen Sie diesen Schritten:
 Entpacken Sie die Projektdateien auf Ihrem Computer (falls als ZIP-Datei erhalten).
 Öffnen Sie IntelliJ IDEA.
 Klicken Sie auf dem Willkommensbildschirm auf "Open" (oder gehen Sie im Menü auf File -> Open...).
-Navigieren Sie zu dem Ordner ALFFSmartHome (der Ordner, der die Datei pom.xml enthält), wählen Sie diesen an und klicken Sie auf "OK".
+Navigieren Sie zu dem Ordner ALFFSmartHome (Abgabeordner --> ALFFSmartHomeSystem --> ALFFSmartHome, der Ordner, der die Datei pom.xml enthält), wählen Sie diesen an und klicken Sie auf "OK".
 IntelliJ erkennt automatisch, dass es sich um ein Maven-Projekt handelt. Klicken Sie bei Bedarf auf das Pop-up "Load Maven Project", damit alle Abhängigkeiten automatisch heruntergeladen werden.
 Gehen Sie zu File -> Project Structure... und wählen Sie unter Project SDK Ihr installiertes JDK 23 aus.
 ## 3 - Ausführung und Starten
