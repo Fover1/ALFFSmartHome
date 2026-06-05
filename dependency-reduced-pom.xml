@@ -176,10 +176,46 @@
       <version>5.11.0</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-core</artifactId>
+      <version>4.0.18</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hamcrest</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>assertj-core</artifactId>
+          <groupId>org.assertj</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>org.osgi.core</artifactId>
+          <groupId>org.osgi</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.testfx</groupId>
+      <artifactId>testfx-junit5</artifactId>
+      <version>4.0.18</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hamcrest</artifactId>
+          <groupId>org.hamcrest</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>assertj-core</artifactId>
+          <groupId>org.assertj</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <javafx.version>21</javafx.version>
+    <javafx.version>25</javafx.version>
     <maven.compiler.target>21</maven.compiler.target>
     <maven.compiler.source>21</maven.compiler.source>
     <sonar.host.url>http://localhost:9000</sonar.host.url>
