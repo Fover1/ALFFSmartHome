@@ -52,7 +52,7 @@ public class ScenarioController {
     public void initialize() {
         //setCellValueFactory bringt den String in ein Format, welches die JavaFX Zeile versteht
         colName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDiscription()));
+        colDesc.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
         colActionCount.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getCount()));
 
         actionListView.setCellFactory(param -> new ListCell<>() {
@@ -74,7 +74,7 @@ public class ScenarioController {
         if (scenario != null) {
             detailArea.setDisable(false);
             txtName.setText(scenario.getName());
-            txtDescription.setText(scenario.getDiscription());
+            txtDescription.setText(scenario.getDescription());
             updateActionList(scenario);
         } else {
             detailArea.setDisable(true);
