@@ -10,10 +10,18 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import model.*;
+import model.LogEntry;
+import model.LogListener;
+import model.PersistenceManager;
+import model.Room;
+import model.Scenario;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -182,5 +190,10 @@ public class SmartHomeMainController implements LogListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    private void clearConsole() {
+        logListView.getItems().clear();
     }
 }
