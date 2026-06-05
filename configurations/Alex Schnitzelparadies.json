@@ -6,10 +6,33 @@
         {
           "className": "devices.Heater",
           "data": {
-            "temperature": 0.0,
+            "temperature": 21.53846153846154,
             "isOn": true,
             "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
             "name": "Fußbodenheizung"
+          }
+        }
+      ]
+    },
+    {
+      "name": "xgv",
+      "smartDevices": [
+        {
+          "className": "devices.Heater",
+          "data": {
+            "temperature": 0.0,
+            "isOn": false,
+            "id": "79846875-3657-4514-8166-4a58e3bcd131",
+            "name": "wer"
+          }
+        },
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": true,
+            "id": "3d6ff404-a720-4caf-ad16-fa57a19d0d90",
+            "name": "ewrwf"
           }
         }
       ]
@@ -27,7 +50,7 @@
             "targetDevice": {
               "className": "devices.Heater",
               "data": {
-                "temperature": 0.0,
+                "temperature": 21.53846153846154,
                 "isOn": true,
                 "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
                 "name": "Fußbodenheizung"
@@ -43,7 +66,7 @@
             "targetDevice": {
               "className": "devices.Heater",
               "data": {
-                "temperature": 0.0,
+                "temperature": 21.53846153846154,
                 "isOn": true,
                 "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
                 "name": "Fußbodenheizung"
@@ -66,7 +89,7 @@
             "targetDevice": {
               "className": "devices.Heater",
               "data": {
-                "temperature": 0.0,
+                "temperature": 21.53846153846154,
                 "isOn": true,
                 "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
                 "name": "Fußbodenheizung"
@@ -89,15 +112,14 @@
                   "targetDevice": {
                     "className": "devices.Heater",
                     "data": {
-                      "temperature": 30.0,
+                      "temperature": 21.53846153846154,
                       "isOn": true,
                       "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
                       "name": "Fußbodenheizung"
                     }
                   },
                   "functionName": "Schalten",
-                  "parameter": true,
-                  "previousParameter": false
+                  "parameter": true
                 }
               },
               {
@@ -106,15 +128,14 @@
                   "targetDevice": {
                     "className": "devices.Heater",
                     "data": {
-                      "temperature": 30.0,
+                      "temperature": 21.53846153846154,
                       "isOn": true,
                       "id": "b7562f66-060d-41f5-acc3-d05cedb837b9",
                       "name": "Fußbodenheizung"
                     }
                   },
                   "functionName": "Temperatur",
-                  "parameter": 30.0,
-                  "previousParameter": 16.208530805687204
+                  "parameter": 30.0
                 }
               }
             ]

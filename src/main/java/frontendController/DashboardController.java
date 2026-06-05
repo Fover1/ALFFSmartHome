@@ -30,7 +30,7 @@ public class DashboardController {
     }
 
     private void updateActiveDevices() {
-        if (appController == null) return;
+        if (appController == null) { return; }
 
         int totalDevices = 0;
         int activeDevices = 0;
@@ -49,7 +49,7 @@ public class DashboardController {
     }
 
     private void updateClimateData() {
-        if (appController == null) return;
+        if (appController == null) { return; }
 
         double totalTemperature = 0.0;
         int sensorCount = 0;
@@ -61,7 +61,7 @@ public class DashboardController {
                 boolean isDeviceOn = isDeviceActive(device);
                 if (isDeviceOn && device.getAvailableFunctions().contains("Temperatur")) {
                     DeviceFunction tempFunc = device.getFunction("Temperatur");
-                    if (tempFunc.getValue() instanceof Double) {
+                    if (tempFunc.getValue() != null) {
                         double currentTemp = tempFunc.getValue();
 
                         totalTemperature += currentTemp;

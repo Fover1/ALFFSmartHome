@@ -81,9 +81,9 @@ public class DeviceController implements DeviceObserver {
             deviceGrid.add(new Label(functionName + ": "), 0, functionCounter);
 
             String initialValue = "";
-            if (func.getParameterType() == Boolean.class) initialValue = String.valueOf(func.getState());
-            else if (func.getParameterType() == Double.class) initialValue = String.valueOf(func.getValue());
-            else if (func.getParameterType() == Color.class) initialValue = func.getColor();
+            if (func.getParameterType() == Boolean.class) { initialValue = String.valueOf(func.getState()); }
+            else if (func.getParameterType() == Double.class) { initialValue = String.valueOf(func.getValue()); }
+            else if (func.getParameterType() == Color.class) { initialValue = func.getColor(); }
 
             //UI Element wird von der Factory erstellt
             Node control = ParameterControlFactory.createControl(device, functionName, initialValue);
