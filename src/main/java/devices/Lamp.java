@@ -11,7 +11,7 @@ import static lang.DeviceMessages.LAMP_SWITCH_FUNCTION_DESCRIPTION;
 public class Lamp extends AbstractDevice {
     private double brightness = 0;
     private boolean isOn = false;
-
+    
     public Lamp(UUID id, String name) {
         super(id, name);
     }
