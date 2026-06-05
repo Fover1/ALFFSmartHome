@@ -90,6 +90,14 @@ public class ScenarioController {
 
     @FXML
     private void handleNewScenario() {
+        if (smartHomeAppController.getAllDevices().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Kein Gerät gefunden");
+            alert.setHeaderText(null);
+            alert.setContentText("Ohne verfügbare Geräte kann kein Szenario erstellt werden");
+            alert.showAndWait();
+            return;
+        }
 
         Scenario newScenario = new Scenario("", "");
         smartHomeAppController.addSzenario(newScenario);
