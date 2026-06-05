@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static lang.ErrorMessages.ERROR_SCANNING_INTERNAL_PACKAGE;
+
 public class DeviceScanner {
 
     public static List<String> getAllDeviceTypes(String packageName) {
@@ -37,7 +39,7 @@ public class DeviceScanner {
                     scanPathForClasses(localPath, deviceTypes);
                 }
             } catch (Exception e) {
-                System.err.println("Fehler beim Scannen des internen Packages: " + e.getMessage());
+                System.err.println(ERROR_SCANNING_INTERNAL_PACKAGE + e.getMessage());
             }
         }
         File pluginFolder = new File("devices");
@@ -52,7 +54,6 @@ public class DeviceScanner {
                 }
             }
         }
-
         return deviceTypes;
     }
 

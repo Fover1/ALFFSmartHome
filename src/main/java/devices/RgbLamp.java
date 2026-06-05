@@ -7,8 +7,10 @@ import model.DeviceFunction;
 
 import java.util.UUID;
 
-///  Es wurde bewusst auf eine Vererbung von Lampe verzichtet, um die autonomie der Klasse RgbLamp von Lampe sicherzustellen
-@Getter
+import static lang.DeviceMessages.*;
+
+//Es wurde bewusst auf eine Vererbung von Lampe verzichtet, um die Autonomie der Klasse RgbLamp von Lampe sicherzustellen
+@Getter //TODO Frage: Hat nur die RgbLamp Getter, wegen den Farben?
 public class RgbLamp extends AbstractDevice {
     private double brightness = 0;
     private boolean isOn = false;
@@ -20,7 +22,6 @@ public class RgbLamp extends AbstractDevice {
 
     @Override
     protected void initializeFunctions() {
-        //hier werden die Funktionen eines Gerätes angegeben (es können mehrere Funktionen angegeben)
         this.functions.put("Schalten", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
@@ -31,7 +32,7 @@ public class RgbLamp extends AbstractDevice {
 
             @Override
             public String getDescription() {
-                return "Schaltet die Lampe ein oder aus";
+                return LAMP_SWITCH_FUNCTION_DESCRIPTION;
             }
 
             @Override
@@ -45,7 +46,6 @@ public class RgbLamp extends AbstractDevice {
             }
         });
 
-
         this.functions.put("Helligkeit", new DeviceFunction() {
             @Override
             public void execute(Object parameter) {
@@ -53,7 +53,6 @@ public class RgbLamp extends AbstractDevice {
                     brightness = (Double) parameter;
                 }
             }
-
 
             @Override
             public Double getMin() {
@@ -70,10 +69,9 @@ public class RgbLamp extends AbstractDevice {
                 return "%";
             }
 
-
             @Override
             public String getDescription() {
-                return "Stellt die Helligkeit der Lampe ein";
+                return LAMP_BRIGHTNESS_FUNCTION_DESCRIPTION;
             }
 
             @Override
@@ -92,13 +90,12 @@ public class RgbLamp extends AbstractDevice {
             public void execute(Object parameter) {
                 if (parameter instanceof String) {
                     hexColor = (String) parameter;
-                    System.out.println("Farbe geändert auf: " + hexColor);
                 }
             }
 
             @Override
             public String getDescription() {
-                return "Stellt die Lichtfarbe via Hex-Code ein";
+                return RGBLAMP_COLOR_FUNCTION_DESCRIPTION;
             }
 
             @Override
@@ -108,12 +105,10 @@ public class RgbLamp extends AbstractDevice {
 
             @Override
             public String getColor() {
-                System.out.println("Farbe color rgblamp" + hexColor);
                 return hexColor;
             }
         });
     }
-
 
     @Override
     public String getDeviceType() {
@@ -124,5 +119,4 @@ public class RgbLamp extends AbstractDevice {
     public String getCurrentState() {
         return isOn ? "An (" + brightness + "%)" : "Aus";
     }
-
 }

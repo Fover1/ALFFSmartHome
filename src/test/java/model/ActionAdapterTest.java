@@ -1,75 +1,113 @@
-//package model;
-//
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
-//import com.google.gson.JsonParseException;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-//
-//class ActionAdapterTest {
-//
-//    private Gson gson;
-//
-//    @BeforeEach
-//    void setUp() {
-//        // Gson mit unserem Adapter konfigurieren
-//        GsonBuilder builder = new GsonBuilder();
-//        builder.registerTypeAdapter(Action.class, new ActionAdapter());
-//        gson = builder.create();
-//    }
-//
-//    @Test
-//    void testSerializeAndDeserialize() {
-//        TestAction originalAction = new TestAction("test-daten");
-//
-//        // 1. Serialisieren (Java -> JSON)
-//        String json = gson.toJson(originalAction, Action.class);
-//
-//        assertTrue(json.contains("className"));
-//        assertTrue(json.contains(TestAction.class.getName()));
-//        assertTrue(json.contains("data"));
-//        assertTrue(json.contains("test-daten"));
-//
-//        // 2. Deserialisieren (JSON -> Java)
-//        Action deserializedAction = gson.fromJson(json, Action.class);
-//
-//        assertInstanceOf(TestAction.class, deserializedAction);
-//        assertEquals("test-daten", ((TestAction) deserializedAction).value);
-//    }
-//
-//    @Test
-//    void testDeserializeThrowsExceptionOnUnknownClass() {
-//        // Ein JSON-String mit einer Klasse, die es nicht gibt
-//        String invalidJson = "{\"className\":\"com.example.GibtsNichtAction\",\"data\":{}}";
-//
-//        JsonParseException exception = assertThrows(
-//                JsonParseException.class,
-//                () -> gson.fromJson(invalidJson, Action.class)
-//        );
-//
-//        assertTrue(exception.getMessage().contains("Unbekannte Aktion im JSON"));
-//    }
-//
-//    // Eine kleine Dummy-Action für den Test
-//    public static class TestAction implements Action {
-//        public String value;
-//
-//        public TestAction(String value) {
-//            this.value = value;
-//        }
-//
-//        @Override
-//        public void execute() {
-//        }
-//
-//        @Override
-//        public String getDescription() {
-//            return value;
-//        }
-//    }
-//}
+package model;
+
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+class ActionAdapterTest {
+
+    private ActionAdapter adapter;
+
+    @BeforeEach
+    void setUp() {
+        adapter = new ActionAdapter();
+    }
+
+    @Test
+    void testSerialize() {
+        // Arrange
+        DummyAction dummyAction = new DummyAction();
+        JsonSerializationContext mockContext = mock(JsonSerializationContext.class);
+
+        // Simuliere, was der Context zurückgeben würde, wenn er die inneren Daten serialisiert
+        JsonObject mockSerializedData = new JsonObject();
+        mockSerializedData.addProperty("dummyField", "dummyValue");
+
+        when(mockContext.serialize(dummyAction, DummyAction.class)).thenReturn(mockSerializedData);
+
+        // Act
+        JsonElement result = adapter.serialize(dummyAction, Action.class, mockContext);
+
+        // Assert
+        assertTrue(result.isJsonObject(), "Das Ergebnis muss ein JsonObject sein");
+        JsonObject resultObject = result.getAsJsonObject();
+
+        // Prüfen, ob der Klassenname korrekt hinterlegt wurde
+        assertEquals(DummyAction.class.getName(), resultObject.get("className").getAsString());
+
+        // Prüfen, ob das Daten-Feld die vom Context generierten Daten enthält
+        assertEquals(mockSerializedData, resultObject.get("data"));
+    }
+
+    @Test
+    void testDeserialize_Success() throws ClassNotFoundException {
+        // Arrange
+        JsonObject jsonToDeserialize = new JsonObject();
+        jsonToDeserialize.addProperty("className", DummyAction.class.getName());
+
+        JsonObject dataObject = new JsonObject();
+        jsonToDeserialize.add("data", dataObject);
+
+        JsonDeserializationContext mockContext = mock(JsonDeserializationContext.class);
+        DummyAction expectedAction = new DummyAction();
+
+        // Wenn der Context gebeten wird, "dataObject" als DummyAction zu deserialisieren, gib expectedAction zurück
+        when(mockContext.deserialize(dataObject, DummyAction.class)).thenReturn(expectedAction);
+
+        // Act
+        Action result = adapter.deserialize(jsonToDeserialize, Action.class, mockContext);
+
+        // Assert
+        assertEquals(expectedAction, result, "Die deserialisierte Aktion sollte der erwarteten Aktion entsprechen");
+    }
+
+    @Test
+    void testDeserialize_ThrowsJsonParseException_WhenClassIsUnknown() {
+        // Arrange
+        JsonObject jsonToDeserialize = new JsonObject();
+        // Einen Klassennamen angeben, den es im System garantiert nicht gibt
+        jsonToDeserialize.addProperty("className", "com.meinprojekt.GibtEsNichtAction");
+        jsonToDeserialize.add("data", new JsonObject());
+
+        JsonDeserializationContext mockContext = mock(JsonDeserializationContext.class);
+
+        // Act & Assert
+        JsonParseException exception = assertThrows(JsonParseException.class, () -> {
+            adapter.deserialize(jsonToDeserialize, Action.class, mockContext);
+        });
+
+        // Prüfen, ob der Klassenname in der Fehlermeldung auftaucht (hilft beim Debuggen)
+        assertTrue(exception.getMessage().contains("com.meinprojekt.GibtEsNichtAction"));
+    }
+
+    //Eine simple Implementierung des Action-Interfaces für den Test, um Mockito-Proxy-Klassennamen bei src.getClass() zu vermeiden.
+    static class DummyAction implements Action {
+        @Override
+        public void execute() {
+        }
+
+        @Override
+        public void undo() {
+        }
+
+        @Override
+        public String getDescription() {
+            return "Dummy";
+        }
+
+        @Override
+        public String getName() {
+            return "Dummy";
+        }
+    }
+}

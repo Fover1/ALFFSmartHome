@@ -42,9 +42,6 @@ public class SmartHomeMainController implements LogListener {
     private ListView<LogEntry> logListView;
 
     @FXML
-    private ListView<LogEntry> logListView1;
-
-    @FXML
     private TextField time;
 
     @FXML
@@ -60,7 +57,6 @@ public class SmartHomeMainController implements LogListener {
     @Override
     public void onLogEntryCreated(LogEntry entry) {
         logListView.getItems().addFirst(entry);
-        logListView1.getItems().addFirst(entry);
     }
 
     private void loadView(String fxmlFile) {
@@ -71,7 +67,9 @@ public class SmartHomeMainController implements LogListener {
 
             Object controller = loader.getController();
 
-            // Wenn es der RoomController ist, geben wir ihm den AppController (bei deviceView kann der RoomController den appController weitergeben)
+            if (controller instanceof DashboardController) {
+                ((DashboardController) controller).setAppController(this.appController);
+            }
             if (controller instanceof RoomController) {
                 ((RoomController) controller).setAppController(this.appController);
             } else if (controller instanceof ScenarioController) {
@@ -119,7 +117,7 @@ public class SmartHomeMainController implements LogListener {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Keine Dateien gefunden");
             alert.setHeaderText(null);
-            alert.setContentText("Im Ordner '" + configDirectory.getAbsolutePath() + "' wurden keine Konfigurationen gefunden. \n Sie werden zur Konfigurationserstellung weitergeleitet");
+            alert.setContentText("Im Ordner '" + configDirectory.getAbsolutePath() + "' wurden keine Konfigurationen gefunden. \n Sie werden zur Konfigurationserstellung weitergeleitet.");
             alert.showAndWait();
             handleCreateNewConfig();
             return;
@@ -134,23 +132,22 @@ public class SmartHomeMainController implements LogListener {
 
         result.ifPresent(selected -> {
             openConfig(CONFIG_FOLDER + "/" + selected);
-            System.out.println("Datei wird geladen in handleOpenConfig: " + selected);
         });
 
     }
 
-    //Problem: In JAva FX gibt es nur einen Thread. Daher kann man diesem nicht einfach sagen, aktualisiere durchgehend die Uhr
-    //Daher gibt es die Timeline. Dieser kann man sagen, führen folgenden Code immer nach so und so viel Zeit aus.
-    //Dieser geht dann zum Thread, führt den Code aus und wartet dann wieder eine bestimmte Zeit im Hintergrund
+    //Problem: In Java FX gibt es nur einen Thread. Daher kann diesem nicht einfach gesagt werden "aktualisiere durchgehend die Uhr".
+    //Daher gibt es die Timeline. Dieser kann gesasgt werden, dass der folgenden Code nach einer gewissen Zeit regelmaeßig ausgefuehrt werden soll.
+    //Dieser geht dann zum Thread, fuehrt den Code aus und wartet dann wieder eine bestimmte Zeit im Hintergrund.
     @FXML
     public void initialize() {
-        // Eine Timeline erstellen, die jede Sekunde ausgelöst wird
+        //Timeline erstellen, die jede Sekunde ausgeloest wird
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             //Uhrzeit aktualisieren
             LocalTime currentTime = LocalTime.now();
             time.setText(currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
 
-            //Geräteanzahl aktualisieren
+            //Geraeteanzahl aktualisieren
             if (appController != null) {
                 int totalDevices = appController.getAllDevices().size();
                 deviceCount.setText(totalDevices + " Geräte");
@@ -162,17 +159,13 @@ public class SmartHomeMainController implements LogListener {
     }
 
     private void openConfig(String filename) {
-
         appController.loadConfiguration(filename);
-        System.out.println("Datei wird geladen in openConfig: " + filename);
         showDashboard();
-
-
     }
 
     @FXML
     private void handleCreateNewConfig() {
-        TextInputDialog dialog = new TextInputDialog("was das hier?");
+        TextInputDialog dialog = new TextInputDialog("was das hier?"); ///TODO!!!
         dialog.setTitle("Neue Konfiguration erstellen");
         dialog.setHeaderText("Geben Sie den Namen der neuen Konfigurationsdatei ein:");
         dialog.setContentText("Dateiname:");
@@ -197,5 +190,10 @@ public class SmartHomeMainController implements LogListener {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    private void clearConsole() {
+        logListView.getItems().clear();
     }
 }

@@ -11,10 +11,12 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
+import static lang.ErrorMessages.MAINVIEW_NOT_FOUND;
+
 public class SmartHomeApp extends Application {
 
     public static void main(String[] args) {
-        launch(args); // Startet die JAVAFX Anwendung
+        launch(args); //Startet die JAVAFX Anwendung
     }
 
     @Override
@@ -25,8 +27,7 @@ public class SmartHomeApp extends Application {
 
         URL fxmlLocation = getClass().getResource("/MainView.fxml");
         if (fxmlLocation == null) {
-            System.err.println("Fehler: MainView.fxml wurde nicht gefunden! " +
-                    "Stelle sicher, dass sie in src/main/resources liegt.");
+            System.err.println(MAINVIEW_NOT_FOUND);
             System.exit(1);
         }
 

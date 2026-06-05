@@ -8,9 +8,8 @@ import java.util.List;
 
 @Getter
 @Setter
+//zentraler Speicher: Alles was im Haus verfuegbar ist, kann hier aufgerufen werden
 public class SmartHomeModel {
-
-    //zentraler Speicher--> alles was im Haus verfügbar ist, kann hier aufgerufen werden
     private List<Room> rooms = new ArrayList<>();
     private List<Scenario> scenarios = new ArrayList<>();
 
@@ -19,7 +18,18 @@ public class SmartHomeModel {
     }
 
     public void removeRoom(Room room) {
+        if (room.getSmartDevices() != null) {
+            for (SmartDevice device : room.getSmartDevices()) {
+                cleanUpScenariosForDevice(device);
+            }
+        }
         rooms.remove(room);
+    }
+
+    private void cleanUpScenariosForDevice(SmartDevice device) {
+        for (Scenario scenario : scenarios) {
+            scenario.removeActionsForDevice(device);
+        }
     }
 
     public void changeRoomName(Room room, String name) {
@@ -32,21 +42,11 @@ public class SmartHomeModel {
 
     public void removeDevice(SmartDevice device, Room oldRoom) {
         oldRoom.removeDevice(device);
-//        for (Scenario scenario : scenarios) {
-//            for (Action action : scenario.getActions()) {
-//                System.out.println(action.toString());
-//                System.out.println("gefundener name " + action.getDescription().substring(0, action.getDescription().indexOf('-')) + " # gesuchter name: " + device.getName());
-//                if (action.getDescription().substring(0, action.getDescription().indexOf(' ')).equals(device.getName())) {
-//                    scenario.removeAction(action);
-//                }
-//            }
-//        }
+        cleanUpScenariosForDevice(device);
     }
 
     public void changeDeviceRoom(SmartDevice device, Room oldRoom, Room newRoom) {
         removeDevice(device, oldRoom);
-
-        // 2. Gerät dem neuen Raum hinzufügen
         newRoom.addDevice(device);
     }
 
@@ -69,5 +69,4 @@ public class SmartHomeModel {
     public void changeDeviceName(SmartDevice device, String name) {
         device.setName(name);
     }
-
 }

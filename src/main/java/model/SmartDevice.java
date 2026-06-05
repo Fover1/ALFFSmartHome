@@ -3,11 +3,9 @@ package model;
 import java.util.List;
 import java.util.UUID;
 
+//ist dafuer da, wenn spaeter noch weitere Geraete, die nicht von uns "hergestellt" wurden, eingebunden werden sollen
+//z.B. Philips Hue: Es muesste nur das Interface implementiert werden und nicht extra ein toAbstractDeviceHandler oder sonstiges angelegt werden
 public interface SmartDevice {
-
-    //ist dafür da, wenn man später noch weitere Geräte, die nicht von uns "hergestellt" wurden einbinden möchte
-    //z.B. philips hue, die müssen dann nur das Interface implementieren und nicht extra ein toAbstractDeviceHandler mäßig
-
     UUID getId();
 
     String getName();
@@ -18,7 +16,7 @@ public interface SmartDevice {
 
     String getCurrentState();
 
-    // Strategy-Pattern
+    //Strategy-Pattern
     List<String> getAvailableFunctions();
 
     void executeFunction(String functionName, Object parameter);

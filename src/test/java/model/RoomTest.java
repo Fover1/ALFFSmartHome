@@ -1,91 +1,154 @@
-//package model;
-//
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertFalse;
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-//import static org.mockito.Mockito.mock;
-//
-//
-//class RoomTest {
-//
-//    private Room room;
-//    private AbstractDevice mockAbstractDevice1;
-//    private AbstractDevice mockAbstractDevice2;
-//
-//    @BeforeEach
-//    void setUp() {
-//        room = new Room("Wohnzimmer");
-//        mockAbstractDevice1 = mock(AbstractDevice.class);
-//        mockAbstractDevice2 = mock(AbstractDevice.class);
-//    }
-//
-//    @Test
-//    void constructorShouldSetNameAndInitializeEmptyList() {
-//        assertEquals("Wohnzimmer", room.getName(), "Der Name des Raums sollte korrekt gesetzt werden.");
-//        assertNotNull(room.getAbstractDevices(), "Die Geräteliste sollte nicht null sein.");
-//        assertTrue(room.getAbstractDevices().isEmpty(), "Die Geräteliste sollte anfangs leer sein.");
-//    }
-//
-//    @Test
-//    void setNameShouldUpdateName() {
-//        room.setName("Schlafzimmer");
-//        assertEquals("Schlafzimmer", room.getName(), "Der Setter sollte den Namen des Raums aktualisieren.");
-//    }
-//
-//    @Test
-//    void setDevicesShouldUpdateDeviceList() {
-//        List<AbstractDevice> newList = new ArrayList<>();
-//        newList.add(mockAbstractDevice1);
-//
-//        room.setAbstractDevices(newList);
-//
-//        assertEquals(1, room.getAbstractDevices().size());
-//        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice1));
-//    }
-//
-//    @Test
-//    void addDeviceShouldAddDeviceIfNotPresent() {
-//        room.addDevice(mockAbstractDevice1);
-//
-//        assertEquals(1, room.getAbstractDevices().size(), "Die Liste sollte genau ein Gerät enthalten.");
-//        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice1), "Das hinzugefügte Gerät sollte in der Liste sein.");
-//    }
-//
-//    @Test
-//    void addDeviceShouldNotAddDuplicateDevice() {
-//        room.addDevice(mockAbstractDevice1);
-//        room.addDevice(mockAbstractDevice1); // Versuch, dasselbe Gerät noch einmal hinzuzufügen
-//
-//        assertEquals(1, room.getAbstractDevices().size(), "Duplikate sollten nicht hinzugefügt werden.");
-//    }
-//
-//    @Test
-//    void removeDeviceShouldRemoveExistingDevice() {
-//        room.addDevice(mockAbstractDevice1);
-//        room.addDevice(mockAbstractDevice2);
-//
-//        room.removeDevice(mockAbstractDevice1);
-//
-//        assertEquals(1, room.getAbstractDevices().size(), "Nach dem Entfernen sollte nur noch ein Gerät übrig sein.");
-//        assertFalse(room.getAbstractDevices().contains(mockAbstractDevice1), "Das entfernte Gerät sollte nicht mehr in der Liste sein.");
-//        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice2), "Das andere Gerät sollte weiterhin existieren.");
-//    }
-//
-//    @Test
-//    void removeDeviceShouldDoNothingIfDeviceNotPresent() {
-//        room.addDevice(mockAbstractDevice1);
-//
-//        // Versuch, ein Gerät zu entfernen, das gar nicht in der Liste ist
-//        room.removeDevice(mockAbstractDevice2);
-//
-//        assertEquals(1, room.getAbstractDevices().size(), "Die Größe der Liste sollte sich nicht ändern.");
-//        assertTrue(room.getAbstractDevices().contains(mockAbstractDevice1), "Das vorhandene Gerät sollte unangetastet bleiben.");
-//    }
-//}
+package model;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+@ExtendWith(MockitoExtension.class)
+class RoomTest {
+
+    private Room room;
+    private final String roomName = "Wohnzimmer";
+
+    @Mock
+    private SmartDevice mockDevice;
+
+    @Mock
+    private RoomObserver mockObserver;
+
+    @BeforeEach
+    void setUp() {
+        room = new Room(roomName);
+    }
+
+    @Test
+    void testConstructorAndLombokGettersSetters() {
+        // Assert Constructor
+        assertEquals(roomName, room.getName());
+        assertNotNull(room.getSmartDevices());
+        assertNotNull(room.getRoomObservers());
+        assertTrue(room.getSmartDevices().isEmpty());
+
+        // Test Setters
+        room.setName("Schlafzimmer");
+        assertEquals("Schlafzimmer", room.getName());
+
+        List<SmartDevice> devices = new ArrayList<>();
+        devices.add(mockDevice);
+        room.setSmartDevices(devices);
+        assertEquals(devices, room.getSmartDevices());
+    }
+
+    @Test
+    void testAddDevice() {
+        room.addObserver(mockObserver);
+
+        // Act
+        room.addDevice(mockDevice);
+
+        // Assert
+        assertTrue(room.getSmartDevices().contains(mockDevice));
+        assertEquals(1, room.getSmartDevices().size());
+
+        // Pruefen, ob der Observer benachrichtigt wurde
+        verify(mockObserver, times(1)).onDeviceListChanged(room);
+    }
+
+    @Test
+    void testAddDevice_DuplicateDevice() {
+        room.addObserver(mockObserver);
+        room.addDevice(mockDevice); // Erstes Hinzufuegen (notify = 1)
+
+        // Act: Versuche dasselbe Geraet nochmal hinzuzufuegen
+        room.addDevice(mockDevice);
+
+        // Assert
+        assertEquals(1, room.getSmartDevices().size(), "Gerät darf nicht doppelt in der Liste sein");
+
+        // notifyObservers() darf bei Duplikaten nicht nochmal aufgerufen werden
+        verify(mockObserver, times(1)).onDeviceListChanged(room);
+    }
+
+    @Test
+    void testRemoveDevice() {
+        room.addDevice(mockDevice);
+        room.addObserver(mockObserver);
+
+        // Act
+        room.removeDevice(mockDevice);
+
+        // Assert
+        assertFalse(room.getSmartDevices().contains(mockDevice));
+        verify(mockObserver, times(1)).onDeviceListChanged(room);
+    }
+
+    @Test
+    void testAddObserver() {
+        room.addObserver(mockObserver);
+        assertTrue(room.getRoomObservers().contains(mockObserver));
+
+        // Doppeltes Hinzufuegen testen
+        room.addObserver(mockObserver);
+        assertEquals(1, room.getRoomObservers().size());
+    }
+
+    @Test
+    void testAddObserver_NullList() {
+        // Simuliere Zustand nach JSON Deserialisierung (transient List = null)
+        room.setRoomObservers(null);
+
+        // Act
+        room.addObserver(mockObserver);
+
+        // Assert
+        assertNotNull(room.getRoomObservers(), "Die Liste sollte neu initialisiert werden");
+        assertTrue(room.getRoomObservers().contains(mockObserver));
+    }
+
+    @Test
+    void testRemoveObserver() {
+        room.addObserver(mockObserver);
+
+        // Act
+        room.removeObserver(mockObserver);
+
+        // Assert
+        assertFalse(room.getRoomObservers().contains(mockObserver));
+    }
+
+    @Test
+    void testRemoveObserver_NullList() {
+        room.setRoomObservers(null);
+
+        // Darf keine NullPointerException werfen
+        room.removeObserver(mockObserver);
+
+        assertNull(room.getRoomObservers());
+    }
+
+    @Test
+    void testNotifyObservers_NullList() {
+        room.setRoomObservers(null);
+
+        // addDevice loest notifyObservers() aus.
+        // Wenn die Liste null ist, darf das Programm nicht abstuerzen.
+        room.addDevice(mockDevice);
+
+        // Da die Liste null war und der Observer nie drin war, passiert logischerweise nichts
+        verify(mockObserver, never()).onDeviceListChanged(room);
+    }
+}

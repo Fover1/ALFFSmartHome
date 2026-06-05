@@ -10,18 +10,19 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
+import static lang.ErrorMessages.UNKNOWN_ACTION_JSON;
+
+//Da GSON beim Serialisieren/Deserialisieren der JSON nicht weiß, was er fuer eine Art Action vor sich hat (Action ist ein Interface das von anderen konkreten Klassen implementiert wird), braucht es diesen Adapter
+//Also weiß nicht, ob es jetzt eine DeviceAction oder ein Szenario war //TODO ???? --> Finn fragen
 public class ActionAdapter implements JsonSerializer<Action>, JsonDeserializer<Action> {
 
-    //da GSON beim serialisieren/ deserialisieren der JSON nicht weiß, was er für eien Art Action vor sich hat (Action ist ein Interface das dann von anderen konkreten Klassen implementiert wird) braucht es diesen Adupter
-    // Also weiß nicht, ob es jetzt eine DeviceAction oder ein Szenario war
-
-    //context.serialize(src, src,getClass()) -->erstellt ein JsonElement, hier wird noch nichts gespeichert
+    //JsonElement: Erzeugt Baum aus Action Informationen
     @Override
     public JsonElement serialize(Action src, Type typeOfSrc, JsonSerializationContext context) {
         JsonObject result = new JsonObject();
-        //holt den Klassennamen (also z.B. deviceAction / Scenario) um später zu erkennen, welche konkrete Klasse hier mit dme Interface implementiert wrude
+        //holt den Klassennamen (also z.B. deviceAction / Scenario), um spaeter zu erkennen, welche konkrete Klasse hier mit dem Interface implementiert wurde
         result.addProperty("className", src.getClass().getName());
-        //JsonElement --> erzeugt Baum aus Action Infromationen
+        //context.serialize(src, src.getClass()): Erstellt ein JsonElement, hier wird noch nichts gespeichert
         result.add("data", context.serialize(src, src.getClass()));
         return result;
     }
@@ -31,9 +32,9 @@ public class ActionAdapter implements JsonSerializer<Action>, JsonDeserializer<A
     public Action deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         //nimmt sich ein Objekt aus der Action Sektion
         JsonObject jsonObject = json.getAsJsonObject();
-        //Holt sich den ClassName (was ist das für eine Art Action)
+        //holt sich den ClassName (was ist das fuer eine Art Action) //TODO ??? --> Finn fragen
         String className = jsonObject.get("className").getAsString();
-        //Holt sich die Daten der konkreten Action
+        //holt sich die Daten der konkreten Action
         JsonElement data = jsonObject.get("data");
 
         try {
@@ -42,7 +43,7 @@ public class ActionAdapter implements JsonSerializer<Action>, JsonDeserializer<A
             //kann das Objekt automatisch deserialisiert werden
             return context.deserialize(data, clazz);
         } catch (ClassNotFoundException e) {
-            throw new JsonParseException("Unbekannte Aktion im JSON: " + className, e);
+            throw new JsonParseException(UNKNOWN_ACTION_JSON + className, e);
         }
     }
 }

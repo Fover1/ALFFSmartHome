@@ -5,6 +5,9 @@ import model.DeviceFunction;
 
 import java.util.UUID;
 
+import static lang.DeviceMessages.HEATER_SWITCH_FUNCTION_DESCRIPTION;
+import static lang.DeviceMessages.HEATER_TEMPERATURE_FUNCTION_DESCRIPTION;
+
 public class Heater extends AbstractDevice {
     private double temperature = 0;
     private boolean isOn = false;
@@ -26,7 +29,7 @@ public class Heater extends AbstractDevice {
 
             @Override
             public String getDescription() {
-                return "Schaltet die Heizung ein oder aus";
+                return HEATER_SWITCH_FUNCTION_DESCRIPTION;
             }
 
             @Override
@@ -39,7 +42,6 @@ public class Heater extends AbstractDevice {
                 return Boolean.class;
             }
         });
-
 
         this.functions.put("Temperatur", new DeviceFunction() {
             @Override
@@ -67,7 +69,7 @@ public class Heater extends AbstractDevice {
 
             @Override
             public String getDescription() {
-                return "Stellt die Temperatur der Heizung ein";
+                return HEATER_TEMPERATURE_FUNCTION_DESCRIPTION;
             }
 
             @Override

@@ -1,146 +1,195 @@
-//package model;
-//
-//import devices.Light;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//import static org.junit.jupiter.api.Assertions.assertTrue;
-//import static org.mockito.Mockito.mock;
-//import static org.mockito.Mockito.times;
-//import static org.mockito.Mockito.verify;
-//
-/// // todo: das ist ein generierter Test. Er musste zwar noch ein wenig angepasst werden, damit er funktioniert, er sollte aber nochmal genau geprüft werden :)
-//
-//class AbstractDeviceTest {
-//
-//    private Light device;
-//    private Room mockRoom;
-//
-//    @BeforeEach
-//    void setUp() {
-//        mockRoom = mock(Room.class);
-//        device = new Light("device-123", "Test Lampe", mockRoom);
-//    }
-//
-//    @Test
-//    void testConstructorAndGetters() {
-//        assertEquals("device-123", device.getId());
-//        assertEquals("Test Lampe", device.getName());
-//        assertEquals(mockRoom, device.getRoom());
-//        assertNotNull(device.getObservers());
-//        assertNotNull(device.getFunctions());
-//    }
-//
-//    @Test
-//    void testSetters() {
-//        Room newRoom = mock(Room.class);
-//        device.setName("Neue Lampe");
-//        device.setRoom(newRoom);
-//
-//        assertEquals("Neue Lampe", device.getName());
-//        assertEquals(newRoom, device.getRoom());
-//    }
-//
-//    @Test
-//    void testRestoreAfterLoad() {
-//        // Wir machen die Listen absichtlich null/leer, um den Restore-Prozess zu testen
-//        device.setObservers(null);
-//        device.setFunctions(null);
-//
-//        device.restoreAfterLoad();
-//
-//        assertNotNull(device.getObservers());
-//        assertNotNull(device.getFunctions());
-//        // initializeFunctions() sollte aufgerufen worden sein
-//        assertTrue(device.getAvailableFunctions().contains("Schalten"));
-//        assertTrue(device.getAvailableFunctions().contains("Helligkeit"));
-//
-//
-//    }
-//
-//    @Test
-//    void testExecuteFunctionSuccess() {
-//        // Erstelle einen Mock für die Funktion und den Observer
-//        DeviceFunction mockFunction = mock(DeviceFunction.class);
-//        DeviceObserver mockObserver = mock(DeviceObserver.class);
-//
-//        device.getFunctions().put("mockedFunction", mockFunction);
-//        device.addObserver(mockObserver);
-//
-//        // Ausführen
-//        device.executeFunction("mockedFunction", "paramValue");
-//
-//        // Verifizieren, dass die Funktion ausgeführt und der Observer benachrichtigt wurde
-//        verify(mockFunction, times(1)).execute("paramValue");
-//        verify(mockObserver, times(1)).onStateChanged(device);
-//    }
-//
-//    @Test
-//    void testExecuteFunctionThrowsExceptionIfNotFound() {
-//        IllegalArgumentException exception = assertThrows(
-//                IllegalArgumentException.class,
-//                () -> device.executeFunction("nonExistentFunction", null)
-//        );
-//        assertTrue(exception.getMessage().contains("nonExistentFunction"));
-//    }
-//
-//    @Test
-//    void testGetAvailableFunctions() {
-//        List<String> available = device.getAvailableFunctions();
-//        assertEquals(2, available.size());
-//        assertTrue(device.getAvailableFunctions().contains("Schalten"));
-//        assertTrue(device.getAvailableFunctions().contains("Helligkeit"));
-//    }
-//
-//    @Test
-//    void testAddAndRemoveObserver() {
-//        DeviceObserver observer = mock(DeviceObserver.class);
-//
-//        // Test Add
-//        device.addObserver(observer);
-//        assertEquals(1, device.getObservers().size());
-//
-//        // Test doppeltes Hinzufügen (sollte ignoriert werden)
-//        device.addObserver(observer);
-//        assertEquals(1, device.getObservers().size());
-//
-//        // Test Remove
-//        device.removeObserver(observer);
-//        assertEquals(0, device.getObservers().size());
-//    }
-//
-//    @Test
-//    void testAddObserverWhenListIsNull() {
-//        // Simuliere den Fall, dass die Liste null ist (Edge Case)
-//        device.setObservers(null);
-//        DeviceObserver observer = mock(DeviceObserver.class);
-//
-//        device.addObserver(observer);
-//        assertEquals(1, device.getObservers().size());
-//    }
-//
-//    @Test
-//    void testRemoveObserverWhenListIsNull() {
-//        // Simuliere den Fall, dass die Liste null ist (Edge Case)
-//        device.setObservers(null);
-//        DeviceObserver observer = mock(DeviceObserver.class);
-//
-//        // Sollte keine NullPointerException werfen
-//        assertDoesNotThrow(() -> device.removeObserver(observer));
-//    }
-//
-//    @Test
-//    void testNotifyObserversWhenListIsNull() {
-//        // Simuliere den Fall, dass die Liste null ist (Edge Case)
-//        device.setObservers(null);
-//
-//        // Sollte keine NullPointerException werfen
-//        assertDoesNotThrow(() -> device.executeFunction("Schalten", null));
-//    }
-//}
+package model;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+
+@ExtendWith(MockitoExtension.class)
+class AbstractDeviceTest {
+
+    private DummyDevice device;
+    private final UUID testId = UUID.randomUUID();
+    private final String testName = "Test Gerät";
+
+    @Mock
+    private DeviceObserver mockObserver;
+
+    @Mock
+    private DeviceFunction mockFunction;
+
+    // Wir erstellen eine konkrete Subklasse nur für diesen Test
+    class DummyDevice extends AbstractDevice {
+
+        public DummyDevice(UUID id, String name) {
+            super(id, name);
+        }
+
+        @Override
+        protected void initializeFunctions() {
+            // Wir legen hier unsere gemockte Funktion in die Map,
+            // damit wir später prüfen können, ob sie ausgeführt wird.
+            this.functions.put("TestFunction", mockFunction);
+        }
+
+        @Override
+        public String getDeviceType() {
+            return "DummyType";
+        }
+
+        @Override
+        public String getCurrentState() {
+            return "DummyState";
+        }
+    }
+
+    @BeforeEach
+    void setUp() {
+        // Bei der Instanziierung wird der Konstruktor von AbstractDevice aufgerufen,
+        // welcher restoreAfterLoad() und damit initializeFunctions() ausführt.
+        device = new DummyDevice(testId, testName);
+    }
+
+    @Test
+    void testConstructorAndLombokGetters() {
+        assertEquals(testId, device.getId());
+        assertEquals(testName, device.getName());
+        assertNotNull(device.getObservers());
+        assertNotNull(device.getFunctions());
+    }
+
+    @Test
+    void testLombokSetters() {
+        device.setName("Neuer Name");
+        assertEquals("Neuer Name", device.getName());
+
+        List<DeviceObserver> newObservers = new ArrayList<>();
+        device.setObservers(newObservers);
+        assertEquals(newObservers, device.getObservers());
+    }
+
+    @Test
+    void testRestoreAfterLoad_NullLists() {
+        // Simuliere Zustand nach JSON-Deserialisierung (Listen sind null)
+        device.setObservers(null);
+        device.setFunctions(null);
+
+        device.restoreAfterLoad();
+
+        assertNotNull(device.getObservers());
+        assertNotNull(device.getFunctions());
+        assertTrue(device.getFunctions().containsKey("TestFunction"));
+    }
+
+    @Test
+    void testRestoreAfterLoad_EmptyFunctions() {
+        // Simuliere leere Funktionsliste
+        device.getFunctions().clear();
+
+        device.restoreAfterLoad();
+
+        // initializeFunctions() sollte aufgerufen worden sein
+        assertTrue(device.getFunctions().containsKey("TestFunction"));
+    }
+
+    @Test
+    void testAddAndRemoveObserver() {
+        device.addObserver(mockObserver);
+        assertTrue(device.getObservers().contains(mockObserver));
+
+        // Doppeltes Hinzufügen testen (sollte verhindert werden)
+        device.addObserver(mockObserver);
+        assertEquals(1, device.getObservers().size());
+
+        device.removeObserver(mockObserver);
+        assertFalse(device.getObservers().contains(mockObserver));
+    }
+
+    @Test
+    void testAddObserver_NullList() {
+        device.setObservers(null);
+        device.addObserver(mockObserver);
+
+        assertNotNull(device.getObservers());
+        assertTrue(device.getObservers().contains(mockObserver));
+    }
+
+    @Test
+    void testNotifyObservers() {
+        device.addObserver(mockObserver);
+
+        device.notifyObservers();
+
+        // Überprüft, ob das Gerät dem Observer gemeldet hat, dass sich sein Status geändert hat
+        verify(mockObserver).onStateChanged(device);
+    }
+
+    @Test
+    void testNotifyObservers_NullList() {
+        device.setObservers(null);
+        // Darf keine NullPointerException werfen
+        device.notifyObservers();
+        verifyNoInteractions(mockObserver);
+    }
+
+    @Test
+    void testGetAvailableFunctions() {
+        List<String> functions = device.getAvailableFunctions();
+        assertEquals(1, functions.size());
+        assertTrue(functions.contains("TestFunction"));
+    }
+
+    @Test
+    void testGetFunction() {
+        DeviceFunction function = device.getFunction("TestFunction");
+        assertEquals(mockFunction, function);
+
+        assertNull(device.getFunction("NichtVorhanden"));
+    }
+
+    @Test
+    void testExecuteFunction_Success() {
+        Object param = 42;
+        device.addObserver(mockObserver);
+
+        device.executeFunction("TestFunction", param);
+
+        // Prüfen, ob die Funktion mit dem richtigen Parameter ausgeführt wurde
+        verify(mockFunction).execute(param);
+
+        // Nach der Ausführung müssen die Observer benachrichtigt werden
+        verify(mockObserver).onStateChanged(device);
+    }
+
+    @Test
+    void testExecuteFunction_FunctionNotFoundThrowsException() {
+        // Assertions werfen eine Exception, wenn die Funktion nicht existiert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            device.executeFunction("UnbekannteFunktion", null);
+        });
+
+        // Optional: Die Exception-Message prüfen (hängt von ErrorMessages.FUNCTION_NOT_FOUND ab)
+        assertTrue(exception.getMessage().contains("UnbekannteFunktion"));
+    }
+
+    @Test
+    void testAbstractMethods() {
+        // Ruft die in der DummyDevice implementierten abstrakten Methoden auf
+        assertEquals("DummyType", device.getDeviceType());
+        assertEquals("DummyState", device.getCurrentState());
+    }
+}

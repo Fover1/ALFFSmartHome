@@ -11,7 +11,7 @@ public class DeviceAction implements Action {
     private final String functionName;
     private final Object parameter;
 
-    // Hier speichern wir den Zustand, bevor die Aktion ausgeführt wurde
+    //Hier wird der Zustand gespeichert, bevor die Aktion ausgefuehrt wurde
     @Getter(lombok.AccessLevel.NONE)
     private Object previousParameter;
 
@@ -28,9 +28,7 @@ public class DeviceAction implements Action {
             }
         }
 
-        System.out.println("Alter Wert (" + this.previousParameter + ") gemerkt. Führe neuen Wert aus: " + parameter);
-
-        // 2. Die eigentliche Aktion ausführen
+        //Hier wird die eigentliche Aktion ausgefuehrt
         targetDevice.executeFunction(functionName, parameter);
     }
 
@@ -43,6 +41,30 @@ public class DeviceAction implements Action {
 
     @Override
     public String getDescription() {
-        return targetDevice.getName() + " -> " + functionName + " " + parameter;
+        String prev = formatValue(previousParameter);
+        String curr = formatValue(parameter);
+        return functionName + " (" + prev + " ➜ " + curr + ")";
+    }
+
+    @Override
+    public String getName() {
+        return getDescription();
+    }
+
+    private String formatValue(Object val) {
+        if (val == null) {
+            return "unbekannt";
+        }
+        if (val instanceof Double) {
+            return String.format(java.util.Locale.US, "%.2f", (Double) val);
+        }
+        return String.valueOf(val);
+    }
+
+    public String getFormattedParameter() {
+        if (parameter instanceof Double) {
+            return String.format(java.util.Locale.US, "%.2f", (Double) parameter);
+        }
+        return String.valueOf(parameter);
     }
 }

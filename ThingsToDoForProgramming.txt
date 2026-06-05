@@ -1,5 +1,5 @@
 Lombock:
-Wir können getter und setter mit Lombock generieren. Dafür müsst ihr in der IDE in Einstellungen --> Annotation Processor --> und dann den Haken bei enable annotation prozess
+Wir können Getter- und Setter-Methoden mit Lombock generieren. Dafür müssen Sie in der IDE in Einstellungen unter "Build, Execution, Deployment" --> "Compiler" --> "Annotation Processors" den Haken bei "Enable annotation processing" aktivieren.
 
 Actions on Safe:
 Tools --> Actions on Safe --> Anhaken: Reformat Code, Optimize Imports, Rearange Code, Run Code cleanup
@@ -28,8 +28,13 @@ Scene Builder:
 Mit einem Scene Builder können die UI's via drag & drop verfahren zusammengebaut werden.
 Bitte Scene Builder Downloaden (https://gluonhq.com/products/scene-builder/)
 Diesen dann installieren
-Sobald er installiert ist, kann in den Einstellungen von Intelij unter Languages & Framework und dann bei JavaFX ein SceneBuilder angegen werden. Dies bitte machen
+Sobald er installiert ist, kann in den Einstellungen von Intellij unter Languages & Framework und dann bei JavaFX ein SceneBuilder angegen werden. Dies bitte machen
 Anschließend auf die FX Datei unter Resources mit rechtsklick drücken und dann auf "open in Scene Builder"
 
 Wichtig:
 Bevor neue Objekte erstellt werden, muss erst die ID vergabe (mit UUID) umgesetzt werden, da sonst das Programm crasht!
+
+
+
+WEITERE DINGE:
+- configs am Ende nochmal anpassen!!!

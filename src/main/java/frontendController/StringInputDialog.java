@@ -13,7 +13,7 @@ public class StringInputDialog extends Dialog<String> {
     private final TextField textField;
 
 
-    // privater Konstruktor, damit Klasse nicht mit NEW aufgerufen werde muss
+    //privater Konstruktor, damit Klasse nicht mit NEW aufgerufen werden muss
     private StringInputDialog(String title, String header, String content, String defaultValue) {
         setTitle(title);
         setHeaderText(header);
