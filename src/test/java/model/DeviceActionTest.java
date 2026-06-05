@@ -159,6 +159,6 @@ class DeviceActionTest {
         String description = action.getDescription();
 
         // Assert
-        assertEquals("TestGerät -> setPower ON", description);
+        assertEquals("TestGerät ➜ setPower ON", description);
     }
 }
