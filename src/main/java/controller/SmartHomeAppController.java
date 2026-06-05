@@ -12,6 +12,7 @@ import model.SmartHomeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 public class SmartHomeAppController {
 
@@ -20,11 +21,11 @@ public class SmartHomeAppController {
     //verbindung zwischen Model (SmartHomeModel) und fester Datenspeicherung (PersistenceManager)
     //Methoden werden teilweise auch von der GUI abgerufen
     private final SmartHomeModel smartHomeModel;
+    private final Stack<Action> actionHistory = new Stack<>();
     private String currentConfigFile;
 
     public SmartHomeAppController() {
         this.smartHomeModel = new SmartHomeModel();
-        loadConfiguration("smarthome_config.json");
     }
 
     public void save() {
@@ -78,22 +79,46 @@ public class SmartHomeAppController {
         smartHomeModel.removeScenario(scenario);
     }
 
-    /// todo: muss das noch in das model?
+    public void executeAndRemember(Action action) {
+        action.execute();
+        actionHistory.push(action);
+
+        // Wenn es eine manuelle Geräteaktion war, sofort ins Log schreiben!
+        if (action instanceof DeviceAction deviceAction) {
+            LogEntry entry = new LogEntry(
+                    "Manuell",
+                    deviceAction.getTargetDevice().getName(),
+                    deviceAction.getDescription(),
+                    String.valueOf(deviceAction.getParameter())
+            );
+            notifyLogListeners(entry);
+        }
+    }
+
     public void executeScenario(Scenario scenario) {
-        scenario.execute();
+        executeAndRemember(scenario);
+
         for (Action action : scenario.getActions()) {
-
-
-            if (action instanceof DeviceAction) {
+            if (action instanceof DeviceAction deviceAction) {
                 LogEntry entry = new LogEntry(
                         scenario.getName(),
-                        ((DeviceAction) action).targetDevice().getName(),
+                        deviceAction.getTargetDevice().getName(),
                         action.getDescription(),
-                        ((DeviceAction) action).parameter().toString()
+                        String.valueOf(deviceAction.getParameter())
                 );
                 notifyLogListeners(entry);
             }
+        }
+    }
 
+    public void undoLastAction() {
+        if (!actionHistory.isEmpty()) {
+            Action lastAction = actionHistory.pop();
+            lastAction.undo();
+
+            notifyLogListeners(new LogEntry("System", "Undo", lastAction.getDescription(), "Aktion rückgängig gemacht"));
+        } else {
+            System.out.println("Keine Aktion zum Rückgängigmachen vorhanden.");
         }
     }
 

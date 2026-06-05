@@ -16,11 +16,15 @@ import model.RoomObserver;
 import model.SmartDevice;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class RoomController implements RoomObserver {
 
+    private final Map<UUID, Stage> deviceWindows = new HashMap<>();
     @FXML
     public Button addDevice;
     private SmartHomeAppController smartHomeAppController;
@@ -102,7 +106,6 @@ public class RoomController implements RoomObserver {
 
     @FXML
     public void handleAddDevice() {
-        /// todo: ich habe in nem Tutorial gesehen, dass man so fehlermeldungen ausgeben kann. Damit könnten wir ja einen Großteil unseres Fehlerhandlings machen?
         if (currentRoom == null) {
             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
             alert.setTitle("Kein Raum ausgewählt");
@@ -241,9 +244,17 @@ public class RoomController implements RoomObserver {
     }
 
     private void openDeviceView(SmartDevice device, Room selectedRoom) {
+        //hier wird geprüft, ob für das Gerät schon ein fenster offen ist
+        if (deviceWindows.containsKey(device.getId())) {
+            Stage stage = deviceWindows.get(device.getId());
+            if (stage.isShowing()) {
+                //wenn ja, wird es in den Vordergrund geholt
+                stage.toFront();
+                return;
+            }
+        }
         try {
-            /// todo: kann man ihm sagen, dass nur ein fenster davon offen sien soll? oder müssen wir die fenster synchronisieren? --> Also das man halt nicht 2 eintsellungsfenster vom selben gerät offen hat --> am besten nur ein fesnter auf haben könen
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/deviceView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/DeviceView.fxml"));
             Parent root = fxmlLoader.load();
 
             DeviceController deviceController = fxmlLoader.getController();
@@ -253,10 +264,14 @@ public class RoomController implements RoomObserver {
             Stage stage = new Stage();
             stage.setTitle("Gerätedetails: " + device.getName());
             Scene scene = new Scene(root);
-            /// todo: weiß wer, warum wir diese Zeile brauchen?
             root.setStyle("-fx-background-color: -color-bg-default;");
             scene.getStylesheets().add(new atlantafx.base.theme.CupertinoDark().getUserAgentStylesheet());
+            deviceWindows.put(device.getId(), stage);
             stage.setScene(scene);
+            stage.setOnHidden(event -> {
+                deviceWindows.remove(device.getId());
+                device.removeObserver((deviceController));
+            });
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

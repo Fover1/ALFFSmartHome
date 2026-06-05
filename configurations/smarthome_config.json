@@ -6,7 +6,7 @@
         {
           "className": "devices.Lamp",
           "data": {
-            "brightness": 41.83673177446639,
+            "brightness": 33.48017621145375,
             "isOn": false,
             "id": "e429393a-8671-460d-8874-954f9d0c83a5",
             "name": "Deckenlampe"
@@ -15,7 +15,7 @@
         {
           "className": "devices.RgbLamp",
           "data": {
-            "brightness": 46.938775510204074,
+            "brightness": 31.122448979591823,
             "isOn": true,
             "hexColor": "#B3B31A",
             "id": "3167b57b-7221-4384-904d-628a7e0a297e",
@@ -114,13 +114,35 @@
         {
           "className": "devices.RgbLamp",
           "data": {
-            "brightness": 0.0,
+            "brightness": 45.408163265306115,
             "isOn": false,
             "id": "d00fdbe3-f1c4-41b3-8048-b6c70ecf76da",
             "name": "sdfsdf"
           }
+        },
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": false,
+            "id": "b38b72e0-1f6a-4ad6-8e7e-ab652bd40522",
+            "name": "Testtiteiites"
+          }
+        },
+        {
+          "className": "devices.Lamp",
+          "data": {
+            "brightness": 0.0,
+            "isOn": false,
+            "id": "8a9c35fe-fa35-4cc8-aa36-e7cc9d5d68c6",
+            "name": "hifle"
+          }
         }
       ]
+    },
+    {
+      "name": "testse",
+      "smartDevices": []
     }
   ],
   "scenarios": [
@@ -135,7 +157,7 @@
             "targetDevice": {
               "className": "devices.Lamp",
               "data": {
-                "brightness": 41.83673177446639,
+                "brightness": 33.48017621145375,
                 "isOn": false,
                 "id": "e429393a-8671-460d-8874-954f9d0c83a5",
                 "name": "Deckenlampe"
@@ -146,6 +168,86 @@
           }
         }
       ]
+    },
+    {
+      "id": "013c223b-21cd-49da-99ad-69a10fe1c581",
+      "name": "test",
+      "description": "Szenario:  (1 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 0.0,
+                "isOn": false,
+                "id": "f6ae2c40-fd81-4cf4-ab75-721069b0acb8",
+                "name": "hgjkfld"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 65.61264822134386
+          }
+        }
+      ]
+    },
+    {
+      "id": "ea946235-c258-4f7a-a0f6-952b81bb5bcb",
+      "name": "Hilfetest ",
+      "description": "Szenario:  (0 Aktionen)",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 33.48017621145375,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Schalten",
+            "parameter": false
+          }
+        },
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 33.48017621145375,
+                "isOn": false,
+                "id": "e429393a-8671-460d-8874-954f9d0c83a5",
+                "name": "Deckenlampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 33.48017621145375
+          }
+        }
+      ]
+    },
+    {
+      "id": "26920862-cda2-4d08-a190-3bd316b73eee",
+      "name": "TEstitest",
+      "description": "Was geht?",
+      "actions": []
+    },
+    {
+      "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
+      "name": "ne",
+      "description": "jfklsdf",
+      "actions": []
+    },
+    {
+      "id": "ba095304-4bb7-449c-82ed-33e65aead028",
+      "name": "asd",
+      "description": "assdf",
+      "actions": []
     }
   ]
 }

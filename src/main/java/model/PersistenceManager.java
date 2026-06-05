@@ -25,8 +25,7 @@ public class PersistenceManager {
                 //braucht aktuell die beiden dinger, weil
                 //wird benötigt, damit er genau weiß, wie er mit den verschiedenen Interfaces und abtrakten klassen umgehen muss
                 //brauchen das für diese Klassen, da nicht alle Infos in der Json stehen (anders als bei z.B. Raum)
-                /// todo: brauchen wir diesen adapter nach der umstellung noch? (Lass einfach nachher ausprobieren)
-                .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
+//                .registerTypeAdapter(AbstractDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(SmartDevice.class, new SmartDeviceAdapter())
 //                .registerTypeHierarchyAdapter(SmartDevice.class, new SmartDeviceAdapter())
                 .registerTypeAdapter(Action.class, new ActionAdapter())
@@ -46,7 +45,6 @@ public class PersistenceManager {
     }
 
     public static SmartHomeData load(String FileName) {
-        /// todo: was wollen wir laden, wenn das programm gestartet wird? (auswhal mit den bestehenden fensterN)
         File file = new File(FileName);
         if (!file.exists()) {
             return null;
@@ -60,6 +58,9 @@ public class PersistenceManager {
             //es wird bei jedem Gerät neu gemacht
             if (data != null && data.rooms != null) {
                 for (Room room : data.rooms) {
+//                    if (room.getSmartDevices() == null) {
+//                        room.setSmartDevices(new java.util.ArrayList<>());
+//                    }
                     for (SmartDevice device : room.getSmartDevices()) {
                         //wird für jedes Gerät aufgerufen, das es gibt um die transient felder neu zu initialisieren
                         device.restoreAfterLoad();
@@ -103,14 +104,14 @@ public class PersistenceManager {
             for (int i = 0; i < actions.size(); i++) {
                 Action action = actions.get(i);
                 if (action instanceof DeviceAction) {
-                    String cloneId = String.valueOf(((DeviceAction) action).targetDevice().getId());
+                    String cloneId = String.valueOf(((DeviceAction) action).getTargetDevice().getId());
                     SmartDevice realDevice = findRealDeviceById(smartHomeData.rooms, cloneId);
 
                     if (realDevice != null) {
                         DeviceAction newDeviceAction = new DeviceAction(
                                 realDevice,
-                                ((DeviceAction) action).functionName(),
-                                ((DeviceAction) action).parameter()
+                                ((DeviceAction) action).getFunctionName(),
+                                ((DeviceAction) action).getParameter()
                         );
                         actions.set(i, newDeviceAction);
                     } else {

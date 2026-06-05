@@ -17,7 +17,7 @@
         <sonar.host.url>http://localhost:9000</sonar.host.url>
     </properties>
 
-    <!-- todo: dependencies nach verwendungszweck grupieren -->
+    <!-- todo: OPTIONAL dependencies nach verwendungszweck grupieren -->
     <dependencies>
         <dependency>
             <groupId>io.github.mkpaz</groupId>

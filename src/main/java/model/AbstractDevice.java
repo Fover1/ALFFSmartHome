@@ -35,9 +35,16 @@ public abstract class AbstractDevice implements SmartDevice {
     //observers und functions werden nicht in der JSON gespeichert und müssen somit neu erstellt werden
     @Override
     public void restoreAfterLoad() {
-        this.observers = new ArrayList<>();
-        this.functions = new HashMap<>();
-        initializeFunctions();
+        if (this.observers == null) {
+            this.observers = new ArrayList<>();
+        }
+
+        if (this.functions == null) {
+            this.functions = new HashMap<>();
+            initializeFunctions();
+        } else if (this.functions.isEmpty()) {
+            initializeFunctions();
+        }
     }
 
     @Override
@@ -49,7 +56,6 @@ public abstract class AbstractDevice implements SmartDevice {
 
     @Override
     public void executeFunction(String functionName, Object parameter) {
-        /// todo: kann man das vllt schöner machen (ohne das restoreAfterLoad) (optional)
         restoreAfterLoad();
         DeviceFunction function = functions.get(functionName);
         if (function != null) {
@@ -84,7 +90,6 @@ public abstract class AbstractDevice implements SmartDevice {
     }
 
     @Override
-    /// todo: in tutorials war die methode häufig protectet, weiß wer warum? (optional)
     public void notifyObservers() {
         if (observers != null) {
             for (DeviceObserver observer : observers) {
