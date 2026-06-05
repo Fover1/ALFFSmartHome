@@ -8,8 +8,8 @@ import javafx.scene.control.Control;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
-import model.DeviceFunction;
-import model.SmartDevice;
+import interfaces.DeviceFunction;
+import interfaces.SmartDevice;
 
 //Da die Parametereingaben in verschiedenen Anwendungsfaellen benoetigt werden, werden diese hier zentral erstellt.
 //Sollte ein neuer Parametertyp vorkommen, kann dieser hier implementieren und somit koennen die verschiedenen Klassen diesen neuen Typen "automatisch" handeln.

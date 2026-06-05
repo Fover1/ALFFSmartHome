@@ -1,6 +1,7 @@
 package model;
 
 import controller.SmartHomeAppController;
+import interfaces.Action;
 import lombok.Getter;
 
 import java.util.UUID;

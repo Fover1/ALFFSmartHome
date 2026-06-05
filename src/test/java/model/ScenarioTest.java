@@ -1,5 +1,6 @@
 package model;
 
+import interfaces.Action;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

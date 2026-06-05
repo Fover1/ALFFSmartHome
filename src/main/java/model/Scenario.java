@@ -1,5 +1,6 @@
 package model;
 
+import interfaces.Action;
 import lombok.Getter;
 import lombok.Setter;
 

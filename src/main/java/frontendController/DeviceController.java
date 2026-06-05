@@ -17,10 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 import model.DeviceAction;
-import model.DeviceFunction;
-import model.DeviceObserver;
+import interfaces.DeviceFunction;
+import interfaces.DeviceObserver;
 import model.Room;
-import model.SmartDevice;
+import interfaces.SmartDevice;
 
 import java.util.List;
 import java.util.Optional;

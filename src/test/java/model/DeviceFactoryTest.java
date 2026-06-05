@@ -1,5 +1,6 @@
 package model;
 
+import interfaces.SmartDevice;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;

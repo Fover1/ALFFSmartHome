@@ -3,14 +3,14 @@ package devices;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import model.AbstractDevice;
-import model.DeviceFunction;
+import interfaces.DeviceFunction;
 
 import java.util.UUID;
 
 import static lang.DeviceMessages.*;
 
 //Es wurde bewusst auf eine Vererbung von Lampe verzichtet, um die Autonomie der Klasse RgbLamp von Lampe sicherzustellen
-@Getter //TODO Frage: Hat nur die RgbLamp Getter, wegen den Farben?
+@Getter
 public class RgbLamp extends AbstractDevice {
     private double brightness = 0;
     private boolean isOn = false;

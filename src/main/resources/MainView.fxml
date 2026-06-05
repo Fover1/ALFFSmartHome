@@ -35,7 +35,7 @@
 
     <center>
         <StackPane fx:id="contentArea" prefHeight="414.0" prefWidth="700.0">
-            <Label text="Willkommen im Smart Home! Bitte wählen Sie eine ein Fenster."/>
+            <Label text="Willkommen im Smart Home! Bitte wählen Sie ein Fenster."/>
         </StackPane>
     </center>
     <top>

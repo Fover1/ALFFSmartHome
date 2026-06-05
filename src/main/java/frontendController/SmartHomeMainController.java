@@ -3,6 +3,7 @@ package frontendController;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controller.SmartHomeAppController;
+import interfaces.LogListener;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -157,7 +158,7 @@ public class SmartHomeMainController implements LogListener {
 
     @FXML
     private void handleCreateNewConfig() {
-        TextInputDialog dialog = new TextInputDialog("was das hier?"); ///TODO!!!
+        TextInputDialog dialog = new TextInputDialog("");
         dialog.setTitle("Neue Konfiguration erstellen");
         dialog.setHeaderText("Geben Sie den Namen der neuen Konfigurationsdatei ein:");
         dialog.setContentText("Dateiname:");

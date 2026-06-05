@@ -1,5 +1,7 @@
 package model;
 
+import interfaces.RoomObserver;
+import interfaces.SmartDevice;
 import lombok.Getter;
 import lombok.Setter;
 

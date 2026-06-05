@@ -90,6 +90,31 @@
             "functionName": "Temperatur",
             "parameter": 28.965517241379313
           }
+        },
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "e74f0ef5-1dd7-443e-8e6c-1711549621da",
+            "name": "Gaming",
+            "description": "oder so",
+            "actions": [
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.Socket",
+                    "data": {
+                      "isOn": true,
+                      "id": "7cae892a-951a-4990-98f9-72d8a896d687",
+                      "name": "PC"
+                    }
+                  },
+                  "functionName": "Schalten",
+                  "parameter": true
+                }
+              }
+            ]
+          }
         }
       ]
     }

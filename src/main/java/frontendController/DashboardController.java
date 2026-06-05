@@ -3,10 +3,9 @@ package frontendController;
 import controller.SmartHomeAppController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import model.DeviceFunction;
+import interfaces.DeviceFunction;
 import model.Room;
-import model.SmartDevice;
+import interfaces.SmartDevice;
 
 public class DashboardController {
 

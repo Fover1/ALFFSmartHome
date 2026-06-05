@@ -1,5 +1,7 @@
 package model;
 
+import interfaces.RoomObserver;
+import interfaces.SmartDevice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
