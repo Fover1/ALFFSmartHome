@@ -172,10 +172,8 @@ public class RoomController implements RoomObserver {
             return null;
         });
 
-        //Dialog anzeigen und auf Ergebnis warten
         Optional<javafx.util.Pair<String, String>> result = dialog.showAndWait();
 
-        //Ergebnis verarbeiten
         result.ifPresent(nameTypePair -> {
             String deviceName = nameTypePair.getKey().trim();
             String deviceType = nameTypePair.getValue();
@@ -196,18 +194,11 @@ public class RoomController implements RoomObserver {
 
                     //neues Geraet ueber die DeviceFactory erstellen
                     SmartDevice newDevice = model.DeviceFactory.createDevice(deviceType, newId, deviceName);
-
-                    //Geraet dem aktuellen Raum hinzufuegen (notifyObservers wird in addDevice getriggert)
                     currentRoom.addDevice(newDevice);
-
-                    //Speichern
                     smartHomeAppController.save();
-
-                    //Ansicht aktualisieren
                     showDevices(currentRoom);
 
                 } catch (Exception e) {
-                    //Fehlerbehandlung, falls Factory fehlschlaegt
                     javafx.scene.control.Alert errorAlert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
                     errorAlert.setTitle("Fehler");
                     errorAlert.setHeaderText("Gerät konnte nicht erstellt werden");
@@ -221,44 +212,31 @@ public class RoomController implements RoomObserver {
 
     @FXML
     public void showDevices(Room room) {
-        // 1. WICHTIG: Alten Observer entfernen, falls schon ein Raum offen war
         if (this.currentRoom != null) {
             this.currentRoom.removeObserver(this);
         }
-
         this.currentRoom = room;
-
-        // 2. WICHTIG: Beim neuen Raum als Beobachter anmelden!
-        // Nur so wird onDeviceListChanged aufgerufen, wenn sich im Raum etwas ändert.
         if (this.currentRoom != null) {
             this.currentRoom.addObserver(this);
         }
 
-        // Buttons sichtbar machen
         deviceDisplay.setVisible(true);
         addDevice.setVisible(true);
         deleteRoom.setVisible(true);
         editRoom.setVisible(true);
 
-        // Aktionen für die Buttons setzen
         deleteRoom.setOnAction(e -> {
             smartHomeAppController.deleteRoom(currentRoom);
-
-            // Beim Löschen auch den Observer sauber entfernen
             if (this.currentRoom != null) {
                 this.currentRoom.removeObserver(this);
             }
-
             this.currentRoom = null;
             updateUI();
         });
-
         editRoom.setOnAction(e -> {
             handleRoomNameChange(currentRoom);
             updateUI();
         });
-
-        // Die UI aktualisieren (lädt die Geräte für currentRoom)
         updateUI();
     }
 
