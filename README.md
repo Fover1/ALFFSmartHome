@@ -24,8 +24,8 @@ Nach dem Start öffnet sich die grafische JavaFX-Benutzeroberfläche der SmartHo
 ## 5 - Tests und Code Coverage
 Das Projekt verfügt über eine Reihe von Unit-Tests, um sicherzustellen, dass die Kernkomponenten fehlerfrei arbeiten.
 Um die Tests auszuführen:
-- Über IntelliJ: Navigieren Sie im Projektbaum zum Verzeichnis src \ test \ java. Machen Sie einen Rechtsklick auf den Ordner java und wählen Sie "Run 'All Tests'
-- Über Maven können ein Testrun mit mvn clean verify ausgeführt werden 
-- Außerdem muss mvn clean pmd:pmd ausgeführt werden (mit doppelklick auf strg das run anything Fenster aufrufen und diesen Befehl ausführen
--Anschließend ist die Testcoverage unter target \ site \  index.html zu finden 
-- Die weiteren Codeanalysen sind unter target \ reports \ pmd.html zu finden 
+- Über IntelliJ: Navigieren Sie im Projektbaum zum Verzeichnis src \ test \ java. Machen Sie einen Rechtsklick auf den Ordner java und wählen Sie "Run 'All Tests".
+- Über Maven können ein Testrun mit "mvn clean verify" ausgeführt werden.
+- Außerdem muss "mvn clean pmd:pmd" ausgeführt werden (mit Doppelklick auf strg das run anything Fenster aufrufen und diesen Befehl ausführen.
+-Anschließend ist die Testcoverage unter target \ site \  index.html zu finden.
+- Die weiteren Codeanalysen sind unter target \ reports \ pmd.html zu finden.
