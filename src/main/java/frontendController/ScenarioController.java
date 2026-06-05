@@ -16,7 +16,6 @@ import javafx.scene.layout.VBox;
 import model.Action;
 import model.DeviceAction;
 import model.Scenario;
-import model.ScenarioAction;
 
 import java.util.Collections;
 import java.util.List;
@@ -262,6 +261,7 @@ public class ScenarioController {
                 currentScenario.addAction(selectedScenario);
                 scenarioTable.refresh();
                 smartHomeAppController.save();
+                updateUI();
             }
         });
     }
