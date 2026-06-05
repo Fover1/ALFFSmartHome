@@ -236,6 +236,62 @@
           }
         }
       ]
+    },
+    {
+      "id": "48628ef8-604e-44eb-bbe6-1c345bb08873",
+      "name": "katze aus",
+      "description": "sdfsdf",
+      "actions": [
+        {
+          "className": "model.DeviceAction",
+          "data": {
+            "targetDevice": {
+              "className": "devices.Lamp",
+              "data": {
+                "brightness": 100.0,
+                "isOn": true,
+                "id": "04b5a84e-281e-4797-9ad6-e4aee1ae8e28",
+                "name": "Katzenlampe"
+              }
+            },
+            "functionName": "Helligkeit",
+            "parameter": 16.35514018691589
+          }
+        }
+      ]
+    },
+    {
+      "id": "cd91a2a6-d186-4a5c-b5c4-61e002b5537b",
+      "name": "sammel",
+      "description": "sfhsj",
+      "actions": [
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "48628ef8-604e-44eb-bbe6-1c345bb08873",
+            "name": "katze aus",
+            "description": "sdfsdf",
+            "actions": [
+              {
+                "className": "model.DeviceAction",
+                "data": {
+                  "targetDevice": {
+                    "className": "devices.Lamp",
+                    "data": {
+                      "brightness": 100.0,
+                      "isOn": true,
+                      "id": "04b5a84e-281e-4797-9ad6-e4aee1ae8e28",
+                      "name": "Katzenlampe"
+                    }
+                  },
+                  "functionName": "Helligkeit",
+                  "parameter": 16.35514018691589
+                }
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

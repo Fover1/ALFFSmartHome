@@ -16,9 +16,9 @@ import static lang.ErrorMessages.FUNCTION_NOT_FOUND;
 //impelementiert Methoden, die alle AbstractDevices haben
 public abstract class AbstractDevice implements SmartDevice {
     private final UUID id;
+    protected transient Map<String, DeviceFunction> functions = new HashMap<>();
     private String name;
     private transient List<DeviceObserver> observers = new ArrayList<>();
-    protected transient Map<String, DeviceFunction> functions = new HashMap<>();
 
     public AbstractDevice(UUID id, String name) {
         this.id = id;
@@ -95,6 +95,7 @@ public abstract class AbstractDevice implements SmartDevice {
 
     @Override
     public DeviceFunction getFunction(String name) {
+        restoreAfterLoad();
         return functions.get(name);
     }
 }

@@ -58,4 +58,9 @@ public class ScenarioAction implements Action {
     public String getDescription() {
         return targetScenario.getName() + ": " + targetScenario;
     }
+
+    @Override
+    public String getName() {
+        return targetScenario.getName();
+    }
 }

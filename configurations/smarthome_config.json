@@ -6,7 +6,7 @@
         {
           "className": "devices.Lamp",
           "data": {
-            "brightness": 100.0,
+            "brightness": 29.591836734693878,
             "isOn": false,
             "id": "e429393a-8671-460d-8874-954f9d0c83a5",
             "name": "Deckenlampe"
@@ -50,7 +50,7 @@
         {
           "className": "devices.RgbLamp",
           "data": {
-            "brightness": 24.48979591836735,
+            "brightness": 31.122448979591823,
             "isOn": false,
             "hexColor": "#E6804D",
             "id": "3167b57b-7221-4384-904d-628a7e0a297e",
@@ -120,15 +120,6 @@
       "name": "Leons schlösschen",
       "smartDevices": [
         {
-          "className": "devices.Heater",
-          "data": {
-            "temperature": 0.0,
-            "isOn": false,
-            "id": "b0e4156c-2c12-4a72-90d8-4c415fa01377",
-            "name": "Cooler"
-          }
-        },
-        {
           "className": "devices.RgbLamp",
           "data": {
             "brightness": 45.408163265306115,
@@ -145,7 +136,12 @@
             "id": "b38b72e0-1f6a-4ad6-8e7e-ab652bd40522",
             "name": "Testtiteiites"
           }
-        },
+        }
+      ]
+    },
+    {
+      "name": "testse",
+      "smartDevices": [
         {
           "className": "devices.Lamp",
           "data": {
@@ -156,10 +152,6 @@
           }
         }
       ]
-    },
-    {
-      "name": "testse",
-      "smartDevices": []
     },
     {
       "name": "scdsy",
@@ -178,7 +170,7 @@
             "targetDevice": {
               "className": "devices.Lamp",
               "data": {
-                "brightness": 100.0,
+                "brightness": 29.591836734693878,
                 "isOn": false,
                 "id": "e429393a-8671-460d-8874-954f9d0c83a5",
                 "name": "Deckenlampe"
@@ -194,7 +186,17 @@
       "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
       "name": "ne",
       "description": "jfklsdf",
-      "actions": []
+      "actions": [
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "ba095304-4bb7-449c-82ed-33e65aead028",
+            "name": "asd",
+            "description": "assdf",
+            "actions": []
+          }
+        }
+      ]
     },
     {
       "id": "ba095304-4bb7-449c-82ed-33e65aead028",
@@ -239,6 +241,25 @@
             },
             "functionName": "Helligkeit",
             "parameter": 42.857142857142854
+          }
+        },
+        {
+          "className": "model.Scenario",
+          "data": {
+            "id": "405b6693-e60e-43b9-841f-d555520c2bb5",
+            "name": "ne",
+            "description": "jfklsdf",
+            "actions": [
+              {
+                "className": "model.Scenario",
+                "data": {
+                  "id": "ba095304-4bb7-449c-82ed-33e65aead028",
+                  "name": "asd",
+                  "description": "assdf",
+                  "actions": []
+                }
+              }
+            ]
           }
         }
       ]

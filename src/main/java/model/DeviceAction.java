@@ -46,6 +46,11 @@ public class DeviceAction implements Action {
         return functionName + " (" + prev + " ➜ " + curr + ")";
     }
 
+    @Override
+    public String getName() {
+        return getDescription();
+    }
+
     private String formatValue(Object val) {
         if (val == null) {
             return "unbekannt";

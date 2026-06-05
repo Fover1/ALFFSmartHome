@@ -82,6 +82,13 @@ public class RoomController implements RoomObserver {
             }
         }
 
+        if (currentRoom == null) {
+            deviceDisplay.setVisible(false);
+            addDevice.setVisible(false);
+            deleteRoom.setVisible(false);
+            editRoom.setVisible(false);
+        }
+
         if (deviceContainer != null && smartHomeAppController != null) {
             deviceContainer.getChildren().clear();
 
@@ -248,6 +255,7 @@ public class RoomController implements RoomObserver {
             if (this.currentRoom != null) {
                 this.currentRoom.removeObserver(this);
             }
+
             this.currentRoom = null;
             updateUI();
         });

@@ -62,7 +62,7 @@ public class ScenarioController {
                 if (empty || action == null) {
                     setText(null);
                 } else {
-                    setText(action.getDescription());
+                    setText(action.getName());
                 }
             }
         });

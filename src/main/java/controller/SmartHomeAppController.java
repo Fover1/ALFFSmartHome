@@ -96,7 +96,10 @@ public class SmartHomeAppController {
 
     public void executeScenario(Scenario scenario) {
         executeAndRemember(scenario);
+        logScenarioActions(scenario);
+    }
 
+    private void logScenarioActions(Scenario scenario) {
         for (Action action : scenario.getActions()) {
             if (action instanceof DeviceAction deviceAction) {
                 LogEntry entry = new LogEntry(
@@ -106,6 +109,8 @@ public class SmartHomeAppController {
                         String.valueOf(deviceAction.getParameter())
                 );
                 notifyLogListeners(entry);
+            } else if (action instanceof Scenario addedScenario) {
+                logScenarioActions(addedScenario);
             }
         }
     }
