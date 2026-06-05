@@ -25,4 +25,4 @@ jobs:
           cache: maven
 
       - name: Maven Build und Tests ausführen
-        run: mvn -B clean verify
+        run: xvfb-run mvn -B clean verify
