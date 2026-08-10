@@ -20,6 +20,7 @@
                 <Insets bottom="20" left="10" right="10" top="20"/>
             </padding>
             <Label style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;" text="Smart Home"/>
+            <Label fx:id="hausanzeige" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
             <Separator style="-fx-opacity: 0.3;"/>
 
             <Button maxWidth="Infinity" onAction="#showDashboard"

@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
@@ -73,6 +74,8 @@ public class SmartHomeMainController implements LogListener {
             } else if (controller instanceof ScenarioController) {
                 ((ScenarioController) controller).setAppController(this.appController);
             }
+            PersistenceManager persistenceManager = new PersistenceManager();
+            hausanzeige.setText(persistenceManager.getFileName().substring(0, persistenceManager.getFileName().lastIndexOf(".")));
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Fehler beim Laden der Datei: " + fxmlFile);
